@@ -1,0 +1,34 @@
+@use 'sass:meta';
+@use '../index' as blend;
+@use '../sass/array';
+
+@function replace(
+  $val,
+  $stop
+) {
+  @return if($val == _, $stop * 2, $val);
+}
+
+@function stops(
+  $stop,
+  $lch
+) {
+  $lch: array.map($lch, meta.get-function('replace'), $stop);
+  @return blend.lch($lch)
+}
+
+$stops: array.map(
+  array.range(1, 50, $separator: comma),
+  meta.get-function('stops'),
+  _ 50 0
+);
+
+html {
+  background-image: linear-gradient(to right, $stops...);
+}
+
+body {
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+}

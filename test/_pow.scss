@@ -1,0 +1,24 @@
+@use '../node_modules/sass-true/sass/true' as *;
+@use '../sass/pow';
+
+@include describe('tools/pow') {
+  @include describe('cbrt') {
+    @include it('Returns the cubic root of a number'){
+      @include assert-equal(
+        pow.cbrt(27),
+        3
+      );
+      @include assert-equal(
+        pow.cbrt(-64),
+        -4
+      );
+    }
+
+    @include it('Returns the cubic root of items in an array'){
+      @include assert-equal(
+        pow.cbrt([27, 64, 125]),
+        [3, 4, 5]
+      );
+    }
+  }
+}

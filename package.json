@@ -1,0 +1,18 @@
+{
+  "name": "blend",
+  "version": "1.0.0",
+  "description": "more color tools for sass",
+  "main": "index.scss",
+  "author": "Miriam Suzanne",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "private": true,
+  "scripts": {
+    "sass": "sass demo/style.scss demo/style.css",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1",
+    "sass": "^1.26.2",
+    "sass-true": "^5.0.0"
+  }
+}

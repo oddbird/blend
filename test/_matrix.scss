@@ -1,0 +1,356 @@
+@use '../node_modules/sass-true/sass/true' as *;
+@use '../sass/array';
+@use '../sass/matrix';
+@use 'sass:list';
+
+@include describe('tools/matrix') {
+  @include describe('is-29()') {
+    @include it('Returns true when there are one or more sub-row') {
+      @include assert-equal(
+        matrix.is-2d([ [ 1 2 3 ] [ 4 5 6 ] ]),
+        true
+      );
+      @include assert-equal(
+        matrix.is-2d([ [ 1 2 3 ] ]),
+        true
+      );
+    }
+
+    @include it('Returns false when a single row is not nested') {
+      @include assert-equal(
+        matrix.is-2d([ 4 5 6 ]),
+        false
+      );
+    }
+  }
+
+  @include describe('force-2d()') {
+    @include it('Returns a 2d matrix without changes') {
+      @include assert-equal(
+        matrix.force-2d([ [ 1 2 3 ] ]),
+        [ [ 1 2 3 ] ]
+      );
+    }
+
+    @include it('Converts a 1d matrix into 2d') {
+      @include assert-equal(
+        matrix.force-2d([ 4 5 6 ]),
+        list.append([], [ 4 5 6 ], space)
+      );
+    }
+  }
+
+  @include describe('is-valid') {
+    $type-error: 'Miriam';
+    $sub-error: [ 2 4 'Miriam'];
+    $length-error: [
+      [ 1 2 3 ]
+      [ 4 5 ]
+    ];
+    $valid: [
+      [ 1 2 3 ]
+      [ 4 5 6 ]
+    ];
+
+    @include it('Returns the matrix if valid'){
+      @include assert-equal(
+        matrix.is-valid($valid),
+        $valid
+      );
+
+      $simple: list.nth($valid, 1);
+      @include assert-equal(
+        matrix.is-valid($simple),
+        $simple
+      );
+
+      @include assert-equal(
+        matrix.is-valid([ ]),
+        [ ]
+      );
+    }
+
+    @include it('Throws on wrong type'){
+      @include assert-equal(
+        matrix.is-valid($type-error),
+        'ERROR [matrix.is-valid()] $matrix must be a list, got string: Miriam'
+      );
+    }
+
+    @include it('Throws on wrong item types'){
+      @include assert-equal(
+        matrix.is-valid($sub-error),
+        'ERROR [matrix.is-valid()] Matrix items must be numbers, or equal-length lists of numbers'
+      );
+    }
+
+    @include it('Throws on unequal rows'){
+      @include assert-equal(
+        matrix.is-valid($length-error),
+        'ERROR [matrix.is-valid()] Matrix items must be numbers, or equal-length lists of numbers'
+      );
+    }
+  }
+
+  @include describe('is()') {
+    @include it('Recognizes a scalar') {
+      @include assert-equal(
+        matrix.is(2.3),
+        'scalar'
+      );
+    }
+    @include it('Checks a scalar') {
+      @include assert-true(matrix.is(2.3, 'scalar'));
+      @include assert-false(matrix.is(2.3, 'matrix'));
+      @include assert-false(matrix.is(2.3, 'vector'));
+    }
+
+    @include it('Recognizes a matrix') {
+      @include assert-equal(
+        matrix.is([ (1 2 3) ]),
+        'matrix'
+      );
+    }
+    @include it('Checks a matrix') {
+      @include assert-false(matrix.is([ (1 2 3) ], 'scalar'));
+      @include assert-true(matrix.is([ (1 2 3) (4, 5, 6) ], 'matrix'));
+      @include assert-false(matrix.is([ (1 2 3) ], 'vector'));
+    }
+
+    @include it('Recognizes a vector') {
+      @include assert-equal(
+        matrix.is((1 2 3)),
+        'vector'
+      );
+    }
+    @include it('Checks a vector') {
+      @include assert-false(matrix.is((1 2 3), 'scalar'));
+      @include assert-false(matrix.is((1 2 3), 'matrix'));
+      @include assert-true(matrix.is((1 2 3), 'vector'));
+    }
+  }
+
+  @include describe('size()') {
+    @include it('Returns an empty list for scalars') {
+      @include assert-equal(
+        matrix.size(2.3),
+        []
+      );
+    }
+
+    @include it('Returns zero columns/rows for scalars') {
+      @include assert-equal(
+        matrix.size(2.3, 'columns'),
+        0
+      );
+      @include assert-equal(
+        matrix.size(2.3, 'rows'),
+        0
+      );
+    }
+
+    @include it('Returns single-dimension of a vector') {
+      @include assert-equal(
+        matrix.size([ ]),
+        [0]
+      );
+      @include assert-equal(
+        matrix.size([ 1 2 3 ]),
+        [3]
+      );
+    }
+
+    @include it('Returns columns of a vector') {
+      @include assert-equal(
+        matrix.size([ ], 'columns'),
+        0
+      );
+      @include assert-equal(
+        matrix.size([ 1 2 3 ], 'columns'),
+        3
+      );
+    }
+
+    @include it('Returns 0 rows of a vector') {
+      @include assert-equal(
+        matrix.size([ ], 'rows'),
+        0
+      );
+      @include assert-equal(
+        matrix.size([ 1 2 3 ], 'rows'),
+        0
+      );
+    }
+
+    @include it('Returns an array of column & row lengths') {
+      @include assert-equal(
+        matrix.size([ [ 1 2 3 ] [ 4 5 6 ] ]),
+        [2, 3]
+      );
+    }
+
+    @include it('Optionally returns column-count') {
+      @include assert-equal(
+        matrix.size([ [ 1 2 3 ] [ 4 5 6 ] ], 'columns'),
+        3
+      );
+    }
+
+    @include it('Optionally returns row-count') {
+      @include assert-equal(
+        matrix.size([ [ 1 2 3 ] [ 4 5 6 ] ], 'rows'),
+        2
+      );
+    }
+  }
+
+  @include describe('squeeze()') {
+    @include it('Returns a scalar unchanged') {
+      @include assert-equal(
+        matrix.squeeze(2.3),
+        2.3
+      );
+    }
+
+    @include it('Returns a vector unchanged') {
+      @include assert-equal(
+        matrix.squeeze([ 1, 2, 3 ]),
+        [ 1, 2, 3 ]
+      );
+    }
+
+    @include it('Converts a single-row matrix to a vector') {
+      @include assert-equal(
+        matrix.squeeze(([ 1, 2, 3 ])),
+        [ 1, 2, 3 ]
+      );
+    }
+
+    @include it('Works recursively') {
+      @include assert-unequal(
+        ([([ 1, 2, 3 ])]),
+        [ 1, 2, 3 ]
+      );
+      @include assert-equal(
+        matrix.squeeze(([([ 1, 2, 3 ])])),
+        [ 1, 2, 3 ]
+      );
+    }
+  }
+
+  @include describe('transpose()') {
+    $space: array.template(( 1 2 ));
+    $comma: array.template(( 1, 2 ));
+    $b-space: array.template([ 1 2 ]);
+    $b-comma: array.template([ 1, 2 ]);
+
+    @include it('Transposes a single array') {
+      @include assert-equal(
+        matrix.transpose([ 1 2 3 ]),
+        [
+          list.append($b-space, 1)
+          list.append($b-space, 2)
+          list.append($b-space, 3)
+        ]
+      );
+    }
+
+    @include it('Transposes a single row') {
+      @include assert-equal(
+        matrix.transpose([ [ 1, 2, 3 ] ]),
+        [
+          list.append($b-comma, 1)
+          list.append($b-comma, 2)
+          list.append($b-comma, 3)
+        ]
+      );
+    }
+
+    @include it('Transposes a single column') {
+      @include assert-equal(
+        matrix.transpose(( [ 1 ], [ 2 ], [ 3 ] )),
+        list.append($comma, [ 1 2 3 ] )
+      );
+    }
+
+    @include it('Transposes a columns & rows') {
+      @include assert-equal(
+        matrix.transpose([ ( 1, 2, 3 ), ( 4, 5, 6 ), ( 7, 8, 9 ) ]),
+        [
+          ( 1, 4, 7 ),
+          ( 2, 5, 8 ),
+          ( 3, 6, 9 ),
+        ]
+      );
+    }
+  }
+
+  @include describe('get()') {
+    @include it('Returns nth-index of a vactor') {
+      @include assert-equal(
+        matrix.get([ 2 4 6 8 ], 2),
+        4
+      );
+    }
+
+    @include it('Returns multi-dimensional index of a matrix') {
+      @include assert-equal(
+        matrix.get([ [ 2 4 10 ] [ 6 8 12 ] [ 1 3 5 ] ], [ 2, 2 ]),
+        8
+      );
+    }
+  }
+
+  @include describe('set()') {
+    @include it('Sets nth-index of a vactor') {
+      @include assert-equal(
+        matrix.set([ 2 4 6 8 ], 2, 12),
+        [ 2 12 6 8 ]
+      );
+    }
+
+    @include it('Sets multi-dimensional index of a matrix') {
+      @include assert-equal(
+        matrix.set([ [ 2 4 10 ] [ 6 8 12 ] [ 1 3 5 ] ], [ 2, 2 ], 12),
+        [ [ 2 4 10 ] [ 6 12 12 ] [ 1 3 5 ] ]
+      );
+    }
+  }
+
+  @include describe('multiply()') {
+    $c: [[1, 2], [4, 3]];
+    $d: [[1, 2, 3], [3, -4, 7]];
+
+    @include it('Multiplies a matrix with a scalar') {
+      @include assert-equal(
+        matrix.multiply($c, 2),
+        [[2, 4], [8, 6]]
+      );
+      @include assert-equal(
+        matrix.multiply($d, -2),
+        [[-2, -4, -6], [-6, 8, -14]]
+      );
+    }
+
+    @include it('Multiplies two matricies') {
+      @include assert-equal(
+        matrix.multiply($c, $d),
+        [[7, -6, 17], [13, -4, 33]]
+      );
+    }
+
+    @include it('Multiplies a vector by a matrix') {
+      @include assert-equal(
+        matrix.multiply((2 1 0), [[ 1, 2 ], [ 4, 3 ], [ 5, 5 ]]),
+        (6 7)
+      );
+    }
+
+    @include it('Multiplies a matrix by a vector') {
+      @include assert-equal(
+        matrix.multiply($d, [ 2, 1, 0 ]),
+        [ 4, 2 ]
+      );
+    }
+  }
+}
