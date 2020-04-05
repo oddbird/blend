@@ -1,30 +1,18 @@
-@use 'sass:meta';
 @use '../index' as blend;
-@use '../sass/array';
+@use 'gradient';
 
-@function replace(
-  $val,
-  $stop
-) {
-  @return if($val == _, $stop * 2, $val);
-}
 
-@function stops(
-  $stop,
-  $lch
-) {
-  $lch: array.map($lch, meta.get-function('replace'), $stop);
-  @return blend.lch($lch)
-}
+// we'll create a gradient on the _ channel
+$channels: 50% 50 _;
 
-$stops: array.map(
-  array.range(1, 50, $separator: comma),
-  meta.get-function('stops'),
-  _ 50 0
-);
+
+// the gradient channel will range from 1 through $range
+$range: 360;
+
 
 html {
-  background-image: linear-gradient(to right, $stops...);
+  background-image: gradient.stops($channels, $range);
+  color: blend.lch(80% 65 0);
 }
 
 body {

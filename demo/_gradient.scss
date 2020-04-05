@@ -1,0 +1,35 @@
+@use 'sass:meta';
+@use '../index' as blend;
+@use '../sass/array';
+
+// logic to create the color stops...
+@function _replace(
+  $val,
+  $stop
+) {
+  @return if($val == _, $stop * 2, $val);
+}
+
+@function _stops(
+  $stop,
+  $lch
+) {
+  $lch: array.map($lch, meta.get-function('_replace'), $stop);
+  @return blend.lch($lch);
+}
+
+@function stops(
+  $channels: 50% 50 _,
+  $range: 360
+) {
+  $stops: array.map(
+    array.range(1, $range / 2, $separator: comma),
+    meta.get-function('_stops'),
+    $channels
+  );
+  @return linear-gradient(
+    to right,
+    $stops...
+  );
+}
+
