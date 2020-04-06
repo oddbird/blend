@@ -9,7 +9,7 @@ and [Tab Atkins](https://www.xanthir.com/).
 [Dart Sass]: https://sass-lang.com/dart-sass
 
 ```
-npm install blend --save-dev
+npm install @mirisuzanne/blend --save-dev
 ```
 
 ## Usage

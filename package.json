@@ -1,10 +1,27 @@
 {
-  "name": "blend",
-  "version": "0.1.0",
+  "name": "@mirisuzanne/blend",
+  "version": "0.1.1",
   "description": "more color tools for sass",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "index.scss",
   "author": "Miriam Suzanne",
   "license": "SEE LICENSE IN LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mirisuzanne/blend.git"
+  },
+  "bugs": "https://github.com/mirisuzanne/blend/issues",
+  "homepage": "https://github.com/mirisuzanne/blend/",
+  "keywords": [
+    "sass",
+    "scss",
+    "css",
+    "colors",
+    "CIE Lab",
+    "LCH"
+  ],
   "scripts": {
     "sass": "sass demo/style.scss demo/style.css",
     "test": "mocha"
