@@ -1,0 +1,3 @@
+// When gamut correction is off,
+// individual RGB channels will be clipped.
+$gamut-correct: true !default;

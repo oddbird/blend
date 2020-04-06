@@ -1,0 +1,24 @@
+@use 'sass:list';
+@use 'sass:math';
+@use 'sass:meta';
+@use 'array';
+
+@function _sRGB-channel(
+  $x
+) {
+  @return math.round($x * 10000) / 100 * 1%;
+}
+
+@function rgb(
+  $rgb,
+  $a
+) {
+  $rgb: array.map(
+    $rgb,
+    meta.get-function('_sRGB-channel')
+  );
+  $rgb: list.join((), $rgb, comma);
+  $rgb: if($a < 100, list.append($rgb, $a), $rgb);
+
+  @return rgba($rgb...);
+}

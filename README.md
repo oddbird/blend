@@ -3,7 +3,7 @@ More color options for sass…
 
 **Very much a work in progress.**
 Based heavily on js functions by
-[Chris Lilly](https://css.land/lch/)
+[Chris Lilley](https://svgees.us/)
 and [Tab Atkins](https://www.xanthir.com/).
 
 ```

@@ -1,0 +1,8 @@
+@use 'lch';
+
+@function lch(
+  $lch,
+  $a: 100%
+) {
+  @return lch.color($lch, $a);
+}
