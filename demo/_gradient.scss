@@ -1,6 +1,13 @@
+@use 'sass:color';
+@use 'sass:list';
 @use 'sass:meta';
 @use '../index' as blend;
-@use '../sass/array';
+@use '../sass/utils/array';
+
+$lch: 50% 50 _ !default;
+$ranges: (100 100 360);
+$index: list.index($lch, '_');
+$range: list.nth($ranges, $index);
 
 // logic to create the color stops...
 @function _replace(
@@ -12,24 +19,73 @@
 
 @function _stops(
   $stop,
-  $lch
+  $channels,
+  $format
 ) {
-  $lch: array.map($lch, meta.get-function('_replace'), $stop);
-  @return blend.lch($lch);
+  $channels: array.map($channels, meta.get-function('_replace'), $stop);
+  @return if(
+    ($format == 'hsl'),
+    hsl($channels...),
+    blend.lch($channels)
+  );
 }
 
 @function stops(
-  $channels: 50% 50 _,
-  $range: 360
+  $channels: $lch,
+  $format: 'lch'
 ) {
-  $stops: array.map(
-    array.range(1, $range / 2, $separator: comma),
-    meta.get-function('_stops'),
-    $channels
+  @return linear-gradient(
+    to right,
+    array.map(
+      array.range(1, $range / 2, $separator: comma),
+      meta.get-function('_stops'),
+      $channels,
+      $format
+    )
   );
+}
+
+@function _hsl-hue-stops(
+  $start
+) {
+  $start: hue
+}
+
+@function rgb-from-lch(
+  $lch: $lch
+) {
+  $array: ();
+
+  @if ($index != 3) {
+    $mid: blend.lch(list.set-nth($lch, $index, $range / 2));
+    $lch: list.set-nth($lch, 3, color.hue($mid));
+    $array: array.range(1, ($range / 2), $separator: comma);
+  } @else {
+    $start: blend.lch(list.set-nth($lch, $index, 1));
+    $start-hue: color.hue($start);
+    $array: array.range(
+      $start-hue,
+      ($start-hue + $range / 2),
+      $separator: comma
+    );
+  }
+
+  $stops: array.map(
+    $array,
+    meta.get-function('_stops'),
+    (list.nth($lch, 3) list.nth($lch, 2) list.nth($lch, 1)),
+    'hsl'
+  );
+
   @return linear-gradient(
     to right,
     $stops...
   );
 }
 
+@function content(
+  $lch: $lch
+) {
+  $lch: list.set-nth($lch, $index, '{1-#{$range}}');
+  @return 'lch(#{$lch})';
+}

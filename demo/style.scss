@@ -1,22 +1,42 @@
 @use '../index' as blend;
-@use 'gradient';
+@use '../sass/utils/array';
+@use 'sass:list';
 
 
-// we'll create a gradient on the _ channel
-$channels: 50% 50 _;
+// we'll create gradients on the _ channels
+@use 'gradient' with (
+  $lch: 65 75 _,
+);
 
 
-// the gradient channel will range from 1 through $range
-$range: 360;
-
-
+// layout
 html {
-  background-image: gradient.stops($channels, $range);
-  color: blend.lch(80% 65 0);
+  background-image:
+    gradient.stops(),
+    gradient.rgb-from-lch()
+  ;
+  background-size: auto 50vh, cover;
+  background-repeat: no-repeat;
+  color: blend.lch(90% 40 0);
 }
 
 body {
   display: grid;
   place-content: center;
+  margin: 0;
   min-height: 100vh;
+}
+
+h1 {
+  background: blend.lch(10% 15 0, 80%);
+  border-radius: 0.2em;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  padding: 0.5em;
+
+  &::after {
+    display: inline-block;
+    content: gradient.content();
+    font-family: 'Courier New', Courier, monospace;
+    margin-inline-start: 0.4em;
+  }
 }

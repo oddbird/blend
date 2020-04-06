@@ -1,6 +1,4 @@
-@use '../sass/throw' with ($catch-errors: true);
+@use '../sass/utils/throw' with ($catch-errors: true);
 
-@use 'array';
-@use 'pow';
-@use 'matrix';
-@use 'convert';
+@use 'utils';
+@use 'lch';
