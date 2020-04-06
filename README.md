@@ -20,7 +20,7 @@ but we'll get that fixed.
 Here are the basics:
 
 ```scss
-@use 'path/to/blend';
+@use '<path/to>/blend';
 
 main {
   // returns a Sass `color`
@@ -42,8 +42,8 @@ There is only one setting:
 ```
 
 If you want more explicit control,
-you can import `<path/to>/blend/sass/lab/lch`,
-and access several function directly:
+use `<path/to>/blend/sass/lab/lch`,
+and access functions directly:
 
 - `lch.to-rgb()` does the conversion math on an array of channels
 - `lch.in-gamut()` returns either the converted channels
