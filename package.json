@@ -5,7 +5,6 @@
   "main": "index.scss",
   "author": "Miriam Suzanne",
   "license": "SEE LICENSE IN LICENSE.md",
-  "private": true,
   "scripts": {
     "sass": "sass demo/style.scss demo/style.css",
     "test": "mocha"
