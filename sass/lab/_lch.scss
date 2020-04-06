@@ -90,18 +90,22 @@
 @function color(
   $lch,
   $a: 100%,
-  $force: config.$gamut-correct
+  $gamut-correct: config.$gamut-correct
 ) {
   $lch: array.map(
     $lch,
     meta.get-function('strip', $module: 'units')
   );
 
-  $rgb: if(
-    $force,
-    map.get(gamut-correct($lch...), 'rgb'),
-    to-rgb($lch)
-  );
+  $rgb: null;
+
+  @if ($gamut-correct) {
+    $rgb: map.get(gamut-correct($lch...), 'rgb');
+  } @else if ($gamut-correct == null) {
+    @return in-gamut($lch...);
+  }
+
+  $rgb: $rgb or to-rgb($lch);
 
   @return output.rgb($rgb, $a);
 }

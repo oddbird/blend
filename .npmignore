@@ -1,0 +1,9 @@
+# git-ignore
+**/.DS_Store
+.sass-cache
+.vscode
+node_modules
+.nvmrc
+
+# only npm-ignore
+demo

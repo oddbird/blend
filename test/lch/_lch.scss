@@ -1,5 +1,5 @@
 @use '../../node_modules/sass-true/sass/true' as *;
-@use '../../sass/lch/lch';
+@use '../../sass/lab/lch';
 @use 'sass:meta';
 
 @include describe('lch/lch') {
@@ -82,8 +82,15 @@
 
     @include it('Optionally allows out-of-gamut colors to clip') {
       @include assert-equal(
-        lch.color(80% 80 300, $force: false),
+        lch.color(80% 80 300, $gamut-correct: false),
         #d8aeff
+      );
+    }
+
+    @include it('Optionally allows `null` return for out-of-gamut colors') {
+      @include assert-equal(
+        lch.color(80% 80 300, $gamut-correct: null),
+        null
       );
     }
   }

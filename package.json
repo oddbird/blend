@@ -1,6 +1,6 @@
 {
   "name": "blend",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "more color tools for sass",
   "main": "index.scss",
   "author": "Miriam Suzanne",
