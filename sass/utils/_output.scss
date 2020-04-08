@@ -1,24 +1,81 @@
 @use 'sass:list';
+@use 'sass:map';
 @use 'sass:math';
 @use 'sass:meta';
+@use '../config';
 @use 'array';
 
-@function _sRGB-channel(
-  $x
+$formats: (
+  'rgb': 1% 1% 1%,
+  'hsl': 1deg 1% 1%,
+  'hwb': 1deg 1% 1%,
+  'lab': 1% 1 1,
+  'lch': 1% 1 1,
+);
+
+@function _channel(
+  $x,
+  $i,
+  $format: 'rgb'
 ) {
-  @return math.round($x * 10000) / 100 * 1%;
+  $unit: list.nth(
+    map.get($formats, $format) or map.get($formats, 'rgb'),
+    $i
+  );
+  @return math.round($x * 10000) / 100 * $unit;
 }
 
-@function rgb(
+@function _alpha(
+  $a: 100%
+) {
+  @return if(math.is-unitless($a), percentage($a), $a);
+}
+
+@function sass(
   $rgb,
-  $a
+  $a: 100%,
 ) {
   $rgb: array.map(
     $rgb,
-    meta.get-function('_sRGB-channel')
+    meta.get-function('_channel'),
+    i,
+    'rgb'
   );
-  $rgb: list.join((), $rgb, comma);
-  $rgb: if($a < 100, list.append($rgb, $a), $rgb);
+  $rgb: list.append($rgb, _alpha($a));
 
   @return rgba($rgb...);
+}
+
+@function string(
+  $channels,
+  $a: 100%,
+  $format: config.$string-output,
+) {
+  $format: if($format == true, 'rgb', $format);
+  $channels: array.map(
+    $channels,
+    meta.get-function('_channel'),
+    i,
+    $format
+  );
+  $channels: array.join($channels, ' ');
+  $channels: if(
+    $a < 100,
+    array.join($channels _alpha($a), ' / '),
+    $channels
+  );
+
+  @return '#{$format}(#{$channels})';
+}
+
+@function value(
+  $channels,
+  $a: 100%,
+  $string: config.$string-output,
+) {
+  @return if(
+    $string,
+    string($channels, $a, $string),
+    sass($channels, $a)
+  );
 }

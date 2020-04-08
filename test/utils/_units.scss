@@ -1,0 +1,21 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/utils/units';
+
+@include describe('utils/units') {
+  @include describe('strip()') {
+    @include it('Returns a unitless number'){
+      @include assert-equal(
+        units.strip(27em),
+        27
+      );
+      @include assert-equal(
+        units.strip(64%),
+        64
+      );
+      @include assert-equal(
+        units.strip(64),
+        64
+      );
+    }
+  }
+}

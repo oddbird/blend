@@ -31,14 +31,24 @@ main {
 }
 ```
 
-There is only one setting:
+There are two settings:
+
+**`$gamut-correct`**
+
+- `true` [default]: Chroma is reduced until in-gamut
+- `false`: Individual RGB channels will be clipped
+- `null`: Return `null` for out-of-gamut colors
+
+**`$string-output`**
+
+- `false` [default]: Primary functions return a Sass color value
+- `true`: Primary functions return a CSS `rgb(r g b / a)` string
 
 ```scss
-// $gamut-correct --
-// - `true` [default]: Chroma is reduced until in-gamut
-// - `false`: Individual RGB channels will be clipped
-// - `null`: Return `null` for out-of-gamut colors
-@use '<path/to>/blend' with ($gamut-correct: false);
+@use '<path/to>/blend' with (
+  $gamut-correct: true,
+  $string-output: false,
+);
 ```
 
 If you want more explicit control,
@@ -49,8 +59,9 @@ and access functions directly:
 - `lch.in-gamut()` returns either the converted channels
   or `null` for out-of-gamut colors
 - `lch.gamut-correct()` uses chroma-reduction to get a color in-gamut
-- `lch.color()` takes LCH input and returns a Sass color
-  based on the chosen form of gamut-correction
+- `lch.value()` takes LCH input and returns a Sass color
+  based on the chosen form of gamut-correction,
+  or a css-output string in the format `rgb(r% g% b% / a%)`
 
 ## Development & Testing
 

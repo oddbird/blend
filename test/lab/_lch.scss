@@ -1,8 +1,9 @@
 @use '../../node_modules/sass-true/sass/true' as *;
 @use '../../sass/lab/lch';
 @use 'sass:meta';
+@use 'sass:string';
 
-@include describe('lch/lch') {
+@include describe('lab/lch') {
   @include describe('to-rgb()') {
     @include it('converts an array of lch values to sRGB') {
       @include assert-equal(
@@ -53,43 +54,57 @@
     }
   }
 
-  @include describe('color()') {
+  @include describe('value()') {
     @include it('Converts in-gamut LCH/a input to (sRGB) Sass color') {
       @include assert-equal(
-        meta.type-of(lch.color(30% 50 300)),
+        meta.type-of(lch.value(30% 50 300)),
         'color'
       );
 
       @include assert-equal(
-        lch.color(30% 50 300),
+        lch.value(30% 50 300),
         #4d3a8b
       );
     }
 
     @include it('Converts out-of-gamut LCH/a input to (sRGB) Sass color') {
       @include assert-equal(
-        lch.color(80% 80 300),
+        lch.value(80% 80 300),
         #d2bdff
       );
     }
 
     @include it('Accepts an alpha channel') {
       @include assert-equal(
-        lch.color(30% 50 300, 50%),
+        lch.value(30% 50 300, 50%),
         rgba(77, 58, 139, 0.5)
+      );
+    }
+
+    @include it('Optioally returns a string value') {
+      @include assert-equal(
+        lch.value(30% 50 300, $string: 'rgb'),
+        string.unquote('rgb(30.35% 22.61% 54.6%)'),
+        'without alpha channel'
+      );
+
+      @include assert-equal(
+        lch.value(30% 50 300, 50%, $string: 'rgb'),
+        string.unquote('rgb(30.35% 22.61% 54.6% / 50%)'),
+        'with alpha channel'
       );
     }
 
     @include it('Optionally allows out-of-gamut colors to clip') {
       @include assert-equal(
-        lch.color(80% 80 300, $gamut-correct: false),
+        lch.value(80% 80 300, $gamut-correct: false),
         #d8aeff
       );
     }
 
     @include it('Optionally allows `null` return for out-of-gamut colors') {
       @include assert-equal(
-        lch.color(80% 80 300, $gamut-correct: null),
+        lch.value(80% 80 300, $gamut-correct: null),
         null
       );
     }

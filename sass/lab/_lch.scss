@@ -87,10 +87,11 @@
   );
 }
 
-@function color(
+@function value(
   $lch,
   $a: 100%,
-  $gamut-correct: config.$gamut-correct
+  $gamut-correct: config.$gamut-correct,
+  $string: config.$string-output,
 ) {
   $lch: array.map(
     $lch,
@@ -107,5 +108,5 @@
 
   $rgb: $rgb or to-rgb($lch);
 
-  @return output.rgb($rgb, $a);
+  @return output.value($rgb, $a, $string);
 }

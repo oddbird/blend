@@ -2,7 +2,7 @@
 @use '../../sass/utils/pow';
 
 @include describe('utils/pow') {
-  @include describe('cbrt') {
+  @include describe('cbrt()') {
     @include it('Returns the cubic root of a number'){
       @include assert-equal(
         pow.cbrt(27),
