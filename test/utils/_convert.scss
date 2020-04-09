@@ -74,7 +74,95 @@
     }
   }
 
-  // ...
+  @include describe('lin_ProPhoto_to_XYZ()') {
+    @include it('converts linear-light prophoto-rgb values to CIE XYZ') {
+      @include assert-equal(
+        convert.lin_ProPhoto_to_XYZ([ 0.02, 0.5, 0.8 ]),
+        [ 0.10862760804653605, 0.3617515546381208, 0.6600836820083682 ]
+      )
+    }
+  }
+
+  @include describe('XYZ_to_lin_ProPhoto()') {
+    @include it('converts XYZ to linear-light prophoto-rgb') {
+      @include assert-equal(
+        convert.XYZ_to_lin_ProPhoto([ 0.02, 0.5, 0.8 ]),
+        [ -0.14175909863195832, 0.7596527466917661, 0.9695740365111564 ]
+      )
+    }
+  }
+
+  @include describe('lin_a98rgb()') {
+    @include it('converts a98-rgb values to linear-light') {
+      @include assert-equal(
+        convert.lin_a98rgb([ 0.02, 0.5, 0.8 ]),
+        [ 0.00018348193467219382, 0.21775552814439456, 0.6121723111134431 ]
+      )
+    }
+  }
+
+  @include describe('gam_a98rgb()') {
+    @include it('gamma-corrects an array of linear-light a98-rgb') {
+      @include assert-equal(
+        convert.gam_a98rgb([ 0.02, 0.5, 0.8 ]),
+        [ 0.16883658916733524, 0.7296583817678015, 0.9035128753395815 ]
+      )
+    }
+  }
+
+  @include describe('lin_a98rgb_to_XYZ()') {
+    @include it('converts linear-light a98-rgb values to CIE XYZ') {
+      @include assert-equal(
+        convert.lin_a98rgb_to_XYZ([ 0.02, 0.5, 0.8 ]),
+        [ 0.25489541679947153, 0.37986184942794204, 0.8289550829657529 ]
+      )
+    }
+  }
+
+  @include describe('XYZ_to_lin_a98rgb()') {
+    @include it('convert XYZ to linear-light a98-rgb') {
+      @include assert-equal(
+        convert.XYZ_to_lin_a98rgb([ 0.02, 0.5, 0.8 ]),
+        [ -0.5174568096858785, 0.951842923953983, 0.7532276850100957 ]
+      )
+    }
+  }
+
+  @include describe('lin_2020()') {
+    @include it('convert rec2020 RGB values to linear-light') {
+      @include assert-equal(
+        convert.lin_2020([ 0.02, 0.5, 0.8 ]),
+        [ 0.0044444444444444444, 0.233165778158119, 0.6175774187196106 ]
+      )
+    }
+  }
+
+  @include describe('gam_2020()') {
+    @include it('gamma-correct linear-light rec2020 RGB') {
+      @include assert-equal(
+        convert.gam_2020([ 0.02, 0.5, 0.8 ]),
+        [ 0.11608586772520829, 0.7242452807888918, 0.9023988565671286 ]
+      )
+    }
+  }
+
+  @include describe('lin_2020_to_XYZ()') {
+    @include it('convert linear-light rec2020 values to CIE XYZ') {
+      @include assert-equal(
+        convert.lin_2020_to_XYZ([ 0.02, 0.5, 0.8 ]),
+        [ 0.22015239289046767, 0.3916944131755503, 0.8628243926931766 ]
+      )
+    }
+  }
+
+  @include describe('XYZ_to_lin_2020()') {
+    @include it('convert XYZ to linear-light rec2020') {
+      @include assert-equal(
+        convert.XYZ_to_lin_2020([ 0.02, 0.5, 0.8 ]),
+        [ -0.34619539322769866, 0.8075217679319489, 0.7326499875083811 ]
+      )
+    }
+  }
 
   @include describe('D65_to_D50()') {
     @include it('Bradford chromatic adaptation from D65 to D50') {
