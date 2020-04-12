@@ -1,0 +1,181 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/cie/lch';
+@use '../../sass/convert';
+@use 'sass:meta';
+@use 'sass:string';
+
+@include describe('cie/lch') {
+  @include describe('to()') {
+    @include it('Converts LCH to rgb') {
+      @include assert-equal(
+        lch.to(50 50 0, 'rgb'),
+        convert.LCH_to_sRGB(50 50 0)
+      );
+      @include assert-equal(
+        lch.to(50 50 0, 'sass'),
+        convert.LCH_to_sRGB(50 50 0)
+      );
+    }
+
+    @include it('Converts LCH to Lab') {
+      @include assert-equal(
+        lch.to(50 50 0, 'Lab'),
+        convert.LCH_to_Lab(50 50 0)
+      );
+    }
+
+    @include it('Converts LCH to p3') {
+      @include assert-equal(
+        lch.to(50 50 0, 'p3'),
+        convert.LCH_to_P3(50 50 0)
+      );
+    }
+
+    @include it('Converts LCH to r2020') {
+      @include assert-equal(
+        lch.to(50 50 0, 'r2020'),
+        convert.LCH_to_r2020(50 50 0)
+      );
+    }
+  }
+
+  @include describe('is-in()') {
+    @include it('Returns RGB values for in-gamut LCH colors') {
+      @include assert-equal(
+        lch.is-in(30 5 300),
+        convert.LCH_to_sRGB(30 5 300)
+      );
+    }
+
+    @include it('Returns null for out-of-gamut LCH colors') {
+      @include assert-equal(
+        lch.is-in(80 80 300),
+        null
+      );
+    }
+  }
+
+  @include describe('gamut-correct()') {
+    @include it('Returns LCH input & RGB results for in-gamut colors') {
+      @include assert-equal(
+        lch.gamut-correct(30, 50, 300),
+        (
+          'input': (30, 50, 300),
+          'adjusted': (30, 50, 300),
+          'output': convert.LCH_to_sRGB(30 50 300),
+        )
+      );
+    }
+
+    @include it('Returns corrected LCH & RGB for out-of-gamut colors') {
+      $adjusted: (80, 34.7755050659, 300);
+      @include assert-equal(
+        lch.gamut-correct(80, 80, 300),
+        (
+          'input': (80, 80, 300),
+          'adjusted': $adjusted,
+          'output': convert.LCH_to_sRGB($adjusted),
+        ),
+        $inspect: true
+      );
+    }
+  }
+
+  @include describe('value()') {
+    @include it('Converts in-gamut LCH/a input to (sRGB) Sass color') {
+      @include assert-equal(
+        meta.type-of(lch.value(30 50 300)),
+        'color'
+      );
+
+      @include assert-equal(
+        lch.value(30 50 300),
+        #4d3a8b
+      );
+    }
+
+    @include it('Converts out-of-gamut LCH/a input to (sRGB) Sass color') {
+      @include assert-equal(
+        lch.value(80 80 300),
+        #d2bdff
+      );
+    }
+
+    @include it('Accepts an alpha channel') {
+      @include assert-equal(
+        lch.value(30 50 300, 50%),
+        rgba(77, 58, 139, 0.5)
+      );
+    }
+
+    @include it('Optioally returns a string rgb() value') {
+      @include assert-equal(
+        lch.value(30 50 300, $to: 'rgb'),
+        string.unquote('rgb(30.35% 22.61% 54.6%)'),
+        'without alpha channel'
+      );
+
+      @include assert-equal(
+        lch.value(30 50 300, 50%, $to: 'rgb'),
+        string.unquote('rgb(30.35% 22.61% 54.6% / 50%)'),
+        'with alpha channel'
+      );
+    }
+
+    @include it('Optioally returns a string lab() value') {
+      @include assert-equal(
+        lch.value(50 71 45, $to: 'lab'),
+        string.unquote('lab(50% 50.2 50.2)'),
+        'without alpha channel'
+      );
+
+      @include assert-equal(
+        lch.value(50 71 45, 50%, $to: 'lab'),
+        string.unquote('lab(50% 50.2 50.2 / 50%)'),
+        'with alpha channel'
+      );
+    }
+
+    @include it('Optioally returns a string lch() value') {
+      @include assert-equal(
+        lch.value(50 71 45, 50%, $to: 'lch'),
+        string.unquote('lch(50% 71 45 / 50%)')
+      );
+    }
+
+    @include it('Optioally returns a string display-p3 value') {
+      @include assert-equal(
+        lch.value(65 50 0, 50%, $to: 'p3'),
+        string.unquote('color(display-p3 0.8706 0.4888 0.6248 / 50%)')
+      );
+    }
+
+    @include it('Optioally returns a string cmyk value') {
+      @include assert-equal(
+        lch.value(39.831 68.835 34.698, 50%, $to: 'cmyk'),
+        string.unquote('device-cmyk(0 0.809 0.809 0.302 / 50%)')
+      );
+    }
+
+    @include it('Optioally returns a string rec2020 value') {
+      @include assert-equal(
+        lch.value(65 50 0, 50%, $to: 'r2020'),
+        string.unquote('color(rec2020 0.794 0.4963 0.6065 / 50%)')
+      );
+    }
+
+    @include it('Optionally allows out-of-gamut colors to clip') {
+      @include assert-equal(
+        lch.value(80 80 300, $gamut-correct: false),
+        #d8aeff
+      );
+    }
+
+    @include it('Optionally allows `null` return for out-of-gamut colors') {
+      @include assert-equal(
+        lch.value(80 80 300, $gamut-correct: null),
+        null
+      );
+    }
+  }
+}

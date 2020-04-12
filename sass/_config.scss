@@ -3,6 +3,6 @@
 // - `null`: Return `null` for out-of-gamut colors
 $gamut-correct: true !default;
 
-// - `false` [default]: Primary functions return a Sass color value
-// - `true`: Primary functions return a CSS `rgb(r g b / a)` string
-$string-output: false !default;
+// - `'sass'` [default]: Primary functions return a Sass color value
+// - `'rgb': Primary functions return a CSS-ready rgb() string
+$output: 'sass' !default;

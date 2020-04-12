@@ -1,0 +1,211 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/utils/channel';
+
+@include describe('utils/channel') {
+  @include describe('deg6') {
+    @include it('Converts degrees to a half-open range [0,6)') {
+      @include assert-equal(
+        channel.deg6(3),
+        0.05
+      );
+      @include assert-equal(
+        channel.deg6(180),
+        3
+      );
+      @include assert-equal(
+        channel.deg6(360),
+        6
+      );
+    }
+
+    @include it('Corrects 0 to 360') {
+      @include assert-equal(
+        channel.deg6(0),
+        6
+      );
+    }
+
+    @include it('Handles out-of-range numbers') {
+      @include assert-equal(
+        channel.deg6(-20),
+        channel.deg6(340)
+      );
+      @include assert-equal(
+        channel.deg6(700),
+        channel.deg6(340)
+      );
+    }
+  }
+
+  @include describe('deg()') {
+    @include it('Returns a value from half-open [0, 6] to degrees') {
+      @include assert-equal(
+        channel.deg(6),
+        360
+      );
+      @include assert-equal(
+        channel.deg(3),
+        180
+      );
+      @include assert-equal(
+        channel.deg(0.05),
+        3
+      );
+    }
+  }
+
+  @include describe('fraction()') {
+    @include it('generates a fraction') {
+      @include assert-equal(
+        channel.fraction(30),
+        0.3
+      );
+    }
+
+    @include it('generates a fraction based on a range') {
+      @include assert-equal(
+        channel.fraction(30, 300),
+        0.1
+      );
+    }
+  }
+
+  @include describe('fractions()') {
+    @include it('generates channel fractions') {
+      @include assert-equal(
+        channel.fractions(30 45 82),
+        0.3 0.45 0.82
+      );
+    }
+
+    @include it('generates achannel fractions based on a range') {
+      @include assert-equal(
+        channel.fractions(30 60 90, 300),
+        0.1 0.2 0.3
+      );
+    }
+  }
+
+  @include describe('value()') {
+    @include it('Multiplies and rounds') {
+      @include assert-equal(
+        channel.value(0.827433533),
+        82.74
+      );
+    }
+
+    @include it('Accepts custom factors') {
+      @include assert-equal(
+        channel.value(0.827433533, 10),
+        8.27
+      );
+    }
+
+    @include it('Accepts custom decimal places') {
+      @include assert-equal(
+        channel.value(0.827433533, $decimals: 10000),
+        82.7434
+      );
+    }
+
+    @include it('Optionally return without rounding') {
+      @include assert-equal(
+        channel.value(0.827433533, $decimals: null),
+        82.7433533
+      );
+    }
+  }
+
+  @include describe('values()') {
+    @include it('Multiplies values by a given factor') {
+      @include assert-equal(
+        channel.values(0.30204 0.4652 0.827433533, 100),
+        30.20 46.52 82.74
+      );
+      @include assert-equal(
+        channel.values(0.30204 0.4652 0.827433533, 1),
+        0.30 0.47 0.83
+      );
+    }
+
+    @include it('Rounds to a particular number of decimals') {
+      @include assert-equal(
+        channel.values(0.30204 0.4652 0.827433533, $decimals: 100),
+        30.20 46.52 82.74
+      );
+      @include assert-equal(
+        channel.values(0.30204 0.4652 0.827433533, 1, $decimals: 10000),
+        0.3020 0.4652 0.8274
+      );
+    }
+  }
+
+  @include describe('in-gamut()') {
+    @include it('Returns true for an array with all values are between 0-1') {
+      @include assert-true(
+        channel.in-gamut(0.02 0.5 0.8)
+      );
+      @include assert-true(
+        channel.in-gamut(0 0 0)
+      );
+      @include assert-true(
+        channel.in-gamut(1 1 1)
+      );
+    }
+
+    @include it('Has a small fractional leeway') {
+      @include assert-true(
+        channel.in-gamut(-0.0000002 0 0 0.5)
+      );
+      @include assert-true(
+        channel.in-gamut(1.00000002 1 1 0.5)
+      );
+    }
+
+    @include it('Returns false if any value is outside 0-1') {
+      @include assert-false(
+        channel.in-gamut(-0.002 0 0 0.5)
+      );
+      @include assert-false(
+        channel.in-gamut(1.002 1 1 0.5)
+      );
+    }
+  }
+
+  @include describe('valid()') {
+    @include it('Returns a valid list of channels') {
+      @include assert-equal(
+        channel.valid(30 45 2, 'test', 'rgb'),
+        30 45 2
+      );
+    }
+
+    @include it('Allows different channel-count') {
+      @include assert-equal(
+        channel.valid(30 45 2 24, 'test', 'rgb', 4),
+        30 45 2 24
+      );
+    }
+
+    @include it('Throws when not a list') {
+      @include assert-equal(
+        channel.valid('string', 'test', 'rgb'),
+        'ERROR [test] $rgb must be a list, got string: string'
+      );
+    }
+
+    @include it('Throws when wrong length list') {
+      @include assert-equal(
+        channel.valid(30 42, 'test', 'rgb'),
+        'ERROR [test] $rgb expects 3 channels, got 2'
+      );
+    }
+
+    @include it('Throws when channels are not numbers') {
+      @include assert-equal(
+        channel.valid(30 42 'red', 'test', 'rgb'),
+        'ERROR [test] $rgb channels must be a number, got string: red'
+      );
+    }
+  }
+}

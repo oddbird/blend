@@ -1,8 +1,0 @@
-@use 'lch';
-
-@function lch(
-  $lch,
-  $a: 100%
-) {
-  @return lch.value($lch, $a);
-}

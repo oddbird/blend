@@ -1,42 +1,15 @@
 @use 'sass:list';
 @use 'sass:math';
 @use 'sass:meta';
-@use 'array';
-@use 'matrix';
-@use 'pow';
-@use 'throw';
+@use '../utils/array';
+@use '../utils/matrix';
+@use '../utils/pow';
 
 $Im: 216/24389;  // 6^3/29^3
 $Io: 24389/27;   // 29^3/3^3
 $Ip: 1.09929682680944 ;
 $I2: 0.018053968510807;
 $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
-
-@function valid-channels(
-  $channels,
-  $source,
-  $name
-) {
-  $error: throw.type($channels, 'list', $source, $name);
-  $length: list.length($channels);
-  $error: $error or if(
-    ($length == 3),
-    false,
-    throw.error('$#{$name} expects 3 values, got #{$length}', $source)
-  );
-
-  @each $c in $channels {
-    $c-type: meta.type-of($c);
-    @if ($c-type != 'number') {
-      $error: throw.error(
-        '$#{$name} values must be numbers, got #{$c-type}',
-        $source
-      );
-    }
-  }
-
-  @return $error;
-}
 
 // Sample code for color conversions
 // Conversion can also be done using ICC profiles and a Color Management System
@@ -53,9 +26,6 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 }
 
 @function lin_sRGB($RGB) {
-  $error: valid-channels($RGB, 'convert.lin_sRGB()', 'RGB');
-  @if ($error) { @return $error; }
-
   // convert an array of sRGB values in the range 0.0 - 1.0
   // to linear light (un-companded) form.
   // https://en.wikipedia.org/wiki/SRGB
@@ -71,9 +41,6 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 }
 
 @function gam_sRGB($RGB) {
-  $error: valid-channels($RGB, 'convert.gam_sRGB()', 'RGB');
-  @if ($error) { @return $error; }
-
   // convert an array of linear-light sRGB values in the range 0.0-1.0
   // to gamma corrected form
   // https://en.wikipedia.org/wiki/SRGB
@@ -81,9 +48,6 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 }
 
 @function lin_sRGB_to_XYZ($rgb) {
-  $error: valid-channels($rgb, 'convert.lin_sRGB_to_XYZ()', 'rgb');
-  @if ($error) { @return $error; }
-
   // convert an array of linear-light sRGB values to CIE XYZ
   // using sRGB's own white, D65 (no chromatic adaptation)
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html

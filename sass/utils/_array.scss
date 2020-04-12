@@ -2,6 +2,7 @@
 @use 'sass:list';
 @use 'sass:math';
 @use 'sass:meta';
+@use 'sass:string';
 
 @function template(
   $array,
@@ -34,6 +35,49 @@
   }
 
   @return $range;
+}
+
+@function from-string(
+  $string,
+  $separator: null,
+  $limit: null
+) {
+  $list: ();
+
+  @if (not $separator) or ($string == '') {
+    @return list.append($list, $string);
+  }
+
+  $length: string.length($string);
+  $limit: if($limit, math.min($limit, $length), $length);
+  $index: string.index($string, $separator);
+
+  @for $i from 1 through $limit {
+    @if ($string) {
+      $slice: null;
+
+      @if ($separator == '') {
+        $length: string.length($string);
+
+        @if ($length > 1) {
+          $slice: string.slice($string, 1, 1);
+          $string: string.slice($string, 2);
+        } @else {
+          $slice: if(($length == 1), $string, '');
+          $string: null;
+        }
+      } @else if ($index) {
+        $slice: string.slice($string, 1, $index - 1);
+        $string: string.slice($string, $index + string.length($separator));
+        $index: string.index($string, $separator);
+        $slice: if($string and not $index, $slice $string, $slice);
+      }
+
+      $list: if($slice, list.join($list, $slice), $list);
+    }
+  }
+
+  @return $list;
 }
 
 @function slice(

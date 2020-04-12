@@ -1,4 +1,6 @@
 @use '../sass/utils/throw' with ($catch-errors: true);
 
 @use 'utils';
-@use 'lab';
+@use 'convert';
+@use 'cie';
+@use 'output';

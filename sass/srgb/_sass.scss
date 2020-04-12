@@ -1,0 +1,26 @@
+@use '../utils/array';
+@use '../utils/channel';
+@use 'sass:color';
+@use 'sass:list';
+@use 'sass:meta';
+
+@function to-color(
+  $rgb,
+  $a: 100%,
+) {
+  $rgb: channel.units($rgb, 'rgb');
+  $rgba: list.append($rgb, channel.alpha($a));
+  @return rgba($rgba...);
+}
+
+@function from-color(
+  $color
+) {
+  $rgb: (
+    color.red($color)
+    color.green($color)
+    color.blue($color)
+  );
+
+  @return channel.fractions($rgb, 255) color.alpha($color);
+}

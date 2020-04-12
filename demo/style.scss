@@ -10,17 +10,13 @@
 
 
 // layout
-html {
+body {
   background-image:
     gradient.stops(),
     gradient.rgb-from-lch()
   ;
   background-size: auto 50vh, cover;
   background-repeat: no-repeat;
-  color: blend.lch(90% 40 0);
-}
-
-body {
   display: grid;
   place-content: center;
   margin: 0;
@@ -29,6 +25,7 @@ body {
 
 h1 {
   background: blend.lch(10% 15 0, 80%);
+  color: blend.lch(90% 40 0);
   border-radius: 0.2em;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
   padding: 0.5em;

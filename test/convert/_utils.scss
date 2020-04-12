@@ -1,0 +1,132 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/convert/utils';
+
+@include describe('convert/utils') {
+  @include describe('sRGB_to_luminance()') {
+    @include it('converts an array of gamma-corrected sRGB values') {
+      @include assert-equal(
+        utils.sRGB_to_luminance((0.02, 0.5, 0.8)),
+        0.19698244570374157
+      );
+      @include assert-equal(
+        utils.sRGB_to_luminance((0.8, 0.5, 0.02)),
+        0.281601429766217
+      );
+    }
+  }
+
+  @include describe('contrast()') {
+    @include it('returns WCAG 2.1 contrast ratio') {
+      @include assert-equal(
+        utils.contrast((0.02, 0.5, 0.8), (0.8, 0.5, 0.02)),
+        1.342611329405884
+      );
+      @include assert-equal(
+        utils.contrast((0, 0, 0), (1, 1, 1)),
+        21.000002000000002
+      );
+    }
+  }
+
+  @include describe('sRGB_to_LCH()') {
+    @include it('converts an array of gamma-corrected sRGB values to LCH') {
+      @include assert-equal(
+        utils.sRGB_to_LCH((0.02, 0.5, 0.8)),
+        [ 50.732583394867746, 49.17207368750179, 261.16383665102614 ]
+      );
+    }
+  }
+
+  @include describe('P3_to_LCH()') {
+    @include it('converts an array of gamma-corrected display-p3 values to LCH') {
+      @include assert-equal(
+        utils.P3_to_LCH((0.02, 0.5, 0.8)),
+        [ 50.54052827625061, 54.14426679454487, 256.00726684112874 ]
+      );
+    }
+  }
+
+  @include describe('r2020_to_LCH()') {
+    @include it('converts an array of gamma-corrected rec.2020 values to LCH') {
+      @include assert-equal(
+        utils.r2020_to_LCH((0.02, 0.5, 0.8)),
+        [ 50.32148305473913, 66.1429142189001, 235.98101934236752 ]
+      );
+    }
+  }
+
+  @include describe('LCH_to_sRGB()') {
+    @include it('converts an array of CIE LCH values to gamma corrected sRGB') {
+      @include assert-equal(
+        utils.LCH_to_sRGB((0.02, 0.5, 0.8)),
+        [ 0.005322572923735131, -0.001281218799949619, 0.0003339921941461682 ]
+      );
+    }
+  }
+
+  @include describe('LCH_to_P3()') {
+    @include it('converts an array of CIE LCH values to display-p3') {
+      @include assert-equal(
+        utils.LCH_to_P3((0.02, 0.5, 0.8)),
+        [ 0.0041508507102366215, -0.001061954523871675, 0.00030221682220373875 ]
+      );
+    }
+  }
+
+  @include describe('LCH_to_r2020()') {
+    @include it('converts an array of CIE LCH values to rec.2020') {
+      @include assert-equal(
+        utils.LCH_to_r2020((0.02, 0.5, 0.8)),
+        [ 0.0010213897095624753, -0.0002808938132111162, 0.00009527562547363652 ]
+      );
+    }
+  }
+
+  @include describe('hslToRgb()') {
+    @include it('converts normaized HSL values to RGB') {
+      @include assert-equal(
+        utils.hslToRgb(2.2, 0.5, 0.8),
+        [ 0.7000000000000001, 0.9, 0.7400000000000001 ]
+      );
+    }
+  }
+
+  @include describe('hueToRgb()') {
+    @include it('converts hue to RGB values') {
+      @include assert-equal(
+        utils.hueToRgb(0.7, 0.9, 2.2),
+        0.9
+      );
+      @include assert-equal(
+        utils.hueToRgb(0.7, 0.9, 0.2),
+        0.74
+      );
+      @include assert-equal(
+        utils.hueToRgb(0.7, 0.9, 3.2),
+        0.86
+      );
+      @include assert-equal(
+        utils.hueToRgb(0.7, 0.9, 5.2),
+        0.7
+      );
+    }
+  }
+
+  @include describe('naive_CMYK_to_sRGB()') {
+    @include it('converts CMYK to RGB using naive math') {
+      @include assert-equal(
+        utils.naive_CMYK_to_sRGB([ 0.2, 0.5, 0.8, 0.12 ]),
+        [ 0.704, 0.43999999999999995, 0.17599999999999993 ]
+      );
+    }
+  }
+
+  @include describe('naive_sRGB_to_CMYK()') {
+    @include it('converts RGB to CMYK using naive math') {
+      @include assert-equal(
+        utils.naive_sRGB_to_CMYK([ 0.2, 0.5, 0.8 ]),
+        [0.75, 0.375, 0, 0.2]
+      );
+    }
+  }
+}

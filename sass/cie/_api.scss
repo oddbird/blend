@@ -1,0 +1,20 @@
+@use '../convert';
+@use '../utils/units';
+@use 'lch';
+
+@function lch(
+  $lch,
+  $a: 100%
+) {
+  $lch: units.strip-all($lch);
+  @return lch.value($lch, $a);
+}
+
+@function lab(
+  $lab,
+  $a: 100%
+) {
+  $lab: units.strip-all($lab);
+  $lch: convert.Lab_to_LCH($lab);
+  @return lch.value($lch, $a);
+}

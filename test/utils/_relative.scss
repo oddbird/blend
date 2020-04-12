@@ -1,0 +1,17 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/utils/relative';
+
+@include describe('utils/relative') {
+  @include describe('compile()') {
+    @include it('Replaces values from source'){
+      @include assert-equal(
+        relative.compile(20 c 80, 10 30 50, lch),
+        20 30 80
+      );
+      @include assert-equal(
+        relative.compile(20 l 80, 10 30 50, lch),
+        20 10 80
+      );
+    }
+  }
+}

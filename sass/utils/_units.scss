@@ -1,3 +1,15 @@
+@use 'sass:meta';
+@use 'array';
+
 @function strip($x) {
   @return $x / ($x * 0 + 1);
+}
+
+@function strip-all(
+  $array
+) {
+  @return array.map(
+    $array,
+    meta.get-function('strip')
+  );
 }

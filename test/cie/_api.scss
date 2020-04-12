@@ -1,0 +1,22 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/cie';
+
+@include describe('cie/api') {
+  @include describe('lch()') {
+    @include it('Returns a Sass color from lch/a values') {
+      @include assert-equal(
+        cie.lch(30% 50 300, 50%),
+        rgba(77, 58, 139, 0.5)
+      );
+    }
+  }
+
+  @include describe('lab()') {
+    @include it('Returns a Sass color from lab/a values') {
+      @include assert-equal(
+        cie.lab(30% 50 -50, 50%),
+        rgba(111, 28, 151, 0.5)
+      );
+    }
+  }
+}

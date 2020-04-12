@@ -123,6 +123,21 @@ $_reducer: get-function('_reducer');
     }
   }
 
+  @include describe('from-string()') {
+    @include it('Splits a string into characters') {
+      @include assert-equal(
+        array.from-string('abcd', ''),
+        ('a' 'b' 'c' 'd')
+      );
+    }
+    @include it('Splits a string from separator') {
+      @include assert-equal(
+        array.from-string('ab, cd', ', '),
+        ('ab' 'cd')
+      );
+    }
+  }
+
   @include describe('slice()') {
     $animals: ['ant', 'bison', 'camel', 'duck', 'elephant'];
 

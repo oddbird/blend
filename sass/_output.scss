@@ -1,0 +1,39 @@
+@use 'sass:map';
+@use 'utils/array';
+@use 'utils/channel';
+@use 'srgb/sass';
+@use 'config';
+
+@function string(
+  $channels,
+  $a: 100%,
+  $format: config.$output,
+) {
+  $channels: channel.units($channels, $format);
+  $channels: array.join($channels, ' ');
+  $channels: if(
+    $a < 100,
+    array.join($channels channel.alpha($a), ' / '),
+    $channels
+  );
+
+  $formats: (
+    'p3': 'color(display-p3 #{$channels})',
+    'r2020': 'color(rec2020 #{$channels})',
+    'cmyk': 'device-cmyk(#{$channels})',
+  );
+
+  @return map.get($formats, $format) or '#{$format}(#{$channels})';
+}
+
+@function value(
+  $channels,
+  $a: 100%,
+  $output: config.$output,
+) {
+  @return if(
+    $output == 'sass',
+    sass.to-color($channels, $a),
+    string($channels, $a, $output)
+  );
+}

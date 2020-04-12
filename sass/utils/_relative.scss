@@ -1,0 +1,49 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:string';
+@use 'array';
+
+@function _channel(
+  $val,
+  $i,
+  $values,
+) {
+  @if (meta.type-of($val) == 'number') {
+    @return $val;
+  }
+
+  $is: map.get($values, $val);
+
+  @if ($is) {
+    @return $is;
+  }
+
+  @return null;
+
+  @if string.index($val, 'calc(') {
+    $calc: array.from-string(string.slice($val, 6, -2), ' ');
+  }
+}
+
+@function _values(
+  $all,
+  $val,
+  $i,
+  $format
+) {
+  @return map.merge($all, (string.slice($format, $i, $i): $val));
+}
+
+@function compile(
+  $channels,
+  $source,
+  $format
+) {
+  @return array.map(
+    $channels,
+    meta.get-function('_channel'),
+    i,
+    array.reduce($source, meta.get-function('_values'), (), i, $format)
+  );
+}
