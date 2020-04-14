@@ -1,5 +1,6 @@
 @use 'array';
 @use 'throw';
+@use 'units';
 @use 'sass:list';
 @use 'sass:math';
 @use 'sass:map';
@@ -9,13 +10,13 @@
 @function deg6(
   $val
 ) {
-  @return ((($val - 1) % 360) + 1) / 360 * 6;
+  @return ((($val + 1) % 360) - 1) / 60;
 }
 
 @function deg(
   $val
 ) {
-  @return $val / 6 * 360;
+  @return $val * 60;
 }
 
 // fractions
@@ -62,12 +63,19 @@
 // gamuts
 // ------
 
+$gamuts: (
+  'lab': (0 400, -160 160, -160 160),
+  'lch': (0 400, 0 230, 0 360),
+);
+
 @function _in_gamut(
   $a,
   $val,
-  $range: 0 1,
+  $ranges,
+  $index,
 ) {
   $E: 0.000005;
+  $range: if($ranges, list.nth($ranges, $index), 0 1);
   $min: (math.min($range...) - $E);
   $max: (math.max($range...) + $E);
   @return $a and ($val == math.clamp($min, $val, $max));
@@ -75,13 +83,14 @@
 
 @function in-gamut(
   $array,
-  $range: 0 1,
+  $format: 'rgb',
 ) {
   @return array.reduce(
     $array,
     meta.get-function('_in_gamut'),
     true,
-    $range
+    map.get($gamuts, $format),
+    i
   );
 }
 
@@ -122,6 +131,20 @@ $formats: (
   $a: 100%
 ) {
   @return if(math.is-unitless($a), percentage($a), $a);
+}
+
+@function format(
+  $channels,
+  $format: 'rgb',
+) {
+  @if list.index('display-p3' 'rec-2020' 'device-cmyk', $format) {
+    $channels: values($channels, 1, 10000);
+  } @else if list.index('lch' 'lab', $format) {
+    $channels: values($channels, 1, 100);
+  } @else {
+    $channels: values($channels);
+  }
+  @return units($channels, $format);
 }
 
 // Validation

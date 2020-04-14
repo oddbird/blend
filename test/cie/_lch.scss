@@ -11,45 +11,32 @@
         lch.to(50 50 0, 'rgb'),
         convert.LCH_to_sRGB(50 50 0)
       );
-      @include assert-equal(
-        lch.to(50 50 0, 'sass'),
-        convert.LCH_to_sRGB(50 50 0)
-      );
     }
 
     @include it('Converts LCH to Lab') {
       @include assert-equal(
-        lch.to(50 50 0, 'Lab'),
+        lch.to(50 50 0, 'lab'),
         convert.LCH_to_Lab(50 50 0)
       );
     }
 
     @include it('Converts LCH to p3') {
       @include assert-equal(
-        lch.to(50 50 0, 'p3'),
+        lch.to(50 50 0, 'display-p3'),
         convert.LCH_to_P3(50 50 0)
       );
     }
 
     @include it('Converts LCH to r2020') {
       @include assert-equal(
-        lch.to(50 50 0, 'r2020'),
+        lch.to(50 50 0, 'rec-2020'),
         convert.LCH_to_r2020(50 50 0)
       );
     }
-  }
 
-  @include describe('is-in()') {
-    @include it('Returns RGB values for in-gamut LCH colors') {
+    @include it('Optionally returns null for out-of-gamut LCH colors') {
       @include assert-equal(
-        lch.is-in(30 5 300),
-        convert.LCH_to_sRGB(30 5 300)
-      );
-    }
-
-    @include it('Returns null for out-of-gamut LCH colors') {
-      @include assert-equal(
-        lch.is-in(80 80 300),
+        lch.to(80 80 300, 'rgb', $check-gamut: true),
         null
       );
     }
@@ -145,22 +132,23 @@
 
     @include it('Optioally returns a string display-p3 value') {
       @include assert-equal(
-        lch.value(65 50 0, 50%, $to: 'p3'),
+        lch.value(65 50 0, 50%, $to: 'display-p3'),
         string.unquote('color(display-p3 0.8706 0.4888 0.6248 / 50%)')
       );
     }
 
-    @include it('Optioally returns a string cmyk value') {
-      @include assert-equal(
-        lch.value(39.831 68.835 34.698, 50%, $to: 'cmyk'),
-        string.unquote('device-cmyk(0 0.809 0.809 0.302 / 50%)')
-      );
-    }
+    // @@@ fix this once we support secondary conversions…
+    // @include it('Optioally returns a string cmyk value') {
+    //   @include assert-equal(
+    //     lch.value(39.831 68.835 34.698, 50%, $to: 'device-cmyk'),
+    //     string.unquote('device-cmyk(0 0.809 0.809 0.302 / 50%)')
+    //   );
+    // }
 
-    @include it('Optioally returns a string rec2020 value') {
+    @include it('Optioally returns a string rec-2020 value') {
       @include assert-equal(
-        lch.value(65 50 0, 50%, $to: 'r2020'),
-        string.unquote('color(rec2020 0.794 0.4963 0.6065 / 50%)')
+        lch.value(65 50 0, 50%, $to: 'rec-2020'),
+        string.unquote('color(rec-2020 0.794 0.4963 0.6065 / 50%)')
       );
     }
 

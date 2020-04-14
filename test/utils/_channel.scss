@@ -12,16 +12,16 @@
         channel.deg6(180),
         3
       );
-      @include assert-equal(
-        channel.deg6(360),
-        6
-      );
     }
 
-    @include it('Corrects 0 to 360') {
+    @include it('Range is half-open') {
       @include assert-equal(
         channel.deg6(0),
-        6
+        0
+      );
+      @include assert-equal(
+        channel.deg6(360),
+        0
       );
     }
 

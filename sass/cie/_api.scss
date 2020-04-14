@@ -1,12 +1,11 @@
 @use '../convert';
-@use '../utils/units';
 @use 'lch';
 
 @function lch(
   $lch,
   $a: 100%
 ) {
-  $lch: units.strip-all($lch);
+  $lch: lch.normalize($lch);
   @return lch.value($lch, $a);
 }
 
@@ -14,7 +13,7 @@
   $lab,
   $a: 100%
 ) {
-  $lab: units.strip-all($lab);
+  $lab: lch.normalize($lab);
   $lch: convert.Lab_to_LCH($lab);
   @return lch.value($lch, $a);
 }

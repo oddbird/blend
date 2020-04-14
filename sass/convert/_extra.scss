@@ -1,0 +1,81 @@
+@use '../utils/array';
+@use '../utils/channel';
+@use '../utils/units';
+@use 'utilities';
+@use 'sass:color';
+@use 'sass:list';
+@use 'sass:math';
+
+@function hueFromColor(
+  $color
+) {
+  @return channel.deg6(units.strip(color.hue($color)));
+}
+
+// rgb [0, 1] -> sass color
+@function rgbToSass(
+  $rgb
+) {
+  $rgb: channel.values($rgb);
+  $rgb: channel.units($rgb, 'rgb');
+  @return rgb($rgb...);
+}
+
+// sass color -> rgb [0, 1]
+@function sassToRgb(
+  $color
+) {
+  $rgb: (
+    color.red($color),
+    color.green($color),
+    color.blue($color),
+  );
+  @return channel.fractions(units.strip-all($rgb), 255);
+}
+
+// sass color -> h [0, 6) sl [0, 1]
+@function sassToHsl(
+  $color
+) {
+  @return (
+    hueFromColor($color)
+    channel.fraction(units.strip(color.saturation($color)))
+    channel.fraction(units.strip(color.lightness($color)))
+  );
+}
+
+// rgb [0, 1] -> h [0, 6) sl [0, 1]
+@function rgbToHsl(
+  $rgb
+) {
+  $temp: array.template($rgb);
+  $hsl: sassToHsl(rgbToSass($rgb));
+  @return list.join($temp, $hsl);
+}
+
+// rgb [0, 1] -> h [0, 6) wb [0, 1]
+@function rgbToHwb(
+  $rgb
+) {
+  $temp: array.template($rgb);
+  $hwb: (
+    hueFromColor(rgbToSass($rgb))
+    math.min($rgb...)
+    1 - math.max($rgb...)
+  );
+  @return list.join($temp, $hwb);
+}
+
+// h [0, 6) wb [0, 1] -> rgb [0, 1]
+@function hwbToRgb($hwb) {
+  $hue: list.nth($hwb, 1);
+  $white: list.nth($hwb, 2);
+  $black: list.nth($hwb, 3);
+  $rgb: utilities.hslToRgb($hue 1 0.5);
+  @for $i from 0 to 3 {
+    $x: list.nth($rgb, $i);
+    $x: $x * (1 - $white - $black) + $white;
+    $rgb: list.set-nth($rgb, $i, $x);
+  }
+  @return $rgb;
+}

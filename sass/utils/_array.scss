@@ -316,6 +316,15 @@
   @return reduce($array, get-function('add'), 0);
 }
 
+@function average(
+  $array
+) {
+  $error: throw.type($array, 'list', 'array.average()', 'array');
+  @if ($error) { @return $error; }
+
+  @return sum($array) / list.length($array);
+}
+
 @function product(
   $array
 ) {

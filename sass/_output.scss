@@ -1,15 +1,30 @@
+@use 'sass:list';
 @use 'sass:map';
+@use 'sass:meta';
 @use 'utils/array';
 @use 'utils/channel';
-@use 'srgb/sass';
-@use 'config';
+@use 'convert';
+
+// $spaces: (
+//   'cie': ('lab', 'lch'),
+//   'srgb': ('rgb', 'hsl', 'hwb', 'device-cmyk', 'sass'),
+//   'r2020': 'rec-2020',
+//   'display-p3': 'display-p3',
+//   'prophoto-rgb': 'prophoto-rgb',
+//   'a98-rgb': 'a98-rgb',
+// );
+
+$css-functions: (
+  'lab', 'lch',
+  'rgb', 'hsl', 'hwb', 'device-cmyk',
+);
 
 @function string(
   $channels,
   $a: 100%,
-  $format: config.$output,
+  $format: 'rgb',
 ) {
-  $channels: channel.units($channels, $format);
+  $channels: channel.format($channels, $format);
   $channels: array.join($channels, ' ');
   $channels: if(
     $a < 100,
@@ -17,23 +32,31 @@
     $channels
   );
 
-  $formats: (
-    'p3': 'color(display-p3 #{$channels})',
-    'r2020': 'color(rec2020 #{$channels})',
-    'cmyk': 'device-cmyk(#{$channels})',
-  );
+  @if list.index($css-functions, $format) {
+    @return '#{$format}(#{$channels})';
+  }
 
-  @return map.get($formats, $format) or '#{$format}(#{$channels})';
+  @return 'color(#{$format} #{$channels})';
 }
+
+@function sass(
+  $rgb,
+  $a: 100%,
+) {
+  $rgb: channel.format($rgb);
+  $rgba: list.append($rgb, $a);
+  @return rgba($rgba...);
+}
+
 
 @function value(
   $channels,
   $a: 100%,
-  $output: config.$output,
+  $output: 'sass',
 ) {
-  @return if(
-    $output == 'sass',
-    sass.to-color($channels, $a),
-    string($channels, $a, $output)
-  );
+  @if ($output == 'sass') {
+    @return sass($channels, $a);
+  }
+
+  @return string($channels, $a, $output);
 }

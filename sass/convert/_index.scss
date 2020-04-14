@@ -1,2 +1,16 @@
-@forward 'steps';
-@forward 'utils';
+@use 'sass:list';
+@forward 'conversions';
+@forward 'utilities';
+@forward 'extra';
+
+$srgb: ('rgb', 'hsl', 'hwb', 'device-cmyk', 'sass', 'srgb');
+
+@function to(
+  $format
+) {
+  @return if(
+    list.index($srgb, $format),
+    'rgb',
+    $format
+  );
+}

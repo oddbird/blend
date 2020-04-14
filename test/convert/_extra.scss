@@ -1,0 +1,41 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/convert/extra';
+
+@include describe('convert/extra') {
+  @include describe('rgbToHsl()') {
+    @include it('Converts rgb to hsl via sass') {
+      @include assert-equal(
+        extra.rgbToHsl(1 1 1),
+        0 0 1
+      );
+
+      @include assert-equal(
+        extra.rgbToHsl(0 0 0),
+        0 0 0
+      );
+
+      @include assert-equal(
+        extra.rgbToHsl(0.5 0.5 0.5),
+        0 0 0.5019607843,
+        $inspect: true
+      );
+
+      @include assert-equal(
+        extra.rgbToHsl(1 0 0),
+        0 1 0.5
+      );
+
+      @include assert-equal(
+        extra.rgbToHsl(0.75 0.75 0),
+        1 1 0.3745098039,
+        $inspect: true
+      );
+
+      @include assert-equal(
+        extra.rgbToHsl(0.75 0.25 0.75),
+        5 0.4980392157 0.5,
+        $inspect: true
+      );
+    }
+  }
+}

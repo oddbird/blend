@@ -1,8 +1,0 @@
-// - `true` [default]: Chroma is reduced until in-gamut
-// - `false`: Individual RGB channels will be clipped
-// - `null`: Return `null` for out-of-gamut colors
-$gamut-correct: true !default;
-
-// - `'sass'` [default]: Primary functions return a Sass color value
-// - `'rgb': Primary functions return a CSS-ready rgb() string
-$output: 'sass' !default;

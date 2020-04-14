@@ -5,6 +5,11 @@
 @use '../utils/matrix';
 @use '../utils/pow';
 
+// *********************
+// Based on: https://drafts.csswg.org/css-color-4/conversions.js
+// Credit: Chris Lilley, https://svgees.us/
+// *********************
+
 $Im: 216/24389;  // 6^3/29^3
 $Io: 24389/27;   // 29^3/3^3
 $Ip: 1.09929682680944 ;
@@ -25,6 +30,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return math.pow(($val + 0.055) / 1.055, 2.4);
 }
 
+// rgb [0, 1] <-->
 @function lin_sRGB($RGB) {
   // convert an array of sRGB values in the range 0.0 - 1.0
   // to linear light (un-companded) form.
@@ -40,6 +46,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return 12.92 * $val;
 }
 
+// rgb [0, 1] <-->
 @function gam_sRGB($RGB) {
   // convert an array of linear-light sRGB values in the range 0.0-1.0
   // to gamma corrected form
@@ -47,6 +54,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return array.map($RGB, meta.get-function('_gam_sRGB'));
 }
 
+// rgb [0, 1] -> xyz
 @function lin_sRGB_to_XYZ($rgb) {
   // convert an array of linear-light sRGB values to CIE XYZ
   // using sRGB's own white, D65 (no chromatic adaptation)
@@ -62,6 +70,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return matrix.multiply($M, $rgb);
 }
 
+// xyz -> rgb [0, 1]
 @function XYZ_to_lin_sRGB($XYZ) {
   // convert XYZ to linear-light sRGB
   $M: [
@@ -75,6 +84,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 
 //  image-p3-related functions
 
+// p3 [0, 1] <-->
 @function lin_P3($RGB) {
   // convert an array of display-p3 RGB values in the range 0.0 - 1.0
   // to linear light (un-companded) form.
@@ -82,6 +92,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return lin_sRGB($RGB);  // same as sRGB
 }
 
+// p3 [0, 1] <-->
 @function gam_P3($RGB) {
   // convert an array of linear-light display-p3 RGB  in the range 0.0-1.0
   // to gamma corrected form
@@ -89,6 +100,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return gam_sRGB($RGB);  // same as sRGB
 }
 
+// p3 [0, 1] -> xyz
 @function lin_P3_to_XYZ($rgb) {
   // convert an array of linear-light display-p3 values to CIE XYZ
   // using  D65 (no chromatic adaptation)
@@ -103,6 +115,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return matrix.multiply($M, $rgb);
 }
 
+// xyz -> p3 [0, 1]
 @function XYZ_to_lin_P3($XYZ) {
   // convert XYZ to linear-light P3
   $M: [
@@ -124,6 +137,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return math.pow($val, 1.8);
 }
 
+// prophoto [0, 1] <-->
 @function lin_ProPhoto($RGB) {
   // convert an array of prophoto-rgb values in the range 0.0 - 1.0
   // to linear light (un-companded) form.
@@ -139,6 +153,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return 16 * $val;
 }
 
+// prophoto [0, 1] <-->
 @function gam_ProPhoto($RGB) {
   // convert an array of linear-light prophoto-rgb  in the range 0.0-1.0
   // to gamma corrected form
@@ -146,6 +161,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return array.map($RGB, meta.get-function('_gam_ProPhoto'));
 }
 
+// prophoto [0, 1] -> xyz
 @function lin_ProPhoto_to_XYZ($rgb) {
   // convert an array of linear-light prophoto-rgb values to CIE XYZ
   // using  D50 (so no chromatic adaptation needed afterwards)
@@ -159,6 +175,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return matrix.multiply($M, $rgb);
 }
 
+// xyz -> prophoto [0, 1]
 @function XYZ_to_lin_ProPhoto($XYZ) {
   // convert XYZ to linear-light prophoto-rgb
   $M: [
@@ -176,6 +193,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return math.pow($val, 563/256);
 }
 
+// a98 [0, 1] <-->
 @function lin_a98rgb($RGB) {
   // convert an array of a98-rgb values in the range 0.0 - 1.0
   // to linear light (un-companded) form.
@@ -186,12 +204,14 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return math.pow($val, 256/563);
 }
 
+// a98 [0, 1] <-->
 @function gam_a98rgb($RGB) {
   // convert an array of linear-light a98-rgb  in the range 0.0-1.0
   // to gamma corrected form
   @return array.map($RGB, meta.get-function('_gam_a98rgb'));
 }
 
+// a98 [0, 1] -> xyz
 @function lin_a98rgb_to_XYZ($rgb) {
   // convert an array of linear-light a98-rgb values to CIE XYZ
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
@@ -209,6 +229,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return matrix.multiply($M, $rgb);
 }
 
+// xyz -> a98 [0, 1]
 @function XYZ_to_lin_a98rgb($XYZ) {
   // convert XYZ to linear-light a98-rgb
   $M: [
@@ -230,6 +251,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return math.pow(($val + $Ip - 1) / $Ip, 2.4);
 }
 
+// r2020 [0, 1] <-->
 @function lin_2020($RGB) {
   // convert an array of rec2020 RGB values in the range 0.0 - 1.0
   // to linear light (un-companded) form.
@@ -245,12 +267,14 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return 4.5 * $val;
 }
 
+// r2020 [0, 1] <-->
 @function gam_2020($RGB) {
   // convert an array of linear-light rec2020 RGB  in the range 0.0-1.0
   // to gamma corrected form
   @return array.map($RGB, meta.get-function('_gam_2020'));
 }
 
+// r2020 [0, 1] -> xyz
 @function lin_2020_to_XYZ($rgb) {
   // convert an array of linear-light rec2020 values to CIE XYZ
   // using  D65 (no chromatic adaptation)
@@ -265,6 +289,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return matrix.multiply($M, $rgb);
 }
 
+// xyz -> r2020 [0, 1]
 @function XYZ_to_lin_2020($XYZ) {
   // convert XYZ to linear-light rec2020
   $M: [
@@ -278,6 +303,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 
 // Chromatic adaptation
 
+// xyz <-->
 @function D65_to_D50($XYZ) {
   // Bradford chromatic adaptation from D65 to D50
   // The matrix below is the result of three operations:
@@ -294,6 +320,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return matrix.multiply($M, $XYZ);
 }
 
+// xyz <-->
 @function D50_to_D65($XYZ) {
   // Bradford chromatic adaptation from D50 to D65
   $M: [
@@ -324,6 +351,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return ($Io * $value + 16) / 116;
 }
 
+// xyz -> l [0+] ab [±160]
 @function XYZ_to_Lab($XYZ) {
   // Assuming XYZ is relative to D50, convert to CIE Lab
   // from CIE standard, which now defines these as a rational fraction
@@ -348,6 +376,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return $value * list.nth($white, $i);
 }
 
+// l [0+] ab [±160] -> xyz
 @function Lab_to_XYZ($Lab) {
   // Convert Lab to D50-adapted XYZ
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
@@ -373,6 +402,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return array.map($xyz, meta.get-function('_Lab_to_XYZ'), i);
 }
 
+// l [0+] ab [±160] -> lc [0+] h [0, 360)
 @function Lab_to_LCH($Lab) {
   // Convert to polar form
   $Lab0: list.nth($Lab, 1);
@@ -389,6 +419,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   ];
 }
 
+// lc [0+] h [0, 360) -> l [0+] ab [±160]
 @function LCH_to_Lab($LCH) {
   // Convert from polar form
   $LCH0: list.nth($LCH, 1);
