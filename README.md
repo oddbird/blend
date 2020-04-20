@@ -35,6 +35,12 @@ for automated adjustments.
 npm install @mirisuzanne/blend --save-dev
 ```
 
+## Warning
+
+- This is still a work-in progress,
+  and some of the syntax is likely to change.
+- More detailed documentation is on the way…
+
 ## Usage
 
 ```scss
@@ -63,7 +69,15 @@ $inspect: (
   blend.chroma($color),
   blend.hue($color), // different from hsl "hue"
 );
+```
 
+## In Flux
+
+These features are built, but I'm not confident about the syntax.
+Feel free to play with it and provide feedback
+in [GitHub issues](https://github.com/mirisuzanne/blend/issues)
+
+```scss
 // A rough interpretation of the Level 5 relative color syntax
 $adjust: (
   blend.from($color, l, 20, h), // set chroma to 20
