@@ -1,9 +1,7 @@
 @use 'array';
 @use 'throw';
-@use 'units';
 @use 'sass:list';
 @use 'sass:math';
-@use 'sass:map';
 @use 'sass:meta';
 
 // half-open
@@ -11,12 +9,6 @@
   $val
 ) {
   @return ((($val + 1) % 360) - 1) / 60;
-}
-
-@function deg(
-  $val
-) {
-  @return $val * 60;
 }
 
 // fractions
@@ -36,115 +28,31 @@
   @return array.map($values, meta.get-function('fraction'), $range);
 }
 
-// Values
+// Format
 // ------
-
-@function value(
-  $fraction,
-  $factor: 100,
-  $decimals: 100,
-) {
-  $value: $fraction * $factor;
-  @return if(
-    $decimals,
-    math.round($value * $decimals) / $decimals,
-    $value
-  );
-}
-
-@function values(
-  $values,
-  $factor: 100,
-  $decimals: 100,
-) {
-  @return array.map($values, meta.get-function('value'), $factor, $decimals);
-}
-
-// gamuts
-// ------
-
-$gamuts: (
-  'lab': (0 400, -160 160, -160 160),
-  'lch': (0 400, 0 230, 0 360),
-);
-
-@function _in_gamut(
-  $a,
+@function _format(
   $val,
-  $ranges,
-  $index,
-) {
-  $E: 0.000005;
-  $range: if($ranges, list.nth($ranges, $index), 0 1);
-  $min: (math.min($range...) - $E);
-  $max: (math.max($range...) + $E);
-  @return $a and ($val == math.clamp($min, $val, $max));
-}
-
-@function in-gamut(
-  $array,
-  $format: 'rgb',
-) {
-  @return array.reduce(
-    $array,
-    meta.get-function('_in_gamut'),
-    true,
-    map.get($gamuts, $format),
-    i
-  );
-}
-
-// Units
-// -----
-
-$formats: (
-  'rgb': 1% 1% 1%,
-  'hsl': 1deg 1% 1%,
-  'hwb': 1deg 1% 1%,
-  'lab': 1% 1 1,
-  'lch': 1% 1 1,
-);
-
-@function _unit(
-  $x,
   $i,
-  $format: 'rgb',
+  $units,
+  $decimals,
 ) {
-  $format: map.get($formats, $format);
-  $unit: if($format, list.nth($format, $i), 1);
-  @return $x * $unit;
-}
-
-@function units(
-  $channels,
-  $format: 'rgb',
-) {
-  @return array.map(
-    $channels,
-    meta.get-function('_unit'),
-    i,
-    $format
-  );
-}
-
-@function alpha(
-  $a: 100%
-) {
-  @return if(math.is-unitless($a), percentage($a), $a);
+  $unit: if(meta.type-of($units) == 'number', $units, list.nth($units, $i));
+  $decimals: if($decimals, math.pow(10, $decimals), 1);
+  @return math.round($val * $unit * $decimals) / $decimals;
 }
 
 @function format(
   $channels,
-  $format: 'rgb',
+  $units: 100%,
+  $decimals: 2,
 ) {
-  @if list.index('display-p3' 'rec-2020' 'device-cmyk', $format) {
-    $channels: values($channels, 1, 10000);
-  } @else if list.index('lch' 'lab', $format) {
-    $channels: values($channels, 1, 100);
-  } @else {
-    $channels: values($channels);
-  }
-  @return units($channels, $format);
+  @return array.map(
+    $channels,
+    meta.get-function('_format'),
+    i,
+    $units,
+    $decimals
+  );
 }
 
 // Validation
@@ -179,4 +87,3 @@ $formats: (
 
   @return $channels;
 }
-

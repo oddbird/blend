@@ -1,21 +1,8 @@
-@use 'sass:list';
-@use 'sass:map';
+@use 'sass:math';
 @use 'sass:meta';
-@use 'sass:string';
-@use '../utils/channel';
-@use '../utils/throw';
+@use '../utils/array';
 @use '../utils/units';
 @use '../convert';
-@use '../output';
-
-$_functions: meta.module-functions('convert');
-
-$_convert: (
-  'rgb': map.get($_functions, 'LCH-to-sRGB'),
-  'lab': map.get($_functions, 'LCH-to-Lab'),
-  'display-p3': map.get($_functions, 'LCH-to-P3'),
-  'rec-2020': map.get($_functions, 'LCH-to-r2020'),
-);
 
 @function normalize(
   $lch
@@ -23,25 +10,33 @@ $_convert: (
   @return units.strip-all($lch);
 }
 
-@function to(
+@function _channel-in_srgb(
+  $is,
+  $val,
+  $range: 0 1,
+) {
+  $E: 0.000005;
+  @return $is and ($val == math.clamp(0 - $E, $val, 1 + $E));
+}
+
+@function in-srgb(
+  $rgb
+) {
+  @return array.reduce(
+    $rgb,
+    meta.get-function('_channel-in_srgb'),
+    true
+  );
+}
+
+@function to-srgb(
   $lch,
-  $format: 'rgb',
   $check-gamut: false
 ) {
-  $fn: map.get($_convert, $format);
-
-  @if (not $fn) {
-    @return throw.error(
-      '#{$format} is not (yet) an available format for converting',
-      'lch.to()'
-    );
-  }
-
-  $result: meta.call($fn, $lch);
+  $result: convert.LCH_to_sRGB($lch);
 
   @if ($check-gamut) {
-    $in: channel.in-gamut($result);
-    @return if($in, $result, null);
+    @return if(in-srgb($result), $result, null);
   }
 
   @return $result;
@@ -49,15 +44,13 @@ $_convert: (
 
 // gamut correction
 @function gamut-correct(
-  $l, $c, $h,
-  $format: 'rgb',
+  $l, $c, $h
 ) {
   // Moves an lch color into the sRGB gamut
   // by holding the l and h steady,
   // and adjusting the c via binary-search
   // until the color is on the sRGB boundary.
-  $input: ($l, $c, $h);
-  $output: to($l $c $h, $format, true);
+  $output: to-srgb($l $c $h, true);
 
   @if (not $output) {
     $hiC: $c;
@@ -67,7 +60,7 @@ $_convert: (
 
     // 0.0001 chosen fairly arbitrarily as "close enough"
     @while (($hiC - $loC) > 0.0001) {
-      @if to($l $c $h, $format, true) {
+      @if to-srgb($l $c $h, true) {
         $loC: $c;
       } @else {
         $hiC: $c;
@@ -75,49 +68,8 @@ $_convert: (
       $c: ($hiC + $loC) / 2;
     }
 
-    $output: to($l $c $h, $format);
+    $output: to-srgb($l $c $h);
   }
 
-  @return (
-    'input': $input,
-    'adjusted': ($l, $c, $h),
-    'output': $output,
-  );
-}
-
-@function value(
-  $cie,
-  $a: 100%,
-  $from: 'lch',
-  $to: 'sass',
-  $gamut-correct: true,
-) {
-  $cie: normalize($cie);
-  $format: convert.to($to);
-
-  @if ($from == $to) {
-    @return output.string($cie, $a, $format);
-  }
-
-  @if ($from == 'lab') {
-    $cie: convert.Lab_to_LCH($lab);
-  }
-
-  @if ($gamut-correct == null) {
-    @return to($cie, $format, true);
-  }
-
-  $result: to($cie, $format);
-
-  @if ($format == 'lab') {
-    $result: channel.values($result, 1);
-    @return output.string($result, $a, $format);
-  }
-
-  @if ($gamut-correct) and (not channel.in-gamut($result, $format)) {
-    $args: list.append($cie, $format);
-    $result: map.get(gamut-correct($args...), 'output');
-  }
-
-  @return output.value($result, $a, $to);
+  @return $output;
 }

@@ -49,8 +49,14 @@ $catch-errors: false !default;
   );
 
   @if (not $pass) {
+    @if (meta.type-of($expect) == 'list') {
+      $expect: 'one of (#{list.join((), $expect, comma)})';
+    } @else {
+      $expect: 'a #{$expect}';
+    }
+
     @return error(
-      '$#{$name} must be a #{$expect}, got #{$type}: #{$value}',
+      '$#{$name} must be #{$expect}, got #{$type}: #{$value}',
       $source
     );
   }

@@ -37,23 +37,6 @@
     }
   }
 
-  @include describe('deg()') {
-    @include it('Returns a value from half-open [0, 6] to degrees') {
-      @include assert-equal(
-        channel.deg(6),
-        360
-      );
-      @include assert-equal(
-        channel.deg(3),
-        180
-      );
-      @include assert-equal(
-        channel.deg(0.05),
-        3
-      );
-    }
-  }
-
   @include describe('fraction()') {
     @include it('generates a fraction') {
       @include assert-equal(
@@ -86,88 +69,25 @@
     }
   }
 
-  @include describe('value()') {
-    @include it('Multiplies and rounds') {
+  @include describe('format()') {
+    @include it('Formats the proper values/units for rgb') {
       @include assert-equal(
-        channel.value(0.827433533),
-        82.74
+        channel.format(0.25 1 0.5432101),
+        25% 100% 54.32%
       );
     }
 
-    @include it('Accepts custom factors') {
+    @include it('Can generate hsl format') {
       @include assert-equal(
-        channel.value(0.827433533, 10),
-        8.27
+        channel.format(5 1 0.5432101, 60deg 100% 100%),
+        300deg 100% 54.32%
       );
     }
 
-    @include it('Accepts custom decimal places') {
+    @include it('Can generate color() formats') {
       @include assert-equal(
-        channel.value(0.827433533, $decimals: 10000),
-        82.7434
-      );
-    }
-
-    @include it('Optionally return without rounding') {
-      @include assert-equal(
-        channel.value(0.827433533, $decimals: null),
-        82.7433533
-      );
-    }
-  }
-
-  @include describe('values()') {
-    @include it('Multiplies values by a given factor') {
-      @include assert-equal(
-        channel.values(0.30204 0.4652 0.827433533, 100),
-        30.20 46.52 82.74
-      );
-      @include assert-equal(
-        channel.values(0.30204 0.4652 0.827433533, 1),
-        0.30 0.47 0.83
-      );
-    }
-
-    @include it('Rounds to a particular number of decimals') {
-      @include assert-equal(
-        channel.values(0.30204 0.4652 0.827433533, $decimals: 100),
-        30.20 46.52 82.74
-      );
-      @include assert-equal(
-        channel.values(0.30204 0.4652 0.827433533, 1, $decimals: 10000),
-        0.3020 0.4652 0.8274
-      );
-    }
-  }
-
-  @include describe('in-gamut()') {
-    @include it('Returns true for an array with all values are between 0-1') {
-      @include assert-true(
-        channel.in-gamut(0.02 0.5 0.8)
-      );
-      @include assert-true(
-        channel.in-gamut(0 0 0)
-      );
-      @include assert-true(
-        channel.in-gamut(1 1 1)
-      );
-    }
-
-    @include it('Has a small fractional leeway') {
-      @include assert-true(
-        channel.in-gamut(-0.0000002 0 0 0.5)
-      );
-      @include assert-true(
-        channel.in-gamut(1.00000002 1 1 0.5)
-      );
-    }
-
-    @include it('Returns false if any value is outside 0-1') {
-      @include assert-false(
-        channel.in-gamut(-0.002 0 0 0.5)
-      );
-      @include assert-false(
-        channel.in-gamut(1.002 1 1 0.5)
+        channel.format(0.1234321 1 0.5432101, 1, 4),
+        0.1234 1 0.5432
       );
     }
   }

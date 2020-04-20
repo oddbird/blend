@@ -3,17 +3,15 @@
 
 @function lch(
   $lch,
-  $a: 100%
+  $a: 100%,
 ) {
   $lch: lch.normalize($lch);
-  @return lch.value($lch, $a);
+  @return convert.rgbToSass(lch.gamut-correct($lch...), $a);
 }
 
 @function lab(
   $lab,
-  $a: 100%
+  $a: 100%,
 ) {
-  $lab: lch.normalize($lab);
-  $lch: convert.Lab_to_LCH($lab);
-  @return lch.value($lch, $a);
+  @return lch(convert.Lab_to_LCH($lab), $a);
 }

@@ -1,13 +1,13 @@
 @use '../index' as blend;
 @use '../sass/utils/array';
 @use 'sass:list';
-
+@use 'sass:map';
+@use 'sass:meta';
 
 // we'll create gradients on the _ channels
 @use 'gradient' with (
-  $lch: 65 75 _,
+  $lch: 50 50 _,
 );
-
 
 // layout
 body {

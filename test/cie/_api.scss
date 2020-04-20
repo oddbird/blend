@@ -1,5 +1,6 @@
 @use '../../node_modules/sass-true/sass/true' as *;
 @use '../../sass/cie';
+@use 'sass:string';
 
 @include describe('cie/api') {
   @include describe('lch()') {

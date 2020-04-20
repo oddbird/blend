@@ -1,12 +1,35 @@
-# blend
-More color spaces for [Dart Sass][]…
+# Blend
+_CSS color spaces for [Dart Sass][]…_
 
-**Very much a work in progress.**
-Based heavily on js functions by
+[Dart Sass]: https://sass-lang.com/dart-sass
+
+CSS Color Module [Level 4][] & [Level 5][]
+include several new CSS color formats,
+new color-adjustment syntax,
+and a contrast function.
+**Blend** provides early access to many of these features,
+while working with Sass colors.
+
+[Level 4]: https://www.w3.org/TR/css-color-4/
+[Level 5]: https://www.w3.org/TR/css-color-5/
+
+Conversion math is adapted from js functions by
 [Chris Lilley](https://svgees.us/)
 and [Tab Atkins](https://www.xanthir.com/).
 
-[Dart Sass]: https://sass-lang.com/dart-sass
+Note that conversion between color-spaces
+requires gamut-adjustments and rounding.
+While we use the same conversion math recommended for browsers,
+pre-processing can result in slight variations in each step.
+Converting a color from one format to another
+and back again, may result in slight differences.
+
+Also: CIE "lightness" and "hue" used in LCH/Lab
+are different from sRGB "lightness" and "hue"
+used in HSL/HWB.
+The CIE versions are _perceptually uniform_,
+making them more legible & predicatble
+for automated adjustments.
 
 ```
 npm install @mirisuzanne/blend --save-dev
@@ -14,75 +37,69 @@ npm install @mirisuzanne/blend --save-dev
 
 ## Usage
 
-So far, there is very little user-facing API,
-and basically no documentation,
-but we'll get that fixed.
-Here are the basics:
-
 ```scss
-@use '<path/to>/blend';
+@use  '<path-to>/blend';
 
-main {
-  // returns a Sass `color`
-  color: blend.lch(65% 75 0);
+// (CIE) LCH & Lab color-conversion into (sRGB) sass colors
+$cie-to-sass: (
+  blend.lch(30% 50 300),
+  blend.lab(60% -60 60),
+  blend.lch(60% 75 120, 50%), // both accept alpha channel
+  blend.lab(60% -60 60, 0.5), // as % or as fraction
+);
 
-  // optional alpha value
-  background: blend.lch(10% 15 280, 85%);
-}
-```
+// Based on the proposed Level 5 color-contrast() function
+$contrast: (
+  blend.contrast($color), // black or white for best contrast
+  blend.contrast($color, maroon, rebeccapurple, cyan), // highest contrast
+  blend.contrast($color, maroon, rebeccapurple, 4.5), // first contrast >= 4.5
+);
 
-There are two settings:
+// Inspect LCH & Lab values of Sass colors
+$inspect: (
+  blend.lightness($color), // different from hsl "lightness"
+  blend.a($color),
+  blend.b($color),
+  blend.chroma($color),
+  blend.hue($color), // different from hsl "hue"
+);
 
-**`$gamut-correct`**
-
-- `true` [default]: Chroma is reduced until in-gamut
-- `false`: Individual RGB channels will be clipped
-- `null`: Return `null` for out-of-gamut colors
-
-**`$string-output`**
-
-- `false` [default]: Primary functions return a Sass color value
-- `true`: Primary functions return a CSS `rgb(r g b / a)` string
-
-```scss
-@use '<path/to>/blend' with (
-  $gamut-correct: true,
-  $string-output: false,
+// A rough interpretation of the Level 5 relative color syntax
+$adjust: (
+  blend.from($color, l, 20, h), // set chroma to 20
+  blend.from($color, l, c, h -60), // linear adjustments to a channel
+  blend.from($color, l 50%, c, h), // relative scale, e.g. "half-way to white"
+  blend.from($color, 2l, c, h), // multiply the channel value
 );
 ```
 
-If you want more explicit control,
-use `<path/to>/blend/sass/lab/lch`,
-and access functions directly:
+## Todo
 
-- `lch.to-rgb()` does the conversion math on an array of channels
-- `lch.in-gamut()` returns either the converted channels
-  or `null` for out-of-gamut colors
-- `lch.gamut-correct()` uses chroma-reduction to get a color in-gamut
-- `lch.value()` takes LCH input and returns a Sass color
-  based on the chosen form of gamut-correction,
-  or a css-output string in the format `rgb(r% g% b% / a%)`
+The initial version is mostly focused on CIE colors,
+but Level 4 includes an array of new formats.
+We're working on it…
 
-## Development & Testing
+```scss
+@use  'blend';
 
+$new-formats: (
+  blend.hwb(120deg 15% 15%),
+  blend.color(display-p3 0.728 0.2824 0.4581),
+  blend.color(rec-2020 0.6431 0.2955 0.4324),
+  ...,
+);
+
+$from-sass: (
+  blend.get($color, 'lch'),
+  blend.get($color, 'lab'),
+  blend.get($color, 'display-p3'),
+  ...,
+);
+
+$output: (
+  blend.string($color, 'lch'),
+  blend.string($color, 'lab'),
+  blend.string($color, 'display-p3'),
+  ...,
+);
 ```
-git clone git@github.com:mirisuzanne/blend.git
-cd blend
-yarn
-```
-
-The demo html & sass are in `demo/`.
-
-- Change the values of `$channels` and `$range`
-  to generate a new gradient
-- Play with `blend.lch($lch, $a)`
-  for direct access to colors
-- `yarn sass` to compile (gradients take ~6s)
-- `yarn test` to run the tests
-
-
-## ToDo:
-
-- [ ] Option to return CSS string rather than Sass color
-- [ ] Other color spaces
-- [ ] Documentation

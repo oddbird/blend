@@ -4,7 +4,7 @@
 @use 'sass:list';
 
 @include describe('utils/matrix') {
-  @include describe('is-29()') {
+  @include describe('is-2d()') {
     @include it('Returns true when there are one or more sub-row') {
       @include assert-equal(
         matrix.is-2d([ [ 1 2 3 ] [ 4 5 6 ] ]),

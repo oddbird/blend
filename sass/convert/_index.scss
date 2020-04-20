@@ -3,7 +3,7 @@
 @forward 'utilities';
 @forward 'extra';
 
-$srgb: ('rgb', 'hsl', 'hwb', 'device-cmyk', 'sass', 'srgb');
+$srgb: ('rgb', 'hsl', 'hwb', 'device-cmyk', 'srgb', auto);
 
 @function to(
   $format

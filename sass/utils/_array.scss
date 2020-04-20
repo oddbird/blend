@@ -9,7 +9,7 @@
   $separator: null,
   $brackets: null
 ) {
-  $error: throw.type($array, 'list', 'array.template()', 'array');
+  $error: throw.type($array, 'list' 'arglist', 'array.template()', 'array');
   @if ($error) { @return $error; }
 
   $separator: $separator or list.separator($array);
@@ -85,13 +85,14 @@
   $begin,
   $end: null
 ) {
-  $error: throw.type($array, 'list', 'array.slice()', 'array');
+  $error: throw.type($array, 'list' 'arglist', 'array.slice()', 'array');
   @if ($error) { @return $error; }
   $error: throw.type($begin, 'number', 'array.slice()', 'begin');
   @if ($error) { @return $error; }
 
   $length: list.length($array);
   $end: $end or $length;
+  $end: if($end < 0, $length + $end, $end);
 
   $error: throw.type($end, 'number', 'array.slice()', 'end');
   @if ($error) { @return $error; }

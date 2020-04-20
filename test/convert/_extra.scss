@@ -2,6 +2,42 @@
 @use '../../sass/convert/extra';
 
 @include describe('convert/extra') {
+  @include describe('hueFromColor') {
+    @include it('Returns a normalized hsl hue from a Sass color') {
+      @include assert-equal(
+        extra.hueFromColor(rgb(255, 0, 255)),
+        5
+      );
+    }
+  }
+
+  @include describe('rgbToSass') {
+    @include it('Converts normalized rgb/a channels to a sass color') {
+      @include assert-equal(
+        extra.rgbToSass(1 0 1, 0.5),
+        rgba(255, 0, 255, 0.5)
+      );
+    }
+  }
+
+  @include describe('sassToRgb') {
+    @include it('Extracts normalized rgb values from a Sass color') {
+      @include assert-equal(
+        extra.sassToRgb(rgba(255, 0, 255, 0.5)),
+        (1, 0, 1)
+      );
+    }
+  }
+
+  @include describe('sassToHsl') {
+    @include it('Extracts normalized hsl values from a Sass color') {
+      @include assert-equal(
+        extra.sassToHsl(rgb(255, 0, 255)),
+        (5, 1, 0.5)
+      );
+    }
+  }
+
   @include describe('rgbToHsl()') {
     @include it('Converts rgb to hsl via sass') {
       @include assert-equal(
@@ -34,6 +70,51 @@
       @include assert-equal(
         extra.rgbToHsl(0.75 0.25 0.75),
         5 0.4980392157 0.5,
+        $inspect: true
+      );
+    }
+  }
+
+  @include describe('rgbToHwb()') {
+    @include it('Converts normalized srgb values to normalized hwb') {
+      @include assert-equal(
+        extra.rgbToHwb(1 0 1),
+        5 0 0
+      );
+    }
+
+    @include it('Uses input format as a template') {
+      @include assert-equal(
+        extra.rgbToHwb([ 1, 0, 1 ]),
+        [ 5, 0, 0 ]
+      );
+    }
+  }
+
+  @include describe('hwbToRgb()') {
+    @include it('Converts normal hwb channels to srgb') {
+      @include assert-equal(
+        extra.hwbToRgb(5 0 0),
+        1 0 1
+      );
+    }
+  }
+
+  @include describe('sassToLCH()') {
+    @include it('Converts sass colors to LCH format') {
+      @include assert-equal(
+        extra.sassToLCH(#484268),
+        [29.8784592142, 23.6704270809, 294.661665683],
+        $inspect: true
+      );
+    }
+  }
+
+  @include describe('sassToLab()') {
+    @include it('Converts sass colors to Lab format') {
+      @include assert-equal(
+        extra.sassToLab(#484268),
+        [29.8784592142, 9.8767019004, -21.5113894894],
         $inspect: true
       );
     }

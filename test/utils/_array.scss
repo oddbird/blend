@@ -81,7 +81,7 @@ $_reducer: get-function('_reducer');
     @include it('Throws an error when $array is not a list') {
       @include assert-equal(
         array.template(7),
-        'ERROR [array.template()] $array must be a list, got number: 7'
+        'ERROR [array.template()] $array must be one of (list, arglist), got number: 7'
       )
     }
   }
@@ -151,6 +151,13 @@ $_reducer: get-function('_reducer');
     @include it('Slices from beginning through end') {
       @include assert-equal(
         array.slice($animals, 2, 4),
+        ['camel', 'duck']
+      );
+    }
+
+    @include it('Handles negative-index for end') {
+      @include assert-equal(
+        array.slice($animals, 2, -1),
         ['camel', 'duck']
       );
     }
