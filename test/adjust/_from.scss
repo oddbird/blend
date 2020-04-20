@@ -1,0 +1,47 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/adjust/from' as adjust;
+@use '../../sass/inspect';
+@use '../../sass/cie';
+
+@include describe('adjust/from') {
+  @include describe('from()') {
+    @include it('Can replace a channel') {
+      @include assert-equal(
+        adjust.from(maroon, l, 0, h),
+        #3e3e3e
+      );
+      @include assert-equal(
+        adjust.from(maroon, 100%, c, h),
+        white
+      );
+    }
+
+    @include it('Retains the alpha channel') {
+      @include assert-equal(
+        adjust.from(rgba(maroon, 0.5), l, 0, h),
+        rgba(#3e3e3e, 0.5)
+      );
+    }
+
+    @include it('Can multiply a channel') {
+      @include assert-equal(
+        adjust.from(cie.lch(30% 0 0), 2l),
+        cie.lch(60% 0 0)
+      );
+    }
+
+    @include it('Can perform linear adjustments') {
+      @include assert-equal(
+        adjust.from(cie.lch(30% 25 300), l, c -10),
+        cie.lch(30% 15 300)
+      );
+    }
+
+    @include it('Can perform scaled adjustments') {
+      @include assert-equal(
+        adjust.from(cie.lch(30% 0 300), l 50%, c, h),
+        cie.lch(65% 0 300)
+      );
+    }
+  }
+}

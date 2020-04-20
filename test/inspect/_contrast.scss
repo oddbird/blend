@@ -1,0 +1,31 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/inspect/contrast' as inspect;
+
+@include describe('inspect/contrast') {
+  @include describe('contrast()') {
+    @include it('Selects best conrast between black and white') {
+      @include assert-equal(
+        inspect.contrast(maroon),
+        white
+      );
+      @include assert-equal(
+        inspect.contrast(yellow),
+        black
+      );
+    }
+
+    @include it('Selects best conrast between options given') {
+      @include assert-equal(
+        inspect.contrast(maroon, orange, yellow, green, blue),
+        yellow
+      );
+    }
+
+    @include it('Selects first to match a given ratio') {
+      @include assert-equal(
+        inspect.contrast(white, orange, yellow, maroon, black, 4.5),
+        maroon
+      );
+    }
+  }
+}

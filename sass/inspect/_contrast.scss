@@ -1,0 +1,42 @@
+@use 'sass:list';
+@use 'sass:meta';
+@use '../utils/array';
+@use '../convert';
+
+@function contrast(
+  $color,
+  $options...
+) {
+  $color: convert.sassToRgb($color);
+  $ratio: null;
+
+  @if (list.length($options) > 0) {
+    $last: list.nth($options, -1);
+
+    @if (meta.type-of($last) == 'number') {
+      $ratio: $last;
+      $options: array.slice($options, 0, -1);
+    }
+  } @else {
+    $options: black white;
+  }
+
+  $best-color: null;
+  $best-ratio: 0;
+
+  @each $option in $options {
+    $try: convert.sassToRgb($option);
+    $contrast: convert.contrast($color, $try);
+
+    @if $ratio and ($contrast >= $ratio) {
+      @return $option;
+    }
+
+    @if ($contrast > $best-ratio) {
+      $best-color: $option;
+      $best-ratio: $contrast;
+    }
+  }
+
+  @return $best-color;
+}

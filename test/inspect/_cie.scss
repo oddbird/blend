@@ -1,0 +1,54 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/inspect/cie';
+
+@include describe('inspect/cie') {
+  @include describe('lightness()') {
+    @include it('Returns the CIE lightness of a Sass color') {
+      @include assert-equal(
+        cie.lightness(#672396),
+        29.5922098733%,
+        $inspect: true
+      );
+    }
+  }
+
+  @include describe('a()') {
+    @include it('Returns the Lab a channel of a Sass color') {
+      @include assert-equal(
+        cie.a(rgb(97,125,108)),
+        -13.2900001375,
+        $inspect: true
+      );
+    }
+  }
+
+  @include describe('b()') {
+    @include it('Returns the Lab b channel of a Sass color') {
+      @include assert-equal(
+        cie.b(rgb(97,125,108)),
+        5.8384375581,
+        $inspect: true
+      );
+    }
+  }
+
+  @include describe('chroma()') {
+    @include it('Returns the CIE chroma of a Sass color') {
+      @include assert-equal(
+        cie.chroma(#672396),
+        67.835038801554,
+        $inspect: true
+      );
+    }
+  }
+
+  @include describe('hue()') {
+    @include it('Returns the CIE hue of a Sass color') {
+      @include assert-equal(
+        cie.hue(#672396),
+        312.0474084099608,
+        $inspect: true
+      );
+    }
+  }
+}

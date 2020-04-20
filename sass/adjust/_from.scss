@@ -1,0 +1,25 @@
+@use '../utils/array';
+@use '../convert';
+@use '../cie';
+@use 'adjust';
+@use 'sass:color';
+@use 'sass:list';
+
+@function from(
+  $color,
+  $lightness: l,
+  $chroma: c,
+  $hue: h,
+) {
+  $a: color.alpha($color);
+  $lch: convert.sassToLCH($color);
+
+  @for $i from 1 through 3 {
+    $val: list.nth($lch, $i);
+    $adjust: list.nth($lightness $chroma $hue, $i);
+    $key: list.nth(l c h, $i);
+    $lch: list.set-nth($lch, $i, adjust.channel($val, $adjust, $key));
+  }
+
+  @return cie.lch($lch, $a);
+}

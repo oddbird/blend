@@ -1,0 +1,66 @@
+@use '../utils/array';
+@use '../utils/units';
+@use '../utils/throw';
+@use 'sass:list';
+@use 'sass:math';
+@use 'sass:meta';
+
+@function scale(
+  $val,
+  $amount,
+  $range
+) {
+  $amount: $amount / 100%;
+
+  @if ($range == 'deg') {
+    @return ($val + ($amount * 360)) % 360;
+  }
+
+  $dif: if($amount < 0, $val, $range - $val);
+  @return $val + ($dif * $amount);
+}
+
+@function channel(
+  $val,
+  $adjust,
+  $key,
+) {
+  // l -> l
+  @if ($adjust == $key) {
+    @return $val;
+  }
+
+  @if (meta.type-of($adjust) == 'number') {
+    // 2l -> 2*l
+    @if (math.unit($adjust) == $key) {
+      @return $val * units.strip($adjust);
+    }
+
+    // 20 -> 20
+    @return $adjust;
+  }
+
+
+  @if (meta.type-of($adjust) == 'function') {
+    @return meta.call($adjust, $val);
+  }
+
+  @if (meta.type-of($adjust) == 'list') and (list.nth($adjust, 1) == $key) {
+    $adjust: list.nth($adjust, 2);
+
+    @if (meta.type-of($adjust) == 'number') {
+      // scale
+      @if (math.unit($adjust) == '%') {
+        @return scale($val, $adjust, if(($key == 'h'), 'deg', 100));
+      }
+
+      // linear adjust
+      @return $val + $adjust;
+    }
+  }
+
+  @return throw.error(
+    '`#{$adjust}` is not a known adjustment for `#{$key}` channel',
+    'from()'
+  );
+}

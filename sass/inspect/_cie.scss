@@ -1,0 +1,33 @@
+@use 'sass:list';
+@use 'sass:math';
+@use '../convert';
+
+@function lightness(
+  $color,
+) {
+  @return list.nth(convert.sassToLab($color), 1) * 1%;
+}
+
+@function a(
+  $color
+) {
+  @return list.nth(convert.sassToLab($color), 2);
+}
+
+@function b(
+  $color
+) {
+  @return list.nth(convert.sassToLab($color), 3);
+}
+
+@function chroma(
+  $color
+) {
+  @return list.nth(convert.sassToLCH($color), 2);
+}
+
+@function hue(
+  $color
+) {
+  @return list.nth(convert.sassToLCH($color), 3);
+}
