@@ -46,7 +46,7 @@
     @include it('Returns the CIE hue of a Sass color') {
       @include assert-equal(
         cie.hue(#672396),
-        312.0474084099608,
+        312.0474084099608deg,
         $inspect: true
       );
     }

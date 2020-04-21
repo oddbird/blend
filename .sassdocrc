@@ -1,0 +1,32 @@
+theme: herman
+dest: docs/
+src: sass/
+
+display:
+  access:
+    - public
+
+groups:
+  Color Functions:
+    cie-formats: Lab & LCH Formats
+    contrast: Color Contrast
+    adjust-from: Relative Colors
+    cie-inspect: Inspecting Colors
+
+herman:
+  extraDocs:
+    - name: 'Changelog'
+      path: CHANGELOG.md
+    - name: 'Contributing'
+      path: CONTRIBUTING.md
+    - name: 'Hipocratic MIT License'
+      path: LICENSE.md
+  extraLinks:
+    - name: 'CSS Colors Level 4'
+      url: 'https://www.w3.org/TR/css-color-4/'
+    - name: 'CSS Colors Level 5'
+      url: 'https://www.w3.org/TR/css-color-5/'
+    - name: 'GitHub Source'
+      url: 'https://github.com/mirisuzanne/blend/'
+    - name: 'OddBird'
+      url: 'http://oddbird.net/'

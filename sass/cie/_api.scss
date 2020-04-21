@@ -1,6 +1,50 @@
 @use '../convert';
 @use 'lch';
 
+/// # Lab & LCH Formats
+/// Lab and LCH provide a perceptually uniform color space.
+/// These functions are based on the CSS specificiation,
+/// but eagerly converted to Sass sRGB.
+///
+/// While we are using the same math recommended for browsers,
+/// this sort of color-space conversion involves
+/// gamut-adjustments and rounding.
+/// In a pre-processor,
+/// that math is compiled once,
+/// and the original data is not maintained.
+/// A color converted into Sass (sRGB) format
+/// and then back to CIE
+/// may be slightly different from the original.
+///
+/// We use chroma-reduction to achieve
+/// a relative-colormetric closest match
+/// for CIE colors that fall outside the sRGB gamut.
+///
+/// @link https://www.w3.org/TR/css-color-4/#lab-colors CSS specification
+/// @group cie-formats
+
+
+/// Define Sass colors in `lch()` syntax.
+///
+/// ```scss
+/// blend.lch(32.39% 61.25 308.86deg) // rebeccapurple
+/// blend.lch(32.39% 61.25 308.86deg, 60%) // 60% opacity
+/// ```
+///
+/// @link https://www.w3.org/TR/css-color-4/#funcdef-lch CSS lch() specification
+/// @param {list} $lch -
+///   A space-separated list of
+///   _lightness_, _chroma_, and _hue_ channel values.
+///   - **lightness** is a percentage (0%-100%)
+///   - **chroma** is a positive number (0-100 generally)
+///   - **hue** is an angle (0deg-360deg)
+/// @param {number} $a [100%] -
+///   Alpha opacity,
+///   as either a unitless fraction (0-1)
+///   or a percentage (0%-100%)
+/// @return {color} -
+///   Converted sRGB value
+/// @group cie-formats
 @function lch(
   $lch,
   $a: 100%,
@@ -9,6 +53,25 @@
   @return convert.rgbToSass(lch.gamut-correct($lch...), $a);
 }
 
+
+/// Define Sass colors in `lab()` syntax.
+///
+/// ```scss
+/// blend.lab(32.39% 38.43 -47.69) // rebeccapurple
+/// blend.lab(32.39% 38.43 -47.69, 0.6) // 60% alpha opacity
+/// ```
+///
+/// @link https://www.w3.org/TR/css-color-4/#funcdef-lab CSS lab() specification
+/// @param {list} $lab -
+///   A space-separated list of
+///   _lightness_, _a_, and _b_ channel values
+///   - **lightness** is a percentage (0%-100%)
+///   - **a** & **b** are both numbers (±160)
+/// @param {number} $a [100%] -
+///   Alpha opacity,
+///   as either a unitless fraction (0-1)
+///   or a percentage (0%-100%)
+/// @group cie-formats
 @function lab(
   $lab,
   $a: 100%,

@@ -1,24 +1,64 @@
 @use 'sass:list';
 @use 'sass:meta';
 @use '../utils/array';
+@use '../utils/throw';
 @use '../convert';
 
+/// # Color Contrast
+/// Proper contrast is important for design legibillity & accessibility.
+///
+/// @link https://www.w3.org/TR/css-color-5/ CSS specification
+/// @group contrast
+
+/// CSS Color Module, level 5,
+/// defines a `color-contrast()` function
+/// that can be used to select the best contrast
+/// from a list of colors.
+///
+/// ```scss
+/// // black or white for best contrast
+/// blend.contrast($color)
+/// // highest contrast
+/// blend.contrast($color, maroon, rebeccapurple, cyan)
+/// // first option with contrast >= 4.5
+/// blend.contrast($color, maroon, rebeccapurple, cyan, 4.5)
+/// ```
+///
+/// @link https://www.w3.org/TR/css-color-5/#colorcontrast CSS color-contrast()
+/// @param {color} $color -
+///   Base color to contrast against
+/// @param $options... [(black, white)] -
+///   Returns the better contrast of black or white by default.
+///   - Optionally provide two or more colors,
+///     to compare for highest contrast with the base color.
+///   - Optionally provide a contrast ratio as the final value,
+///     to return the first color option that passes
+///     the given contrast threshold
+/// @return {color} -
+///   The option with the highest contrast, orr first to meet a given ratio
+/// @group contrast
 @function contrast(
   $color,
   $options...
 ) {
   $color: convert.sassToRgb($color);
+  $length: list.length($options);
   $ratio: null;
 
-  @if (list.length($options) > 0) {
+  @if ($length == 0) {
+    $options: black white;
+  } @else if ($length == 1) {
+    @return throw.error(
+      'Provide at least two color options to select from',
+      'contrast()'
+    )
+  } @else if ($length > 1) {
     $last: list.nth($options, -1);
 
     @if (meta.type-of($last) == 'number') {
       $ratio: $last;
       $options: array.slice($options, 0, -1);
     }
-  } @else {
-    $options: black white;
   }
 
   $best-color: null;

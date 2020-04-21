@@ -1,5 +1,5 @@
 @use '../../node_modules/sass-true/sass/true' as *;
-@use '../../sass/adjust/adjust';
+@use '../../sass/adjust/parse';
 @use 'sass:meta';
 
 @function compliment(
@@ -8,25 +8,25 @@
   @return ($val + 180) % 360;
 }
 
-@include describe('adjust/adjust') {
+@include describe('adjust/parse') {
   @include describe('scale()') {
     @include it('Scales degrees by a fraction of the hue wheel') {
       @include assert-equal(
-        adjust.scale(90, 50%, deg),
+        parse.scale(90, 50%, deg),
         270
       );
     }
 
     @include it('Scales negative degrees') {
       @include assert-equal(
-        adjust.scale(90, -20%, deg),
+        parse.scale(90, -20%, deg),
         18
       );
     }
 
     @include it('Continues around hue wheel') {
       @include assert-equal(
-        adjust.scale(180, 75%, deg),
+        parse.scale(180, 75%, deg),
         90
       );
     }
@@ -35,62 +35,62 @@
   @include describe('channel()') {
     @include it('Returns the given value for a channel key') {
       @include assert-equal(
-        adjust.channel(50, l, l),
+        parse.channel(50, l, l),
         50
       );
       @include assert-equal(
-        adjust.channel(50, c, c),
+        parse.channel(50, c, c),
         50
       );
       @include assert-equal(
-        adjust.channel(50, h, h),
+        parse.channel(50, h, h),
         50
       );
     }
 
     @include it('Replace value with a unitless number') {
       @include assert-equal(
-        adjust.channel(60, 20, l),
+        parse.channel(60, 20, l),
         20
       );
     }
 
     @include it('Multiplies key-unit values') {
       @include assert-equal(
-        adjust.channel(40, 2l, l),
+        parse.channel(40, 2l, l),
         80
       );
       @include assert-equal(
-        adjust.channel(15, 2c, c),
+        parse.channel(15, 2c, c),
         30
       );
     }
 
     @include it('Can pass the value to a simple function') {
       @include assert-equal(
-        adjust.channel(210, meta.get-function('compliment'), h),
+        parse.channel(210, meta.get-function('compliment'), h),
         30
       );
     }
 
     @include it('Handles linear adjustments') {
       @include assert-equal(
-        adjust.channel(60, l 20, l),
+        parse.channel(60, l 20, l),
         80
       );
       @include assert-equal(
-        adjust.channel(60, l -20, l),
+        parse.channel(60, l -20, l),
         40
       );
     }
 
     @include it('Handles scaled relative adjustments') {
       @include assert-equal(
-        adjust.channel(60, l 20%, l),
+        parse.channel(60, l 20%, l),
         68
       );
       @include assert-equal(
-        adjust.channel(60, l -20%, l),
+        parse.channel(60, l -20%, l),
         48
       );
     }

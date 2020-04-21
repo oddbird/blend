@@ -1,10 +1,53 @@
 @use '../utils/array';
 @use '../convert';
 @use '../cie';
-@use 'adjust';
+@use 'parse';
 @use 'sass:color';
 @use 'sass:list';
 
+
+/// Relative Colors
+/// @link https://www.w3.org/TR/css-color-5/ CSS Colors Level 5
+/// @group adjust-from
+
+
+/// This is a compact syntax for LCH adjustments,
+/// based on the proposed _relative color syntax_.
+/// Since Sass is not able to mimic the syntax exactly,
+/// we've developed a shorthand based on the CSS proposal.
+///
+/// For each channel:
+///   - The single-letter channel name (`l | c | h`)
+///     represents no change to the current value of the channel
+///   - A single number will replace the current channel value
+///   - A number with `l | c | h` units will multiply the channel
+///   - `l | c | h` followed by a percentage will scale the channel
+///     relative to available range
+///   - `l | c | h` followed by an amount
+///     will add or subtract that amount from the current value
+///
+/// ```scss
+/// // set chroma to 20
+/// blend.from($color, l, 20, h)
+/// // linear adjustments to a channel
+/// blend.from($color, l, c, h -60)
+/// // relative scale, e.g. "half-way to white"
+/// blend.from($color, l 50%, c, h)
+/// // multiply the channel value
+/// blend.from($color, 2l, c, h)
+/// ```
+///
+/// @link https://www.w3.org/TR/css-color-5/#relative-colors CSS Specification
+/// @param {color} $color -
+///   The initial Sass color being adjusted
+/// @param {l | number | l number} $l [l] -
+///   Adjustments to the `l` channel:
+/// @param {c | number | c number} $c [c] -
+///   Adjustments to the `c` channel
+/// @param {h | number | h number} $h [h] -
+///   Adjustments to the `h` channel
+/// @return {color} - The final color after adjustments
+/// @group adjust-from
 @function from(
   $color,
   $lightness: l,
@@ -18,7 +61,7 @@
     $val: list.nth($lch, $i);
     $adjust: list.nth($lightness $chroma $hue, $i);
     $key: list.nth(l c h, $i);
-    $lch: list.set-nth($lch, $i, adjust.channel($val, $adjust, $key));
+    $lch: list.set-nth($lch, $i, parse.channel($val, $adjust, $key));
   }
 
   @return cie.lch($lch, $a);

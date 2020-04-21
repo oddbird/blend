@@ -5,6 +5,22 @@
 @use 'sass:string';
 
 @include describe('cie/lch') {
+  @include describe('normalize') {
+    @include it('Strips all units from an LCH value') {
+      @include assert-equal(
+        lch.normalize(30% 0 300deg),
+        30 0 300
+      );
+    }
+
+    @include it('Converts hue to degrees before normalizing') {
+      @include assert-equal(
+        lch.normalize(30% 0 0.5turn),
+        30 0 180
+      );
+    }
+  }
+
   @include describe('to-srgb()') {
     @include it('Converts LCH to rgb') {
       @include assert-equal(

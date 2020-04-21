@@ -40,7 +40,6 @@
     @return $adjust;
   }
 
-
   @if (meta.type-of($adjust) == 'function') {
     @return meta.call($adjust, $val);
   }

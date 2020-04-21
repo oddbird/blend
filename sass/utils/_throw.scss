@@ -5,6 +5,7 @@
 // ---------------------
 /// Optionally turn off error output for testing,
 /// with the 'catch-errors' setting
+/// @access private
 $catch-errors: false !default;
 
 
@@ -22,6 +23,7 @@ $catch-errors: false !default;
 /// @return {string} -
 ///   Combined error with source and message
 /// @throws When `$catch == true`
+/// @access private
 @function error(
   $message,
   $source,
@@ -78,6 +80,7 @@ $catch-errors: false !default;
 ///   Optionally return the error rather than failing
 /// @output -
 ///   `--accoutrement-error` property with error message
+/// @access private
 @mixin error(
   $message,
   $source,

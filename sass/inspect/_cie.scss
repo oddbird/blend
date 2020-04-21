@@ -2,32 +2,83 @@
 @use 'sass:math';
 @use '../convert';
 
+
+/// # Inspecting Colors
+/// Similar to Sass built-in tools for inspecting
+/// the rgb or hsl values of a color,
+/// these functions return LCH and Lab channel values.
+/// @group cie-inspect
+
+
+/// Lab/LCH lightness is not the same as HSL/HWB lightness,
+/// so this value will not match the output
+/// of Sass built-in `color.lightness()` function.
+///
+/// ```scss
+/// blend.lightness(rebeccapurple) // 32.3927863513%
+/// ```
+///
+/// @param {color} $color - The Sass color to inspect
+/// @return {number} - The Lab/LCH "lightness" channel of the color
+/// @group cie-inspect
 @function lightness(
   $color,
 ) {
   @return list.nth(convert.sassToLab($color), 1) * 1%;
 }
 
+/// ```scss
+/// blend.a(rebeccapurple) // 38.4284034785
+/// ```
+///
+/// @param {color} $color - The Sass color to inspect
+/// @return {number} - The Lab "a" channel of the color
+/// @group cie-inspect
 @function a(
   $color
 ) {
   @return list.nth(convert.sassToLab($color), 2);
 }
 
+/// ```scss
+/// blend.b(rebeccapurple) // -47.6901973328
+/// ```
+///
+/// @param {color} $color - The Sass color to inspect
+/// @return {number} - The Lab "b" channel of the color
+/// @group cie-inspect
 @function b(
   $color
 ) {
   @return list.nth(convert.sassToLab($color), 3);
 }
 
+/// ```scss
+/// blend.chroma(rebeccapurple) // 61.2462008254
+/// ```
+///
+/// @param {color} $color - The Sass color to inspect
+/// @return {number} - The LCH "chroma" channel of the color
+/// @group cie-inspect
 @function chroma(
   $color
 ) {
   @return list.nth(convert.sassToLCH($color), 2);
 }
 
+/// Lab/LCH hue is not the same as HSL/HWB hue,
+/// so this value will not match the output
+/// of Sass built-in `color.hue()` function.
+///
+/// ```scss
+/// blend.hue(rebeccapurple) // 308.8616067109deg
+/// ```
+///
+/// @param {color} $color - The Sass color to inspect
+/// @return {number} - The LCH "hue" channel of the color
+/// @group cie-inspect
 @function hue(
   $color
 ) {
-  @return list.nth(convert.sassToLCH($color), 3);
+  @return list.nth(convert.sassToLCH($color), 3) * 1deg;
 }

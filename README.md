@@ -24,24 +24,13 @@ pre-processing can result in slight variations in each step.
 Converting a color from one format to another
 and back again, may result in slight differences.
 
-Also: CIE "lightness" and "hue" used in LCH/Lab
-are different from sRGB "lightness" and "hue"
-used in HSL/HWB.
-The CIE versions are _perceptually uniform_,
-making them more legible & predicatble
-for automated adjustments.
+## Usage
+
+Download the files from GitHub, or install the npm package:
 
 ```
 npm install @mirisuzanne/blend --save-dev
 ```
-
-## Warning
-
-- This is still a work-in progress,
-  and some of the syntax is likely to change.
-- More detailed documentation is on the way…
-
-## Usage
 
 ```scss
 @use  '<path-to>/blend';
@@ -50,40 +39,41 @@ npm install @mirisuzanne/blend --save-dev
 $cie-to-sass: (
   blend.lch(30% 50 300),
   blend.lab(60% -60 60),
-  blend.lch(60% 75 120, 50%), // both accept alpha channel
-  blend.lab(60% -60 60, 0.5), // as % or as fraction
+
+  // both accept alpha channel
+  blend.lch(60% 75 120, 50%), // as %
+  blend.lab(60% -60 60, 0.5), // or as fraction
 );
 
 // Based on the proposed Level 5 color-contrast() function
 $contrast: (
-  blend.contrast($color), // black or white for best contrast
-  blend.contrast($color, maroon, rebeccapurple, cyan), // highest contrast
-  blend.contrast($color, maroon, rebeccapurple, 4.5), // first contrast >= 4.5
+  // default black or white for best contrast
+  blend.contrast($color),
+  // highest contrast
+  blend.contrast($color, maroon, rebeccapurple, cyan),
+  // first color with contrast >= 4.5
+  blend.contrast($color, maroon, rebeccapurple, 4.5),
 );
 
 // Inspect LCH & Lab values of Sass colors
 $inspect: (
-  blend.lightness($color), // different from hsl "lightness"
+  blend.lightness($color),
   blend.a($color),
   blend.b($color),
   blend.chroma($color),
-  blend.hue($color), // different from hsl "hue"
+  blend.hue($color),
 );
-```
 
-## In Flux
-
-These features are built, but I'm not confident about the syntax.
-Feel free to play with it and provide feedback
-in [GitHub issues](https://github.com/mirisuzanne/blend/issues)
-
-```scss
 // A rough interpretation of the Level 5 relative color syntax
-$adjust: (
-  blend.from($color, l, 20, h), // set chroma to 20
-  blend.from($color, l, c, h -60), // linear adjustments to a channel
-  blend.from($color, l 50%, c, h), // relative scale, e.g. "half-way to white"
-  blend.from($color, 2l, c, h), // multiply the channel value
+$from: (
+  // set chroma to 20
+  blend.from($color, l, 20, h),
+  // linear adjustments to a channel
+  blend.from($color, l, c, h -60),
+  // relative scale, e.g. "half-way to white"
+  blend.from($color, l 50%, c, h),
+  // multiply the channel value
+  blend.from($color, 2l, c, h),
 );
 ```
 
@@ -95,6 +85,16 @@ We're working on it…
 
 ```scss
 @use  'blend';
+
+// a more verbose syntax for relative color adjustments
+$adjust: (
+  // set chroma to 10
+  blend.set($color, $chroma: 10),
+  // adjust hue by -10
+  blend.adjust($color, $hue: -10),
+  // scale lightness 10% lighter
+  blend.scale($color, $lightness: 10%),
+);
 
 $new-formats: (
   blend.hwb(120deg 15% 15%),

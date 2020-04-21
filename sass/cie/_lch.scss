@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use 'sass:math';
 @use 'sass:meta';
 @use '../utils/array';
@@ -5,8 +6,9 @@
 @use '../convert';
 
 @function normalize(
-  $lch
+  $lch,
 ) {
+  $lch: list.set-nth($lch, 3, 0deg + list.nth($lch, 3));
   @return units.strip-all($lch);
 }
 

@@ -3,6 +3,8 @@
 ## v0.2.0 - UNRELEASED
 - BREAKING: Remove over-complicated settings & output options for now.
   Focus on Sass <-> CIE functions.
+- NEW: `lch()` hue channel accepts any angle unit
+  (e.g. `turn`, `rad`, `grad`, or `deg`)
 - NEW: `lab($lab, $a)` returns an (sRGB) Sass color
 - NEW: Inspect LCH/Lab values of a Sass color with
   - `lightness()`
