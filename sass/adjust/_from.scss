@@ -26,18 +26,21 @@
 ///   - `l | c | h` followed by an amount
 ///     will add or subtract that amount from the current value
 ///
-/// ```scss
-/// // set chroma to 20
-/// blend.from($color, l, 20, h)
-/// // linear adjustments to a channel
-/// blend.from($color, l, c, h -60)
-/// // relative scale, e.g. "half-way to white"
-/// blend.from($color, l 50%, c, h)
-/// // multiply the channel value
-/// blend.from($color, 2l, c, h)
-/// ```
-///
 /// @link https://www.w3.org/TR/css-color-5/#relative-colors CSS Specification
+/// @example scss
+///   .from {
+///     // set chroma to 20
+///     set: blend.from(rebeccapurple, l, 20, h);
+///
+///     // linear adjustments to a channel
+///     adjust: blend.from(rebeccapurple, l, c, h -60);
+///
+///     // relative scale, e.g. "half-way to white"
+///     scale: blend.from(rebeccapurple, l 50%, c, h);
+///
+///     // multiply the channel value
+///     multiply: blend.from(rebeccapurple, 2l, c, h);
+///   }
 /// @param {color} $color -
 ///   The initial Sass color being adjusted
 /// @param {l | number | l number} $l [l] -

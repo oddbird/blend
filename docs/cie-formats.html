@@ -359,9 +359,6 @@ for CIE colors that fall outside the sRGB<span class="widont">&nbsp;</span>gamut
   
     <div class="text-block">
       <p>Define Sass colors in <code>lch()</code> syntax.</p>
-<pre><code class="lang-scss">blend.lch(32.39% 61.25 308.86deg) // rebeccapurple
-blend.lch(32.39% 61.25 308.86deg, 60%) // 60% opacity
-</code></pre>
 
       
   
@@ -502,6 +499,89 @@ or a percentage<span class="widont">&nbsp;</span>(0%-100%)</p>
 
 
   
+  
+    
+
+    <div data-item-section="examples">
+      <h3 class="item-subtitle">
+        <span class="item-subtitle-main">Example</span>
+      </h3>
+
+      
+        
+  
+  
+
+  
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  <div class="example">
+    <div class="example-code">
+      
+  
+    <div class="code-block">
+      
+        <div class="code-header">
+          <span class="code-language">
+            scss
+          </span>
+
+          
+        </div>
+      
+
+      
+      
+      <pre class="hljs-pre"><code class="lang-scss">.lch {
+  // rebeccapurple
+  lch: blend.lch(32.39% 61.25 308.86deg);
+
+  // 60% opacity
+  lch-a: blend.lch(32.39% 61.25 308.86deg, 60%)
+}</code></pre>
+    </div>
+  
+
+  
+    <div class="code-block">
+      
+        <div class="code-header">
+          <span class="code-language">
+            css
+          </span>
+
+          
+            <span class='code-description'>
+              compiled
+            </span>
+          
+        </div>
+      
+
+      
+      
+      <pre class="hljs-pre"><code class="lang-css">.lch {
+  lch: rebeccapurple;
+  lch-a: rgba(102, 51, 153, 0.6);
+}</code></pre>
+    </div>
+  
+
+    </div>
+
+    
+  </div>
+
+      
+    </div>
   
 
 
@@ -696,9 +776,6 @@ or a percentage<span class="widont">&nbsp;</span>(0%-100%)</p>
   
     <div class="text-block">
       <p>Define Sass colors in <code>lab()</code> syntax.</p>
-<pre><code class="lang-scss">blend.lab(32.39% 38.43 -47.69) // rebeccapurple
-blend.lab(32.39% 38.43 -47.69, 0.6) // 60% alpha opacity
-</code></pre>
 
       
   
@@ -816,6 +893,89 @@ or a percentage<span class="widont">&nbsp;</span>(0%-100%)</p>
 
 
   
+  
+    
+
+    <div data-item-section="examples">
+      <h3 class="item-subtitle">
+        <span class="item-subtitle-main">Example</span>
+      </h3>
+
+      
+        
+  
+  
+
+  
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  <div class="example">
+    <div class="example-code">
+      
+  
+    <div class="code-block">
+      
+        <div class="code-header">
+          <span class="code-language">
+            scss
+          </span>
+
+          
+        </div>
+      
+
+      
+      
+      <pre class="hljs-pre"><code class="lang-scss">.lab {
+  // rebeccapurple
+  lab: blend.lab(32.39% 38.43 -47.69);
+
+  // 60% alpha opacity
+  lab-a: blend.lab(32.39% 38.43 -47.69, 0.6);
+}</code></pre>
+    </div>
+  
+
+  
+    <div class="code-block">
+      
+        <div class="code-header">
+          <span class="code-language">
+            css
+          </span>
+
+          
+            <span class='code-description'>
+              compiled
+            </span>
+          
+        </div>
+      
+
+      
+      
+      <pre class="hljs-pre"><code class="lang-css">.lab {
+  lab: rebeccapurple;
+  lab-a: rgba(102, 51, 153, 0.6);
+}</code></pre>
+    </div>
+  
+
+    </div>
+
+    
+  </div>
+
+      
+    </div>
   
 
 

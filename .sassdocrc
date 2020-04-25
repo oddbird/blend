@@ -14,6 +14,10 @@ groups:
     cie-inspect: Inspecting Colors
 
 herman:
+  sass:
+    implementation: sass
+    includepaths: ['sass']
+    use: ['blend']
   extraDocs:
     - name: 'Changelog'
       path: CHANGELOG.md

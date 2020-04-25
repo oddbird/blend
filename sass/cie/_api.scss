@@ -26,12 +26,15 @@
 
 /// Define Sass colors in `lch()` syntax.
 ///
-/// ```scss
-/// blend.lch(32.39% 61.25 308.86deg) // rebeccapurple
-/// blend.lch(32.39% 61.25 308.86deg, 60%) // 60% opacity
-/// ```
-///
 /// @link https://www.w3.org/TR/css-color-4/#funcdef-lch CSS lch() specification
+/// @example scss
+///   .lch {
+///     // rebeccapurple
+///     lch: blend.lch(32.39% 61.25 308.86deg);
+///
+///     // 60% opacity
+///     lch-a: blend.lch(32.39% 61.25 308.86deg, 60%)
+///   }
 /// @param {list} $lch -
 ///   A space-separated list of
 ///   _lightness_, _chroma_, and _hue_ channel values.
@@ -56,10 +59,14 @@
 
 /// Define Sass colors in `lab()` syntax.
 ///
-/// ```scss
-/// blend.lab(32.39% 38.43 -47.69) // rebeccapurple
-/// blend.lab(32.39% 38.43 -47.69, 0.6) // 60% alpha opacity
-/// ```
+/// @example scss
+///   .lab {
+///     // rebeccapurple
+///     lab: blend.lab(32.39% 38.43 -47.69);
+///
+///     // 60% alpha opacity
+///     lab-a: blend.lab(32.39% 38.43 -47.69, 0.6);
+///   }
 ///
 /// @link https://www.w3.org/TR/css-color-4/#funcdef-lab CSS lab() specification
 /// @param {list} $lab -

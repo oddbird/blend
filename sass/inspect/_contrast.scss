@@ -15,16 +15,18 @@
 /// that can be used to select the best contrast
 /// from a list of colors.
 ///
-/// ```scss
-/// // black or white for best contrast
-/// blend.contrast($color)
-/// // highest contrast
-/// blend.contrast($color, maroon, rebeccapurple, cyan)
-/// // first option with contrast >= 4.5
-/// blend.contrast($color, maroon, rebeccapurple, cyan, 4.5)
-/// ```
-///
 /// @link https://www.w3.org/TR/css-color-5/#colorcontrast CSS color-contrast()
+/// @example scss
+///   .contrast {
+///     // black or white for best contrast
+///     default: blend.contrast(papayawhip);
+///
+///     // highest contrast
+///     highest: blend.contrast(papayawhip, rebeccapurple, maroon);
+///
+///     // first option with contrast >= 4.5
+///     first: blend.contrast(papayawhip, rebeccapurple, maroon, 4.5);
+///   }
 /// @param {color} $color -
 ///   Base color to contrast against
 /// @param $options... [(black, white)] -

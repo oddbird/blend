@@ -332,7 +332,7 @@ bl@^1.0.0:
     readable-stream "^2.3.5"
     safe-buffer "^5.1.1"
 
-bluebird@^3.1.1, bluebird@^3.5.3:
+bluebird@^3.1.1, bluebird@^3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
@@ -549,7 +549,7 @@ chalk@^2.0.1, chalk@^2.4.1, chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-cheerio@^1.0.0-rc.2:
+cheerio@^1.0.0-rc.2, cheerio@^1.0.0-rc.3:
   version "1.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-1.0.0-rc.3.tgz#094636d425b2e9c0f4eb91a46c05630c9a1a8bf6"
   integrity sha512-0td5ijfUPuubwLUu0OBoe98gZj8C/AA+RW3v67GPlGOrvxWjZmBXiBCRU+I8VEiNyJzjth40POfHiz2RB3gImA==
@@ -1237,7 +1237,7 @@ entities@^1.1.1, entities@~1.1.1:
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
   integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
 
-entities@^2.0.0:
+entities@^2.0.0, entities@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.0.0.tgz#68d6084cab1b079767540d80e56a39b423e4abf4"
   integrity sha512-D9f7V0JSRwIxlRI2mjMqufDrRDnx8p+eEOz7aUM9SuvF8gsBzra0/6tbjl1m8eQHrZlYj6PxqE00hZ1SAIKPLw==
@@ -1941,10 +1941,10 @@ gulp-imagemin@^5.0.3:
     imagemin-optipng "^6.0.0"
     imagemin-svgo "^7.0.0"
 
-gulp-rename@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/gulp-rename/-/gulp-rename-1.4.0.tgz#de1c718e7c4095ae861f7296ef4f3248648240bd"
-  integrity sha512-swzbIGb/arEoFK89tPY58vg3Ok1bw+d35PfUNwWqdo7KM4jkmuGA78JiDNqR+JeZFaeeHnRg9N7aihX3YPmsyg==
+gulp-rename@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/gulp-rename/-/gulp-rename-2.0.0.tgz#9bbc3962b0c0f52fc67cd5eaff6c223ec5b9cf6c"
+  integrity sha512-97Vba4KBzbYmR5VBs9mWmK+HwIf5mj+/zioxfZhOKeXtx5ZjBk57KFlePf5nxq9QsTtFl0ejnHE3zTC9MHXqyQ==
 
 gulp-sourcemaps@1.6.0:
   version "1.6.0"
@@ -2941,7 +2941,7 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
-lunr@^2.3.5:
+lunr@^2.3.8:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/lunr/-/lunr-2.3.8.tgz#a8b89c31f30b5a044b97d2d28e2da191b6ba2072"
   integrity sha512-oxMeX/Y35PNFuZoHp+jUj5OSEmLCaIH4KTFJh7a93cHBoFmpw2IoPs22VIz7vyO2YUnx2Tn9dzIwO2P/4quIRg==
@@ -2977,13 +2977,13 @@ markdown-it-named-headers@^0.0.4:
   dependencies:
     string "^3.0.1"
 
-markdown-it@^8.4.2:
-  version "8.4.2"
-  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.4.2.tgz#386f98998dc15a37722aa7722084f4020bdd9b54"
-  integrity sha512-GcRz3AWTqSUphY3vsUqQSFMbgR38a4Lh3GWlHRh/7MRwz8mcu9n2IO7HOh+bXHrR9kOPDl5RNCaEsrneb+xhHQ==
+markdown-it@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-10.0.0.tgz#abfc64f141b1722d663402044e43927f1f50a8dc"
+  integrity sha512-YWOP1j7UbDNz+TumYP1kpwnP0aEa711cJjrAQrzd0UXlbJfc5aAq0F/PZHjiioqDC1NKgvIMX+o+9Bk7yuM2dg==
   dependencies:
     argparse "^1.0.7"
-    entities "~1.1.1"
+    entities "~2.0.0"
     linkify-it "^2.0.0"
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
@@ -4065,7 +4065,7 @@ sass@^1.26.2:
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
-sassdoc-extras@^2.4.1, sassdoc-extras@^2.5.0:
+sassdoc-extras@^2.5.0, sassdoc-extras@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/sassdoc-extras/-/sassdoc-extras-2.5.1.tgz#4365a0463c9a085d588c213a06c82beb85966400"
   integrity sha512-/+ilEnk1H1hG9nympL1GIFWhAczzoclyDzgzfphIg46nsT/dWJuzWYHyzIpduc/nTVwKeQfmTz0ZVvy12QMkrQ==
@@ -4087,25 +4087,25 @@ sassdoc-theme-default@^2.8.3:
     nunjucks "^3.1.7"
     sassdoc-extras "^2.5.0"
 
-sassdoc-theme-herman@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/sassdoc-theme-herman/-/sassdoc-theme-herman-3.0.2.tgz#961c0ccffe7b839eef700b3ebc09ac051448707c"
-  integrity sha512-/BBc1brWddbYwVWUCAi2rP6OFFQbQSMur+Gv6UlO+MGT30nEVC1IQbdP7ZuE8IPERQ235HxeDJB0+Jz1GyvjzQ==
+sassdoc-theme-herman@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/sassdoc-theme-herman/-/sassdoc-theme-herman-3.1.0.tgz#f083daa938e7d8755b88762021d613ce762b6f70"
+  integrity sha512-0z1r4gqLUNAS84UST3sxhKPGbEH72IWTCW5BSxtVDA2S/wWiTF/gYwhdqTS7doXdQt1fbckaZEDsLV5ShhwgjA==
   dependencies:
-    bluebird "^3.5.3"
-    cheerio "^1.0.0-rc.2"
+    bluebird "^3.7.2"
+    cheerio "^1.0.0-rc.3"
     extend "^3.0.2"
     gulp-imagemin "^5.0.3"
-    gulp-rename "^1.4.0"
+    gulp-rename "^2.0.0"
     gulp-svg-symbols "^3.2.3"
     html "^1.0.0"
-    lunr "^2.3.5"
-    markdown-it "^8.4.2"
+    lunr "^2.3.8"
+    markdown-it "^10.0.0"
     markdown-it-named-headers "^0.0.4"
     nunjucks "^2.5.2"
-    sassdoc-extras "^2.4.1"
+    sassdoc-extras "^2.5.1"
     strip-indent "^2.0.0"
-    through2 "^3.0.0"
+    through2 "^3.0.1"
     tinycolor2 "^1.4.1"
     typogr "^0.6.8"
     unixify "^1.0.0"
@@ -4652,7 +4652,7 @@ through2@^2.0.0, through2@^2.0.3, through2@~2.0.0:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
 
-through2@^3.0.0:
+through2@^3.0.0, through2@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/through2/-/through2-3.0.1.tgz#39276e713c3302edf9e388dd9c812dd3b825bd5a"
   integrity sha512-M96dvTalPT3YbYLaKaCuwu+j06D/8Jfib0o/PxbVt6Amhv3dUAtW6rTV1jPgJSBG83I/e04Y6xkVdVhSRhi0ww==
