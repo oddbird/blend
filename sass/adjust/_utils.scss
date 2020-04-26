@@ -1,0 +1,36 @@
+@use 'sass:math';
+@use 'sass:meta';
+
+@function set(
+  $val,
+  $to,
+) {
+  @return $to;
+}
+
+@function adjust(
+  $val,
+  $amount,
+) {
+  @return $val + $amount;
+}
+
+@function scale(
+  $val,
+  $amount,
+  $range: 0 100
+) {
+  $amount: $amount / 100%;
+
+  @if (type-of($range) == 'number') {
+    @return ($val + ($amount * $range)) % $range;
+  }
+
+  $dif: if(
+    $amount < 0,
+    $val - math.min($range...),
+    math.max($range...) - $val
+  );
+
+  @return $val + ($dif * $amount);
+}

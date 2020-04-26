@@ -102,7 +102,7 @@
   
   
     <li class="nav-item">
-      <a href="adjust-from.html" data-nav="is-not-active">Relative Colors</a>
+      <a href="adjust.html" data-nav="is-not-active">Relative Colors</a>
     </li>
   
   
@@ -121,6 +121,10 @@
         </h3>
 
         <ul>
+          
+            <li class="nav-item">
+              <a href="https://css.land/lch/" data-nav="is-not-active">LCH Color<span class="widont">&nbsp;</span>Picker</a>
+            </li>
           
             <li class="nav-item">
               <a href="https://www.w3.org/TR/css-color-4/" data-nav="is-not-active">CSS Colors Level<span class="widont">&nbsp;</span>4</a>
@@ -205,6 +209,7 @@
 <p>Similar to Sass built-in tools for inspecting
 the rgb or hsl values of a color,
 these functions return LCH and Lab channel<span class="widont">&nbsp;</span>values.</p>
+<p>For these demos, we’ll inspect the following<span class="widont">&nbsp;</span>colors:</p>
 
       
   
@@ -253,6 +258,145 @@ these functions return LCH and Lab channel<span class="widont">&nbsp;</span>valu
 
   
   
+        
+  
+  <div data-item-section="color-palette">
+    
+      <h3 class="item-subtitle">
+        <span class="item-subtitle-main">Color Previews</span>
+        
+      </h3>
+    
+
+    
+    <div class="color-palette">
+      
+        <div class="color-preview">
+          <div class="color-swatch">
+            <div class="transparency-grid"></div>
+            <div class="color-overlay" style="background-color: papayawhip;"></div>
+          </div>
+          <div class="color-info">
+            <strong class="color-name">
+              
+                <span class="color-name-option">papayawhip</span>
+              
+            </strong>
+            
+            
+              
+                
+                  <code class="color-value">#ffefd5</code>
+                
+              
+                
+                  <code class="color-value">rgb(255, 239, 213)</code>
+                
+              
+                
+                  <code class="color-value">hsl(37, 100%, 92%)</code>
+                
+              
+            
+          </div>
+        </div>
+      
+        <div class="color-preview">
+          <div class="color-swatch">
+            <div class="transparency-grid"></div>
+            <div class="color-overlay" style="background-color: rebeccapurple;"></div>
+          </div>
+          <div class="color-info">
+            <strong class="color-name">
+              
+                <span class="color-name-option">rebeccapurple</span>
+              
+            </strong>
+            
+            
+              
+                
+                  <code class="color-value">#663399</code>
+                
+              
+                
+                  <code class="color-value">rgb(102, 51, 153)</code>
+                
+              
+                
+                  <code class="color-value">hsl(270, 50%, 40%)</code>
+                
+              
+            
+          </div>
+        </div>
+      
+        <div class="color-preview">
+          <div class="color-swatch">
+            <div class="transparency-grid"></div>
+            <div class="color-overlay" style="background-color: yellow;"></div>
+          </div>
+          <div class="color-info">
+            <strong class="color-name">
+              
+                <span class="color-name-option">yellow</span>
+              
+            </strong>
+            
+            
+              
+                
+                  <code class="color-value">#ffff00</code>
+                
+              
+                
+                  <code class="color-value">rgb(255, 255, 0)</code>
+                
+              
+                
+                  <code class="color-value">hsl(60, 100%, 50%)</code>
+                
+              
+            
+          </div>
+        </div>
+      
+        <div class="color-preview">
+          <div class="color-swatch">
+            <div class="transparency-grid"></div>
+            <div class="color-overlay" style="background-color: deeppink;"></div>
+          </div>
+          <div class="color-info">
+            <strong class="color-name">
+              
+                <span class="color-name-option">deeppink</span>
+              
+            </strong>
+            
+            
+              
+                
+                  <code class="color-value">#ff1493</code>
+                
+              
+                
+                  <code class="color-value">rgb(255, 20, 147)</code>
+                
+              
+                
+                  <code class="color-value">hsl(328, 100%, 54%)</code>
+                
+              
+            
+          </div>
+        </div>
+      
+    </div>
+  
+  </div>
+
+
+      
 
 </section>
 
@@ -457,8 +601,11 @@ of Sass built-in <code>color.lightness()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-scss">.inspect {
-  lightness: blend.lightness(rebeccapurple);
+      <pre class="hljs-pre"><code class="lang-scss">.lightness {
+  papayawhip: blend.lightness(papayawhip);
+  rebeccapurple: blend.lightness(rebeccapurple);
+  yellow: blend.lightness(yellow);
+  deeppink: blend.lightness(deeppink);
 }</code></pre>
     </div>
   
@@ -481,8 +628,11 @@ of Sass built-in <code>color.lightness()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-css">.inspect {
-  lightness: 32.3927863513%;
+      <pre class="hljs-pre"><code class="lang-css">.lightness {
+  papayawhip: 95.228994537%;
+  rebeccapurple: 32.3927863513%;
+  yellow: 97.6071273304%;
+  deeppink: 56.6052673708%;
 }</code></pre>
     </div>
   
@@ -704,8 +854,11 @@ of Sass built-in <code>color.lightness()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-scss">.inspect {
-  a: blend.a(rebeccapurple);
+      <pre class="hljs-pre"><code class="lang-scss">.a {
+  papayawhip: blend.a(papayawhip);
+  rebeccapurple: blend.a(rebeccapurple);
+  yellow: blend.a(yellow);
+  deeppink: blend.a(deeppink);
 }</code></pre>
     </div>
   
@@ -728,8 +881,11 @@ of Sass built-in <code>color.lightness()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-css">.inspect {
-  a: 38.4284034785;
+      <pre class="hljs-pre"><code class="lang-css">.a {
+  papayawhip: 2.5389948734;
+  rebeccapurple: 38.4284034785;
+  yellow: -15.7528937383;
+  deeppink: 83.4583942761;
 }</code></pre>
     </div>
   
@@ -951,8 +1107,11 @@ of Sass built-in <code>color.lightness()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-scss">.inspect {
-  b: blend.b(rebeccapurple);
+      <pre class="hljs-pre"><code class="lang-scss">.b {
+  papayawhip: blend.b(papayawhip);
+  rebeccapurple: blend.b(rebeccapurple);
+  yellow: blend.b(yellow);
+  deeppink: blend.b(deeppink);
 }</code></pre>
     </div>
   
@@ -975,8 +1134,11 @@ of Sass built-in <code>color.lightness()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-css">.inspect {
-  b: -47.6901973328;
+      <pre class="hljs-pre"><code class="lang-css">.b {
+  papayawhip: 14.6759120217;
+  rebeccapurple: -47.6901973328;
+  yellow: 93.3884904256;
+  deeppink: -4.1193014063;
 }</code></pre>
     </div>
   
@@ -1198,8 +1360,11 @@ of Sass built-in <code>color.lightness()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-scss">.inspect {
-  chroma: blend.chroma(rebeccapurple);
+      <pre class="hljs-pre"><code class="lang-scss">.chroma {
+  papayawhip: blend.chroma(papayawhip);
+  rebeccapurple: blend.chroma(rebeccapurple);
+  yellow: blend.chroma(yellow);
+  deeppink: blend.chroma(deeppink);
 }</code></pre>
     </div>
   
@@ -1222,8 +1387,11 @@ of Sass built-in <code>color.lightness()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-css">.inspect {
-  chroma: 61.2462008254;
+      <pre class="hljs-pre"><code class="lang-css">.chroma {
+  papayawhip: 14.8939211974;
+  rebeccapurple: 61.2462008254;
+  yellow: 94.7077811222;
+  deeppink: 83.5599917378;
 }</code></pre>
     </div>
   
@@ -1461,8 +1629,11 @@ of Sass built-in <code>color.hue()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-scss">.inspect {
-  hue: blend.hue(rebeccapurple);
+      <pre class="hljs-pre"><code class="lang-scss">.hue {
+  papayawhip: blend.hue(papayawhip);
+  rebeccapurple: blend.hue(rebeccapurple);
+  yellow: blend.hue(yellow);
+  deeppink: blend.hue(deeppink);
 }</code></pre>
     </div>
   
@@ -1485,8 +1656,11 @@ of Sass built-in <code>color.hue()</code> function.</p>
 
       
       
-      <pre class="hljs-pre"><code class="lang-css">.inspect {
-  hue: 308.8616067109deg;
+      <pre class="hljs-pre"><code class="lang-css">.hue {
+  papayawhip: 80.1847432252deg;
+  rebeccapurple: 308.8616067109deg;
+  yellow: 99.5745966976deg;
+  deeppink: 357.1743141408deg;
 }</code></pre>
     </div>
   

@@ -13,7 +13,11 @@ while working with Sass colors.
 [Level 4]: https://www.w3.org/TR/css-color-4/
 [Level 5]: https://www.w3.org/TR/css-color-5/
 
-Conversion math is adapted from js functions by
+See the wonderful interactive
+[LCH Color Picker](https://css.land/lch/)
+by [Lea Verou](http://lea.verou.me/).
+We use the same conversion math,
+originally written in JS by
 [Chris Lilley](https://svgees.us/)
 and [Tab Atkins](https://www.xanthir.com/).
 
@@ -32,20 +36,31 @@ Download the files from GitHub, or install the npm package:
 npm install @mirisuzanne/blend --save-dev
 ```
 
+Import with Dart Sass
+
 ```scss
 @use  '<path-to>/blend';
+```
 
-// (CIE) LCH & Lab color-conversion into (sRGB) sass colors
+### Lab & LCH Formats
+
+(CIE) LCH & Lab color-conversion into (sRGB) sass colors:
+
+```scss
 $cie-to-sass: (
   blend.lch(30% 50 300),
   blend.lab(60% -60 60),
 
-  // both accept alpha channel
   blend.lch(60% 75 120, 50%), // as %
   blend.lab(60% -60 60, 0.5), // or as fraction
 );
+```
 
-// Based on the proposed Level 5 color-contrast() function
+### Color Contrast
+
+Based on the proposed Level 5 color-contrast() function:
+
+```scss
 $contrast: (
   // default black or white for best contrast
   blend.contrast($color),
@@ -54,8 +69,13 @@ $contrast: (
   // first color with contrast >= 4.5
   blend.contrast($color, maroon, rebeccapurple, 4.5),
 );
+```
 
-// Inspect LCH & Lab values of Sass colors
+### Inspecting Colors
+
+Inspect LCH & Lab values of Sass colors:
+
+```scss
 $inspect: (
   blend.lightness($color),
   blend.a($color),
@@ -63,8 +83,28 @@ $inspect: (
   blend.chroma($color),
   blend.hue($color),
 );
+```
 
-// A rough interpretation of the Level 5 relative color syntax
+### Relative Colors
+
+Relative Sass color adjustments using LCH & Lab channels
+
+```scss
+$adjust: (
+  // set chroma to 10
+  blend.set($color, $chroma: 10),
+  // adjust hue by -10
+  blend.adjust($color, $hue: -10),
+  // scale lightness 10% lighter
+  blend.scale($color, $lightness: 10%),
+);
+```
+
+A relative-color shorthand,
+based on rough interpretation
+of the Level 5 relative color syntax:
+
+```scss
 $from: (
   // set chroma to 20
   blend.from($color, l, 20, h),
@@ -85,16 +125,6 @@ We're working on it…
 
 ```scss
 @use  'blend';
-
-// a more verbose syntax for relative color adjustments
-$adjust: (
-  // set chroma to 10
-  blend.set($color, $chroma: 10),
-  // adjust hue by -10
-  blend.adjust($color, $hue: -10),
-  // scale lightness 10% lighter
-  blend.scale($color, $lightness: 10%),
-);
 
 $new-formats: (
   blend.hwb(120deg 15% 15%),

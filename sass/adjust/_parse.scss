@@ -1,26 +1,18 @@
+@use '../cie';
+@use '../convert';
 @use '../utils/array';
 @use '../utils/units';
 @use '../utils/throw';
+@use 'utils';
+@use 'sass:color';
 @use 'sass:list';
+@use 'sass:map';
 @use 'sass:math';
 @use 'sass:meta';
 
-@function scale(
-  $val,
-  $amount,
-  $range
-) {
-  $amount: $amount / 100%;
+$utils: meta.module-functions('utils');
 
-  @if ($range == 'deg') {
-    @return ($val + ($amount * 360)) % 360;
-  }
-
-  $dif: if($amount < 0, $val, $range - $val);
-  @return $val + ($dif * $amount);
-}
-
-@function channel(
+@function from(
   $val,
   $adjust,
   $key,
@@ -50,7 +42,7 @@
     @if (meta.type-of($adjust) == 'number') {
       // scale
       @if (math.unit($adjust) == '%') {
-        @return scale($val, $adjust, if(($key == 'h'), 'deg', 100));
+        @return utils.scale($val, $adjust, if(($key == 'h'), 360, 0 100));
       }
 
       // linear adjust
@@ -61,5 +53,82 @@
   @return throw.error(
     '`#{$adjust}` is not a known adjustment for `#{$key}` channel',
     'from()'
+  );
+}
+
+@function args(
+  $args,
+  $source,
+) {
+  $l: map.get($args, lightness) or map.get($args, l);
+  $c: map.get($args, chroma) or map.get($args, c);
+  $h: map.get($args, hue) or map.get($args, h);
+  $a: map.get($args, a);
+  $b: map.get($args, b);
+
+  @if ($c or $h) {
+    @if ($a or $b) {
+      @return throw.error(
+        'Cannot #{$source} both Lab ($a, $b) & LCH ($c, $h) channels at once',
+        '#{$source}()'
+      );
+    }
+
+    @return (
+      l: $l,
+      c: $c,
+      h: if($h and $source != 'scale', units.to-degrees($h), $h),
+    );
+  }
+
+  @return (
+    l: $l,
+    a: $a,
+    b: $b,
+  );
+}
+
+@function do(
+  $function,
+  $color,
+  $adjust,
+) {
+  $fn: null;
+  $keys: map.keys($adjust);
+  $format: array.join($keys);
+
+  $a: color.alpha($color);
+  $color: if(
+    ($format == 'lab'),
+    convert.sassToLab($color),
+    convert.sassToLCH($color),
+  );
+
+  @each $channel, $amount in $adjust {
+    @if ($amount) {
+      $fn: $fn or map.get($utils, $function);
+      $i: list.index($keys, $channel);
+      $val: nth($color, $i);
+      $do: ($val, $amount);
+
+      // range arg for scale…
+      @if ($function == 'scale') {
+        $ranges: (
+          h: 360,
+          a: -160 160,
+          b: -160 160,
+        );
+        $do: list.append($do, map.get($ranges, $channel) or (0 100));
+      }
+
+      $val: meta.call($fn, $do...);
+      $color: list.set-nth($color, $i, $val);
+    }
+  }
+
+  @return if(
+    ($format == 'lab'),
+    cie.lab($color, $a),
+    cie.lch($color, $a),
   );
 }

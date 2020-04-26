@@ -8,7 +8,7 @@
 @function normalize(
   $lch,
 ) {
-  $lch: list.set-nth($lch, 3, 0deg + list.nth($lch, 3));
+  $lch: list.set-nth($lch, 3, units.to-degrees(list.nth($lch, 3)));
   @return units.strip-all($lch);
 }
 

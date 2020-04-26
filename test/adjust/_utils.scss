@@ -1,0 +1,74 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/adjust/utils';
+
+@include describe('adjust/utils') {
+  @include describe('set()') {
+    @include it('Returns the second value') {
+      @include assert-equal(
+        utils.set(5, 10),
+        10
+      );
+    }
+  }
+
+  @include describe('adjust()') {
+    @include it('Adds two values together') {
+      @include assert-equal(
+        utils.adjust(5, 10),
+        15
+      );
+      @include assert-equal(
+        utils.adjust(15, -10),
+        5
+      );
+    }
+  }
+
+  @include describe('scale()') {
+    @include it('Scales degrees by a fraction of the hue wheel') {
+      @include assert-equal(
+        utils.scale(90, 50%, 360),
+        270
+      );
+    }
+
+    @include it('Scales negative degrees') {
+      @include assert-equal(
+        utils.scale(90, -20%, 360),
+        18
+      );
+    }
+
+    @include it('Continues around hue wheel') {
+      @include assert-equal(
+        utils.scale(180, 75%, 360),
+        90
+      );
+    }
+
+    @include it('Scales up within the default range (0, 100)') {
+      @include assert-equal(
+        utils.scale(90, 50%),
+        95
+      );
+    }
+
+    @include it('Scales down within the default range (0, 100)') {
+      @include assert-equal(
+        utils.scale(60, -50%),
+        30
+      );
+    }
+
+    @include it('Handles arbitrary ranges like Lab a/b (-160, 160)') {
+      @include assert-equal(
+        utils.scale(60, -25%, -160 160),
+        5,
+      );
+      @include assert-equal(
+        utils.scale(60, 25%, -160 160),
+        85,
+      );
+    }
+  }
+}

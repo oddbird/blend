@@ -32,6 +32,7 @@ Any major code changes should also update the tests/docs.
 - `yarn docs` will build the documentation site
 - `yarn sass` will re-compile the code in `demo/`
   (mainly for experiments as you work)
+- `yarn commit` to run all three
 
 ## Conduct
 

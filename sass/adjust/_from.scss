@@ -5,14 +5,8 @@
 @use 'sass:color';
 @use 'sass:list';
 
-
-/// Relative Colors
-/// @link https://www.w3.org/TR/css-color-5/ CSS Colors Level 5
-/// @group adjust-from
-
-
-/// This is a compact syntax for LCH adjustments,
-/// based on the proposed _relative color syntax_.
+/// We also provide a compact syntax for LCH adjustments,
+/// based on the proposed CSS _relative color syntax_.
 /// Since Sass is not able to mimic the syntax exactly,
 /// we've developed a shorthand based on the CSS proposal.
 ///
@@ -27,6 +21,7 @@
 ///     will add or subtract that amount from the current value
 ///
 /// @link https://www.w3.org/TR/css-color-5/#relative-colors CSS Specification
+/// @colors adjust-from
 /// @example scss
 ///   .from {
 ///     // set chroma to 20
@@ -50,7 +45,7 @@
 /// @param {h | number | h number} $h [h] -
 ///   Adjustments to the `h` channel
 /// @return {color} - The final color after adjustments
-/// @group adjust-from
+/// @group adjust
 @function from(
   $color,
   $lightness: l,
@@ -64,7 +59,7 @@
     $val: list.nth($lch, $i);
     $adjust: list.nth($lightness $chroma $hue, $i);
     $key: list.nth(l c h, $i);
-    $lch: list.set-nth($lch, $i, parse.channel($val, $adjust, $key));
+    $lch: list.set-nth($lch, $i, parse.from($val, $adjust, $key));
   }
 
   @return cie.lch($lch, $a);

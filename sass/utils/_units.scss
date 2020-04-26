@@ -13,3 +13,9 @@
     meta.get-function('strip')
   );
 }
+
+@function to-degrees(
+  $angle
+) {
+  @return (0deg + $angle) % 360;
+}

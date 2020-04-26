@@ -7,6 +7,9 @@
 /// Similar to Sass built-in tools for inspecting
 /// the rgb or hsl values of a color,
 /// these functions return LCH and Lab channel values.
+///
+/// For these demos, we'll inspect the following colors:
+/// @colors inspect-cie
 /// @group cie-inspect
 
 
@@ -15,8 +18,11 @@
 /// of Sass built-in `color.lightness()` function.
 ///
 /// @example scss
-///   .inspect {
-///     lightness: blend.lightness(rebeccapurple);
+///   .lightness {
+///     papayawhip: blend.lightness(papayawhip);
+///     rebeccapurple: blend.lightness(rebeccapurple);
+///     yellow: blend.lightness(yellow);
+///     deeppink: blend.lightness(deeppink);
 ///   }
 ///
 /// @param {color} $color - The Sass color to inspect
@@ -29,8 +35,11 @@
 }
 
 /// @example scss
-///   .inspect {
-///     a: blend.a(rebeccapurple);
+///   .a {
+///     papayawhip: blend.a(papayawhip);
+///     rebeccapurple: blend.a(rebeccapurple);
+///     yellow: blend.a(yellow);
+///     deeppink: blend.a(deeppink);
 ///   }
 ///
 /// @param {color} $color - The Sass color to inspect
@@ -43,8 +52,11 @@
 }
 
 /// @example scss
-///   .inspect {
-///     b: blend.b(rebeccapurple);
+///   .b {
+///     papayawhip: blend.b(papayawhip);
+///     rebeccapurple: blend.b(rebeccapurple);
+///     yellow: blend.b(yellow);
+///     deeppink: blend.b(deeppink);
 ///   }
 ///
 /// @param {color} $color - The Sass color to inspect
@@ -57,8 +69,11 @@
 }
 
 /// @example scss
-///   .inspect {
-///     chroma: blend.chroma(rebeccapurple);
+///   .chroma {
+///     papayawhip: blend.chroma(papayawhip);
+///     rebeccapurple: blend.chroma(rebeccapurple);
+///     yellow: blend.chroma(yellow);
+///     deeppink: blend.chroma(deeppink);
 ///   }
 ///
 /// @param {color} $color - The Sass color to inspect
@@ -75,8 +90,11 @@
 /// of Sass built-in `color.hue()` function.
 ///
 /// @example scss
-///   .inspect {
-///     hue: blend.hue(rebeccapurple);
+///   .hue {
+///     papayawhip: blend.hue(papayawhip);
+///     rebeccapurple: blend.hue(rebeccapurple);
+///     yellow: blend.hue(yellow);
+///     deeppink: blend.hue(deeppink);
 ///   }
 ///
 /// @param {color} $color - The Sass color to inspect

@@ -9,89 +9,140 @@
 }
 
 @include describe('adjust/parse') {
-  @include describe('scale()') {
-    @include it('Scales degrees by a fraction of the hue wheel') {
-      @include assert-equal(
-        parse.scale(90, 50%, deg),
-        270
-      );
-    }
-
-    @include it('Scales negative degrees') {
-      @include assert-equal(
-        parse.scale(90, -20%, deg),
-        18
-      );
-    }
-
-    @include it('Continues around hue wheel') {
-      @include assert-equal(
-        parse.scale(180, 75%, deg),
-        90
-      );
-    }
-  }
-
-  @include describe('channel()') {
+  @include describe('from()') {
     @include it('Returns the given value for a channel key') {
       @include assert-equal(
-        parse.channel(50, l, l),
+        parse.from(50, l, l),
         50
       );
       @include assert-equal(
-        parse.channel(50, c, c),
+        parse.from(50, c, c),
         50
       );
       @include assert-equal(
-        parse.channel(50, h, h),
+        parse.from(50, h, h),
         50
       );
     }
 
     @include it('Replace value with a unitless number') {
       @include assert-equal(
-        parse.channel(60, 20, l),
+        parse.from(60, 20, l),
         20
       );
     }
 
     @include it('Multiplies key-unit values') {
       @include assert-equal(
-        parse.channel(40, 2l, l),
+        parse.from(40, 2l, l),
         80
       );
       @include assert-equal(
-        parse.channel(15, 2c, c),
+        parse.from(15, 2c, c),
         30
       );
     }
 
     @include it('Can pass the value to a simple function') {
       @include assert-equal(
-        parse.channel(210, meta.get-function('compliment'), h),
+        parse.from(210, meta.get-function('compliment'), h),
         30
       );
     }
 
     @include it('Handles linear adjustments') {
       @include assert-equal(
-        parse.channel(60, l 20, l),
+        parse.from(60, l 20, l),
         80
       );
       @include assert-equal(
-        parse.channel(60, l -20, l),
+        parse.from(60, l -20, l),
         40
       );
     }
 
     @include it('Handles scaled relative adjustments') {
       @include assert-equal(
-        parse.channel(60, l 20%, l),
+        parse.from(60, l 20%, l),
         68
       );
       @include assert-equal(
-        parse.channel(60, l -20%, l),
+        parse.from(60, l -20%, l),
         48
+      );
+    }
+  }
+
+  @include describe('args()') {
+    @include it('Returns normalized lch args if given chroma or hue') {
+      @include assert-equal(
+        parse.args((lightness: 25, hue: 30), 'set'),
+        (l: 25, c: null, h: 30deg)
+      );
+
+      @include assert-equal(
+        parse.args((chroma: 30), 'set'),
+        (l: null, c: 30, h: null),
+      );
+    }
+
+    @include it('Accepts shorthand LCH channel names') {
+      @include assert-equal(
+        parse.args((l: 25, c: 35, h: 45), 'set'),
+        (l: 25, c: 35, h: 45deg),
+      );
+    }
+
+    @include it('Returns Lab vales if c/h are not given') {
+      @include assert-equal(
+        parse.args((l: 25), 'set'),
+        (l: 25, a: null, b: null)
+      );
+    }
+
+    @include it('Returns Lab vales if a/b are given') {
+      @include assert-equal(
+        parse.args((a: 25), 'set'),
+        (l: null, a: 25, b: null)
+      );
+
+      @include assert-equal(
+        parse.args((lightness: 30, b: 25), 'set'),
+        (l: 30, a: null, b: 25)
+      );
+    }
+
+    @include it('Errors when given both Lab & LCH args') {
+      @include assert-equal(
+        parse.args((c: 20, b: 30), 'set'),
+        'ERROR [set()] Cannot set both Lab ($a, $b) & LCH ($c, $h) channels at once'
+      );
+      @include assert-equal(
+        parse.args((h: 20, a: 30), 'set'),
+        'ERROR [set()] Cannot set both Lab ($a, $b) & LCH ($c, $h) channels at once'
+      );
+    }
+  }
+
+  @include describe('do()') {
+    @include it('Performs set() adjustments on a color') {
+      @include assert-equal(
+        parse.do('set', rebeccapurple, (l: null, c: 20, h: null)),
+        #574665
+      );
+    }
+
+    @include it('Performs adjust() adjustments on a color') {
+      @include assert-equal(
+        parse.do('adjust', rebeccapurple, (l: null, c: null, h: -60)),
+        #005278
+      );
+    }
+
+    @include it('Performs scale() adjustments on a color') {
+      @include assert-equal(
+        parse.do('scale', rebeccapurple, (l: 50%, a: null, b: null)),
+        #c388f8
       );
     }
   }

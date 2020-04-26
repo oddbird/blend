@@ -27,4 +27,28 @@
       );
     }
   }
+
+  @include describe('to-degrees()') {
+    @include it('Converts a unitless number to degrees') {
+      @include assert-equal(
+        units.to-degrees(40),
+        40deg
+      );
+    }
+
+    @include it('Converts turns to degrees') {
+      @include assert-equal(
+        units.to-degrees(0.5turn),
+        180deg
+      );
+    }
+
+    @include it('Converts radians to degrees') {
+      @include assert-equal(
+        units.to-degrees(1.570796rad),
+        89.999981276deg,
+        $inspect: true
+      );
+    }
+  }
 }

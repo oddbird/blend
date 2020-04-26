@@ -11,6 +11,10 @@
   - `a()` and `b()`
   - `chroma()` and `hue()`
 - NEW: `contrast()` selects the best contrast from a list
+- NEW: Generate new colors based on relative LCH & Lab adjustments:
+  - `set()` to replace a channel value
+  - `adjust()` to add or subtract from a channel
+  - `scale()` to scale fluidly towards one "end" of the channel range
 - NEW: `from()` converts a Sass color to LCH
   in order to adjust CIE lightness, chroma, and hue --
   using a syntax roughly based on

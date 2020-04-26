@@ -1,0 +1,136 @@
+@use '../utils/throw';
+@use 'parse';
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:meta';
+
+/// # Relative Colors
+/// The primary advantage of LCH color
+/// is the ability to
+/// generate one color from another
+/// by adjust channels,
+/// and expect consistent results.
+///
+/// @link https://www.w3.org/TR/css-color-5/ CSS Colors Level 5
+/// @group adjust
+
+/// Set individual Lab or LCH channels
+/// to specific values,
+/// and return the adjusted color.
+/// All arguments must be given by keyword,
+/// rather than positional order.
+/// @example scss
+///   .set {
+///     chroma: blend.set(rebeccapurple, $chroma: 20);
+///     shorthand: blend.set(rebeccapurple, $c: 20);
+///   }
+/// @param {color} $color -
+///   The initial Sass color being adjusted
+/// @param {percentage} $lightness [null] -
+///   Set lightness to a percentage between 0 and 100%
+///   (Can also use the `$l` keyword shorthand)
+/// @param {number} $chroma [null] -
+///   Set chroma to a positive number (generally 0-100)
+///   (Can also use the `$c` keyword shorthand)
+/// @param {angle} $hue [null] -
+///   Set hue to an angle (0deg-360deg)
+///   (Can also use the `$h` keyword shorthand)
+/// @param {number} $a [null] -
+///   Set the Lab `a` channel to any number ±160
+/// @param {number} $b [null] -
+///   Set the Lab `b` channel to any number ±160
+/// @throw Cannot set both Lab & LCH channels at once
+/// @group adjust
+@function set(
+  $color,
+  $channels...
+) {
+  $adjust: parse.args(meta.keywords($channels), 'set');
+  @return parse.do('set', $color, $adjust);
+}
+
+/// Adjust individual Lab or LCH channels
+/// up or down by a given amount,
+/// and return the adjusted color.
+/// All arguments must be given by keyword,
+/// rather than positional order.
+/// @example scss
+///   .set {
+///     hue: blend.adjust(rebeccapurple, $hue: -60);
+///     shorthand: blend.adjust(rebeccapurple, $h: -60);
+///   }
+/// @param {color} $color -
+///   The initial Sass color being adjusted
+/// @param {number} $lightness [null] -
+///   Adjust lightness by given amount
+///   (Can also use the `$l` keyword shorthand)
+/// @param {number} $chroma [null] -
+///   Adjust chroma by given amount
+///   (Can also use the `$c` keyword shorthand)
+/// @param {number} $hue [null] -
+///   Adjust hue by given number of degrees
+///   (Can also use the `$h` keyword shorthand)
+/// @param {number} $a [null] -
+///   Adjust Lab `a` by given amount
+/// @param {number} $b [null] -
+///   Adjust Lab `b` by given amount
+/// @throw Cannot adjust both Lab & LCH channels at once
+/// @group adjust
+@function adjust(
+  $color,
+  $channels...
+) {
+  $adjust: parse.args(meta.keywords($channels), 'adjust');
+  @return parse.do('adjust', $color, $adjust);
+}
+
+/// Fluidly scale Lab or LCH channels
+/// up or down by a given percentage,
+/// and return the adjusted color.
+/// All arguments must be given by keyword,
+/// rather than positional order.
+/// @example scss
+///   .set {
+///     lightness: blend.adjust(rebeccapurple, $lightness: 50%);
+///     shorthand: blend.adjust(rebeccapurple, $l: 50%);
+///   }
+/// @param {color} $color -
+///   The initial Sass color being adjusted
+/// @param {percentage} $lightness [null] -
+///   Scale lightness by given percentage
+///   of the distance towards 0 or 100
+///   (Can also use the `$l` keyword shorthand)
+/// @param {percentage} $chroma [null] -
+///   Scale chroma by given percentage
+///   of the distance towards 0 or 100
+///   (Can also use the `$c` keyword shorthand)
+/// @param {percentage} $hue [null] -
+///   Adjust hue by given percentage of the hue wheel
+///   (Can also use the `$h` keyword shorthand)
+/// @param {percentage} $a [null] -
+///   Scale Lab `a` by given percentage
+///   of the distance towards 160 or -160
+/// @param {percentage} $b [null] -
+///   Scale Lab `b` by given percentage
+///   of the distance towards 160 or -160
+/// @throw Cannot scale both Lab & LCH channels at once
+/// @throw Scales must be defined using `%` units
+/// @group adjust
+@function scale(
+  $color,
+  $channels...
+) {
+  $channels: meta.keywords($channels);
+
+  @each $channel in map.values($channels) {
+    @if (math.unit($channel) != '%') {
+      @return throw.error(
+        'Scales must be defined using `%` units',
+        'scale()'
+      );
+    }
+  }
+
+  $adjust: parse.args($channels, 'scale');
+  @return parse.do('scale', $color, $adjust);
+}

@@ -23,9 +23,12 @@
     "LCH"
   ],
   "scripts": {
-    "docs": "sassdoc sass/",
+    "json": "sass src/json.scss src/json.css",
+    "herman": "sassdoc sass/",
+    "docs": "yarn json; yarn herman",
     "sass": "sass demo/style.scss demo/style.css",
-    "test": "mocha"
+    "test": "mocha",
+    "commit": "yarn test; yarn docs; yarn sass"
   },
   "devDependencies": {
     "mocha": "^7.1.1",

@@ -1,0 +1,38 @@
+@use '../../node_modules/sass-true/sass/true' as *;
+@use '../../sass/adjust/channels';
+
+@include describe('adjust/channels') {
+  @include describe('set()') {
+    @include it('Returns a color with set value on a channel') {
+      @include assert-equal(
+        channels.set(rebeccapurple, $chroma: 20),
+        #574665
+      );
+    }
+  }
+
+  @include describe('adjust()') {
+    @include it('Returns a color with adjusted value on a channel') {
+      @include assert-equal(
+        channels.adjust(rebeccapurple, $h: -60),
+        #005278
+      );
+    }
+  }
+
+  @include describe('scale()') {
+    @include it('Returns a color with scaled value on a channel') {
+      @include assert-equal(
+        channels.scale(rebeccapurple, $lightness: 50%),
+        #c388f8
+      );
+    }
+
+    @include it('Errors when given non-percent values') {
+      @include assert-equal(
+        channels.scale(red, $l: 20),
+        'ERROR [scale()] Scales must be defined using `%` units'
+      );
+    }
+  }
+}

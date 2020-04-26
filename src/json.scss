@@ -1,0 +1,39 @@
+@use '../sass/blend';
+@use '../node_modules/sassdoc-theme-herman/scss/utilities' as *;
+
+// CIE
+@include herman-add('colors', 'cie-lch', (
+  'lch': blend.lch(32.39% 61.25 308.86deg),
+  'lch-a': blend.lch(32.39% 61.25 308.86deg, 60%),
+));
+
+@include herman-add('colors', 'cie-lab', (
+  'lab': blend.lab(32.39% 38.43 -47.69),
+  'lab-a': blend.lab(32.39% 38.43 -47.69, 0.6),
+));
+
+// Inspect
+@include herman-add('colors', 'inspect-contrast', (
+  'papayawhip': papayawhip,
+  'default': blend.contrast(papayawhip),
+  'highest': blend.contrast(papayawhip, rebeccapurple, maroon),
+  'first': blend.contrast(papayawhip, rebeccapurple, maroon, 4.5),
+));
+
+@include herman-add('colors', 'inspect-cie', (
+  'papayawhip': papayawhip,
+  'rebeccapurple': rebeccapurple,
+  'yellow': yellow,
+  'deeppink': deeppink,
+));
+
+// Adjust
+@include herman-add('colors', 'adjust-from', (
+  'rebeccapurple': rebeccapurple,
+  'set chroma 20': blend.from(rebeccapurple, l, 20, h),
+  'adjust hue -60': blend.from(rebeccapurple, l, c, h -60),
+  'scale lightness 50%': blend.from(rebeccapurple, l 50%, c, h),
+  'multiply lightness * 2': blend.from(rebeccapurple, 2l, c, h),
+));
+
+@include herman-export($herman);

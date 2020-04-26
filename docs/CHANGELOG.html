@@ -102,7 +102,7 @@
   
   
     <li class="nav-item">
-      <a href="adjust-from.html" data-nav="is-not-active">Relative Colors</a>
+      <a href="adjust.html" data-nav="is-not-active">Relative Colors</a>
     </li>
   
   
@@ -121,6 +121,10 @@
         </h3>
 
         <ul>
+          
+            <li class="nav-item">
+              <a href="https://css.land/lch/" data-nav="is-not-active">LCH Color<span class="widont">&nbsp;</span>Picker</a>
+            </li>
           
             <li class="nav-item">
               <a href="https://www.w3.org/TR/css-color-4/" data-nav="is-not-active">CSS Colors Level<span class="widont">&nbsp;</span>4</a>
@@ -195,6 +199,13 @@ Focus on Sass &lt;-&gt; CIE<span class="widont">&nbsp;</span>functions.</li>
 </ul>
 </li>
 <li>NEW: <code>contrast()</code> selects the best contrast from a<span class="widont">&nbsp;</span>list</li>
+<li>NEW: Generate new colors based on relative LCH &amp; Lab adjustments:
+<ul>
+<li><code>set()</code> to replace a channel<span class="widont">&nbsp;</span>value</li>
+<li><code>adjust()</code> to add or subtract from a<span class="widont">&nbsp;</span>channel</li>
+<li><code>scale()</code> to scale fluidly towards one “end” of the channel<span class="widont">&nbsp;</span>range</li>
+</ul>
+</li>
 <li>NEW: <code>from()</code> converts a Sass color to LCH
 in order to adjust CIE lightness, chroma, and hue –
 using a syntax roughly based on
