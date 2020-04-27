@@ -13,14 +13,6 @@ while working with Sass colors.
 [Level 4]: https://www.w3.org/TR/css-color-4/
 [Level 5]: https://www.w3.org/TR/css-color-5/
 
-See the wonderful interactive
-[LCH Color Picker](https://css.land/lch/)
-by [Lea Verou](http://lea.verou.me/).
-We use the same conversion math,
-originally written in JS by
-[Chris Lilley](https://svgees.us/)
-and [Tab Atkins](https://www.xanthir.com/).
-
 Note that conversion between color-spaces
 requires gamut-adjustments and rounding.
 While we use the same conversion math recommended for browsers,
@@ -28,12 +20,25 @@ pre-processing can result in slight variations in each step.
 Converting a color from one format to another
 and back again, may result in slight differences.
 
+## Color Picker
+
+To get started with new CSS color formats
+(and LCH in particular),
+check out the wonderful
+[LCH Color Picker](https://css.land/lch/)
+by [Lea Verou](http://lea.verou.me/).
+
+We use the same conversion math,
+originally written in JS by
+[Chris Lilley](https://svgees.us/)
+and [Tab Atkins](https://www.xanthir.com/).
+
 ## Usage
 
 Download the files from GitHub, or install the npm package:
 
 ```
-npm install @mirisuzanne/blend --save-dev
+npm install @oddbird/blend --save-dev
 ```
 
 Import with Dart Sass
@@ -121,7 +126,11 @@ $from: (
 
 The initial version is mostly focused on CIE colors,
 but Level 4 includes an array of new formats.
-We're working on it…
+We're working on it.
+
+See the full list of [planned enhancements][todo].
+
+[todo]: https://github.com/oddbird/blend/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement
 
 ```scss
 @use  'blend';

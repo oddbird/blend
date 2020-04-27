@@ -1,7 +1,7 @@
 {
-  "name": "@mirisuzanne/blend",
-  "version": "0.1.1",
-  "description": "more color tools for sass",
+  "name": "@oddbird/blend",
+  "version": "0.2.0",
+  "description": "New color formats, adjustments, and conversions in Sass",
   "publishConfig": {
     "access": "public"
   },
@@ -10,16 +10,21 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mirisuzanne/blend.git"
+    "url": "git://github.com/oddbird/blend.git"
   },
-  "bugs": "https://github.com/mirisuzanne/blend/issues",
-  "homepage": "https://github.com/mirisuzanne/blend/",
+  "bugs": "https://github.com/oddbird/blend/issues",
+  "homepage": "https://github.com/oddbird/blend/",
   "keywords": [
     "sass",
     "scss",
     "css",
     "colors",
-    "CIE Lab",
+    "design",
+    "design systems",
+    "CIE",
+    "Lab",
+    "sRGB",
+    "hwb",
     "LCH"
   ],
   "scripts": {

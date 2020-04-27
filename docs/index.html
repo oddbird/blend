@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <title>@mirisuzanne/blend Documentation</title>
+  <title>@oddbird/blend Documentation</title>
 
   <link href="assets/img/favicon.ico" rel="shortcut icon">
   <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,600|Source+Sans+Pro:400,400i,700,700i" rel="stylesheet">
@@ -40,9 +40,9 @@
 
 
       <div class="project-title">
-        <a href="index.html" rel="home" class="project-name">@mirisuzanne/blend</a>
+        <a href="index.html" rel="home" class="project-name">@oddbird/blend</a>
         
-          <span class="project-version">0.1.1</span>
+          <span class="project-version">0.2.0</span>
         
       </div>
     </header>
@@ -57,7 +57,7 @@
     <div class="nav-subsection">
       <h3 class="nav-home">
         
-        <a href="index.html" data-nav="is-active">@mirisuzanne/blend</a>
+        <a href="index.html" data-nav="is-active">@oddbird/blend</a>
       </h3>
 
       
@@ -135,7 +135,7 @@
             </li>
           
             <li class="nav-item">
-              <a href="https://github.com/mirisuzanne/blend/" data-nav="is-not-active">GitHub Source</a>
+              <a href="https://github.com/oddbird/blend/" data-nav="is-not-active">GitHub Source</a>
             </li>
           
             <li class="nav-item">
@@ -181,12 +181,12 @@
     <ul class="project-links">
       
         <li class="project-link-item">
-          <a href="https://github.com/mirisuzanne/blend/" class="project-link">View Project</a>
+          <a href="https://github.com/oddbird/blend/" class="project-link">View Project</a>
         </li>
       
       
         <li class="project-link-item">
-          <a href="git://github.com/mirisuzanne/blend.git" class="project-link">View Source</a>
+          <a href="git://github.com/oddbird/blend.git" class="project-link">View Source</a>
         </li>
       
     </ul>
@@ -202,22 +202,25 @@ new color-adjustment syntax,
 and a contrast function.
 <strong>Blend</strong> provides early access to many of these features,
 while working with Sass<span class="widont">&nbsp;</span>colors.</p>
-<p>See the wonderful interactive
-<a href="https://css.land/lch/">LCH Color Picker</a>
-by <a href="http://lea.verou.me/">Lea Verou</a>.
-We use the same conversion math,
-originally written in JS by
-<a href="https://svgees.us/">Chris Lilley</a>
-and <a href="https://www.xanthir.com/">Tab<span class="widont">&nbsp;</span>Atkins</a>.</p>
 <p>Note that conversion between color-spaces
 requires gamut-adjustments and rounding.
 While we use the same conversion math recommended for browsers,
 pre-processing can result in slight variations in each step.
 Converting a color from one format to another
 and back again, may result in slight<span class="widont">&nbsp;</span>differences.</p>
+<h2 id="color-picker">Color Picker</h2>
+<p>To get started with new CSS color formats
+(and LCH in particular),
+check out the wonderful
+<a href="https://css.land/lch/">LCH Color Picker</a>
+by <a href="http://lea.verou.me/">Lea<span class="widont">&nbsp;</span>Verou</a>.</p>
+<p>We use the same conversion math,
+originally written in JS by
+<a href="https://svgees.us/">Chris Lilley</a>
+and <a href="https://www.xanthir.com/">Tab<span class="widont">&nbsp;</span>Atkins</a>.</p>
 <h2 id="usage">Usage</h2>
 <p>Download the files from GitHub, or install the npm<span class="widont">&nbsp;</span>package:</p>
-<pre><code>npm install @mirisuzanne/blend --save-dev
+<pre><code>npm install @oddbird/blend --save-dev
 </code></pre>
 <p>Import with Dart<span class="widont">&nbsp;</span>Sass</p>
 <pre><code class="lang-scss">@use  '&lt;path-to&gt;/blend';
@@ -281,7 +284,8 @@ of the Level 5 relative color<span class="widont">&nbsp;</span>syntax:</p>
 <h2 id="todo">Todo</h2>
 <p>The initial version is mostly focused on CIE colors,
 but Level 4 includes an array of new formats.
-We’re working on<span class="widont">&nbsp;</span>it…</p>
+We’re working on<span class="widont">&nbsp;</span>it.</p>
+<p>See the full list of <a href="https://github.com/oddbird/blend/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement">planned<span class="widont">&nbsp;</span>enhancements</a>.</p>
 <pre><code class="lang-scss">@use  'blend';
 
 $new-formats: (

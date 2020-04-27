@@ -2,7 +2,7 @@
 
 Ideas, issues, and pull-requests are welcome!
 
-- [**Github Issues**](https://github.com/mirisuzanne/blend/issues/)
+- [**Github Issues**](https://github.com/oddbird/blend/issues/)
   are the best place to request a feature,
   file a bug,
   or just ask a question.

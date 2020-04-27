@@ -34,6 +34,6 @@ herman:
     - name: 'CSS Colors Level 5'
       url: 'https://www.w3.org/TR/css-color-5/'
     - name: 'GitHub Source'
-      url: 'https://github.com/mirisuzanne/blend/'
+      url: 'https://github.com/oddbird/blend/'
     - name: 'OddBird'
       url: 'http://oddbird.net/'
