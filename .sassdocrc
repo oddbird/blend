@@ -24,7 +24,7 @@ herman:
       path: CHANGELOG.md
     - name: 'Contributing'
       path: CONTRIBUTING.md
-    - name: 'Hipocratic MIT License'
+    - name: 'License'
       path: LICENSE.md
   extraLinks:
     - name: 'LCH Color Picker'
