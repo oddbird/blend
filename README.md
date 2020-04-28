@@ -1,4 +1,5 @@
 # Blend
+
 _CSS color spaces for [Dart Sass][]…_
 
 [Dart Sass]: https://sass-lang.com/dart-sass
@@ -38,13 +39,13 @@ and [Tab Atkins](https://www.xanthir.com/).
 Download the files from GitHub, or install the npm package:
 
 ```
-npm install @oddbird/blend --save-dev
+npm install @oddbird/blend [--save-dev]
 ```
 
 Import with Dart Sass
 
 ```scss
-@use  '<path-to>/blend';
+@use '<path-to>/blend';
 ```
 
 ### Lab & LCH Formats
@@ -133,7 +134,7 @@ See the full list of [planned enhancements][todo].
 [todo]: https://github.com/oddbird/blend/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement
 
 ```scss
-@use  'blend';
+@use 'blend';
 
 $new-formats: (
   blend.hwb(120deg 15% 15%),

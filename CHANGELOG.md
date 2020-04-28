@@ -1,6 +1,11 @@
 # Blend Changelog
 
+## UNRELEASED
+
+- Updated license to The Hippocratic License 2.1
+
 ## v0.2.0 - 2020.05.27
+
 - **BREAKING**: Moved project to [oddbird/blend][repo] on GitHub,
   and [@oddbird/blend][pkg] on NPM.
 - **BREAKING**: Remove over-complicated settings & output options for now.
@@ -27,6 +32,7 @@
 [relative]: https://www.w3.org/TR/css-color-5/#relative-RGB
 
 ## v0.1.1 - 2020.05.06
+
 - **NEW**: `lch($lch, $a)` returns an (sRGB) Sass color
 - Various other now-removed things…
-  ¯\\\_(ツ)_/¯ that's what pre-releases are for
+  ¯\\\_(ツ)\_/¯ that's what pre-releases are for

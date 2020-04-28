@@ -1,6 +1,7 @@
 {
   "name": "@oddbird/blend",
   "version": "0.2.0",
+  "title": "Blend",
   "description": "New color formats, adjustments, and conversions in Sass",
   "publishConfig": {
     "access": "public"
@@ -10,10 +11,10 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "repository": {
     "type": "git",
-    "url": "git://github.com/oddbird/blend.git"
+    "url": "https://github.com/oddbird/blend.git"
   },
   "bugs": "https://github.com/oddbird/blend/issues",
-  "homepage": "https://github.com/oddbird/blend/",
+  "homepage": "https://www.oddbird.net/blend",
   "keywords": [
     "sass",
     "scss",
