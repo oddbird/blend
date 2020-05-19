@@ -21,6 +21,14 @@ pre-processing can result in slight variations in each step.
 Converting a color from one format to another
 and back again, may result in slight differences.
 
+**Our Top Priority** right now 
+is full support for `color(display-p3 r g b / a)`
+which can already be used for wide-gamut colors
+in Safari.
+The conversion math is already supported,
+we just need to finalize the user-facing API.
+Help is welcome.
+
 ## Color Picker
 
 To get started with new CSS color formats
