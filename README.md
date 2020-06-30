@@ -21,7 +21,7 @@ pre-processing can result in slight variations in each step.
 Converting a color from one format to another
 and back again, may result in slight differences.
 
-**Our Top Priority** right now 
+**Our Top Priority** right now
 is full support for `color(display-p3 r g b / a)`
 which can already be used for wide-gamut colors
 in Safari.
@@ -35,7 +35,7 @@ To get started with new CSS color formats
 (and LCH in particular),
 check out the wonderful
 [LCH Color Picker](https://css.land/lch/)
-by [Lea Verou](http://lea.verou.me/).
+by [Lea Verou](https://lea.verou.me/).
 
 We use the same conversion math,
 originally written in JS by

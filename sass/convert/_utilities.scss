@@ -174,7 +174,7 @@
 @function naive_CMYK_to_sRGB($CMYK) {
   // CMYK is an array of four values
   // in the range [0.0, 1.0]
-  // the optput is an array of [RGB]
+  // the output is an array of [RGB]
   // also in the [0.0, 1.0] range
   // because the naive algorithm does not generate out of gamut colors
   // neither does it generate accurate simulations of practical CMYK colors
@@ -194,7 +194,7 @@
 // rgb [0, 1] -> cmyk [0, 1]
 @function naive_sRGB_to_CMYK($RGB) {
   $temp: array.template($RGB);
-  // RGB is an arravy of three values
+  // RGB is an array of three values
   // in the range [0.0, 1.0]
   // the output is an array of [CMYK]
   // also in the [0.0, 1.0] range
