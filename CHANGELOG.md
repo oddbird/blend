@@ -1,5 +1,9 @@
 # Blend Changelog
 
+## UNRELEASED
+
+- Documentation cleanup
+
 ## v0.2.1 - 2020.05.28
 
 - Updated license to The Hippocratic License 2.1
