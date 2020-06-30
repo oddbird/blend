@@ -1,8 +1,9 @@
 # Blend Changelog
 
-## UNRELEASED
+## v0.2.2 - 2020.06.30
 
 - Documentation cleanup
+- Upgraded dev dependencies
 
 ## v0.2.1 - 2020.05.28
 
