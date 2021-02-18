@@ -6,11 +6,13 @@
     @include it('converts an array of gamma-corrected sRGB values') {
       @include assert-equal(
         utilities.sRGB_to_luminance((0.02, 0.5, 0.8)),
-        0.19698244570374157
+        0.1969963759,
+        $inspect: true
       );
       @include assert-equal(
         utilities.sRGB_to_luminance((0.8, 0.5, 0.02)),
-        0.281601429766217
+        0.2815845175,
+        $inspect: true
       );
     }
   }
@@ -19,11 +21,12 @@
     @include it('returns WCAG 2.1 contrast ratio') {
       @include assert-equal(
         utilities.contrast((0.02, 0.5, 0.8), (0.8, 0.5, 0.02)),
-        1.342611329405884
+        1.3424671368,
+        $inspect: true
       );
       @include assert-equal(
         utilities.contrast((0, 0, 0), (1, 1, 1)),
-        21.000002000000002
+        21
       );
     }
   }
@@ -32,7 +35,8 @@
     @include it('converts an array of gamma-corrected sRGB values to LCH') {
       @include assert-equal(
         utilities.sRGB_to_LCH((0.02, 0.5, 0.8)),
-        [ 50.732583394867746, 49.17207368750179, 261.16383665102614 ]
+        [50.7340159033, 49.1810731634, 261.1728089306],
+        $inspect: true
       );
     }
   }
@@ -59,7 +63,8 @@
     @include it('converts an array of CIE LCH values to gamma corrected sRGB') {
       @include assert-equal(
         utilities.LCH_to_sRGB((0.02, 0.5, 0.8)),
-        [ 0.005322572923735131, -0.001281218799949619, 0.0003339921941461682 ]
+        [0.00532342, -0.0012811892, 0.0003339121],
+        $inspect: true
       );
     }
   }

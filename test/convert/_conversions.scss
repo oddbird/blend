@@ -24,7 +24,8 @@
     @include it('converts linear-light rgb values to CIE XYZ') {
       @include assert-equal(
         conversions.lin_sRGB_to_XYZ([ 0.02, 0.5, 0.8 ]),
-        [ 0.331387178, 0.419569558, 0.8202259580000001 ]
+        [0.3314246164, 0.4195909718, 0.8204097281],
+        $inspect: true
       )
     }
   }
@@ -33,7 +34,8 @@
     @include it('convert XYZ to linear-light sRGB') {
       @include assert-equal(
         conversions.XYZ_to_lin_sRGB([ 0.02, 0.5, 0.8 ]),
-        [ -1.102585286, 0.9518648799999999, 0.744880078 ]
+        [-1.1027607982, 0.951842924, 0.7447013335],
+        $inspect: true
       )
     }
   }

@@ -46,10 +46,9 @@
     }
 
     @include it('Returns corrected sRGB for out-of-gamut colors') {
-      $adjusted: (80, 34.7755050659, 300);
       @include assert-equal(
         lch.gamut-correct(80, 80, 300),
-        convert.LCH_to_sRGB($adjusted),
+        [0.8224699758, 0.7397233782, 1.0000048368],
         $inspect: true
       );
     }
