@@ -1,6 +1,6 @@
 # Blend Changelog
 
-## UNRELEASED
+## v0.2.3 - 2021.09.18
 
 - Correction to the sRGB to XYZ to sRGB matrices, improve round-tripping
   (based on [CSSWG update](https://github.com/w3c/csswg-drafts/issues/5922))
