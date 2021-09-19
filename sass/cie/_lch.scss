@@ -58,7 +58,7 @@
     $hiC: $c;
     $loC: 0;
 
-    $c: $c / 2;
+    $c: $c * 0.5;
 
     // 0.0001 chosen fairly arbitrarily as "close enough"
     @while (($hiC - $loC) > 0.0001) {
@@ -67,7 +67,7 @@
       } @else {
         $hiC: $c;
       }
-      $c: ($hiC + $loC) / 2;
+      $c: ($hiC + $loC) * 0.5;
     }
 
     $output: to-srgb($l $c $h);

@@ -20,7 +20,7 @@
   $amount,
   $range: 0 100
 ) {
-  $amount: $amount / 100%;
+  $amount: math.div($amount, 100%);
 
   @if (type-of($range) == 'number') {
     @return ($val + ($amount * $range)) % $range;

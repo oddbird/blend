@@ -8,7 +8,7 @@
 @function deg6(
   $val
 ) {
-  @return ((($val + 1) % 360) - 1) / 60;
+  @return math.div((($val + 1) % 360) - 1, 60);
 }
 
 // fractions
@@ -18,7 +18,7 @@
   $value,
   $range: 100,
 ) {
-  @return $value / $range;
+  @return math.div($value, $range);
 }
 
 @function fractions(
@@ -38,7 +38,7 @@
 ) {
   $unit: if(meta.type-of($units) == 'number', $units, list.nth($units, $i));
   $decimals: if($decimals, math.pow(10, $decimals), 1);
-  @return math.round($val * $unit * $decimals) / $decimals;
+  @return math.div(math.round($val * $unit * $decimals), $decimals);
 }
 
 @function format(

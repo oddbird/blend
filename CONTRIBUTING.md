@@ -38,7 +38,7 @@ Any major code changes should also update the tests/docs.
 
 Please follow the
 [Sass Community Guidelines][guide]
-and [Oddbird Code of Conduct][coc].
+and [OddBird Code of Conduct][coc].
 
 [guide]: https://sass-lang.com/community-guidelines
 [coc]: https://www.oddbird.net/conduct/

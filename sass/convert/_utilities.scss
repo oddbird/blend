@@ -34,7 +34,7 @@
   $L1: sRGB_to_luminance($RGB1) + 0.05;
   $L2: sRGB_to_luminance($RGB2) + 0.05;
 
-  @return math.max($L1, $L2) / math.min($L2, $L1);
+  @return math.div(math.max($L1, $L2), math.min($L2, $L1));
 }
 
 // rgb [0, 1] -> lc [0+] h [0, 360)
@@ -207,9 +207,9 @@
   $blue: list.nth($RGB, 3);
 
   $black: 1 - math.max($red, $green, $blue);
-  $cyan: if(($black == 1.0), 0, (1 - $red - $black) / (1 - $black));
-  $magenta: if(($black == 1.0), 0, (1 - $green - $black) / (1 - $black));
-  $yellow: if(($black == 1.0), 0, (1 - $blue - $black) / (1 - $black));
+  $cyan: if(($black == 1.0), 0, math.div(1 - $red - $black, 1 - $black));
+  $magenta: if(($black == 1.0), 0, math.div(1 - $green - $black, 1 - $black));
+  $yellow: if(($black == 1.0), 0, math.div(1 - $blue - $black, 1 - $black));
 
   @return list.join($temp, $cyan $magenta $yellow $black);
 }

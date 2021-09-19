@@ -10,8 +10,8 @@
 // Credit: Chris Lilley, https://svgees.us/
 // *********************
 
-$Im: 216/24389;  // 6^3/29^3
-$Io: 24389/27;   // 29^3/3^3
+$Im: math.div(216, 24389);  // 6^3/29^3
+$Io: math.div(24389, 27);   // 29^3/3^3
 $Ip: 1.09929682680944 ;
 $I2: 0.018053968510807;
 $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
@@ -24,10 +24,10 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 
 @function _lin_sRGB($val) {
   @if ($val < 0.04045) {
-    @return $val / 12.92;
+    @return math.div($val, 12.92);
   }
 
-  @return math.pow(($val + 0.055) / 1.055, 2.4);
+  @return math.pow(math.div($val + 0.055, 1.055), 2.4);
 }
 
 // rgb [0, 1] <-->
@@ -40,7 +40,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 
 @function _gam_sRGB($val) {
   @if ($val > 0.0031308) {
-    @return 1.055 * math.pow($val, 1/2.4) - 0.055;
+    @return 1.055 * math.pow($val, math.div(1, 2.4)) - 0.055;
   }
 
   @return 12.92 * $val;
@@ -131,7 +131,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 
 @function _lin_ProPhoto($val) {
   @if ($val < 0.031248) {
-    @return $val / 16;
+    @return math.div($val, 16);
   }
 
   @return math.pow($val, 1.8);
@@ -147,7 +147,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 
 @function _gam_ProPhoto($val) {
   @if ($val > 0.001953) {
-    @return math.pow($val, 1/1.8);
+    @return math.pow($val, math.div(1, 1.8));
   }
 
   @return 16 * $val;
@@ -190,7 +190,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 // a98-rgb functions
 
 @function _lin_a98rgb($val) {
-  @return math.pow($val, 563/256);
+  @return math.pow($val, math.div(563, 256));
 }
 
 // a98 [0, 1] <-->
@@ -201,7 +201,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 }
 
 @function _gam_a98rgb($val) {
-  @return math.pow($val, 256/563);
+  @return math.pow($val, math.div(256, 563));
 }
 
 // a98 [0, 1] <-->
@@ -245,10 +245,10 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 
 @function _lin_2020($val) {
   @if ($val < $I2 * 4.5 ) {
-    @return $val / 4.5;
+    @return math.div($val, 4.5);
   }
 
-  @return math.pow(($val + $Ip - 1) / $Ip, 2.4);
+  @return math.pow(math.div($val + $Ip - 1, $Ip), 2.4);
 }
 
 // r2020 [0, 1] <-->
@@ -261,7 +261,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 
 @function _gam_2020($val) {
   @if ($val > $I2) {
-    @return $Ip * math.pow($val, 1/2.4) - ($Ip - 1);
+    @return $Ip * math.pow($val, math.div(1, 2.4)) - ($Ip - 1);
   }
 
   @return 4.5 * $val;
@@ -338,7 +338,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   $value,
   $i
 ) {
-  @return $value / list.nth($white, $i);
+  @return math.div($value, list.nth($white, $i));
 }
 
 @function _XYZ_to_Lab-f(
@@ -348,7 +348,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
     @return pow.cbrt($value);
   }
 
-  @return ($Io * $value + 16) / 116;
+  @return math.div($Io * $value + 16, 116);
 }
 
 // xyz -> l [0+] ab [±160]
@@ -387,15 +387,15 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   $Lab2: list.nth($Lab, 3);
 
   // compute f, starting with the luminance-related term
-  $f1: ($Lab0 + 16) / 116;
-  $f0: $Lab1 / 500 + $f1;
-  $f2: $f1 - $Lab2 / 200;
+  $f1: math.div($Lab0 + 16, 116);
+  $f0: math.div($Lab1, 500) + $f1;
+  $f2: $f1 - math.div($Lab2, 200);
 
   // compute xyz
   $xyz: [
-    if(math.pow($f0, 3) > $Im, math.pow($f0, 3), (116 * $f0 - 16) / $Io),
-    if($Lab0 > $Io * $Im, math.pow(($Lab0 + 16) / 116, 3), $Lab0 / $Io),
-    if(math.pow($f2, 3) > $Im, math.pow($f2, 3), (116 * $f2 - 16) / $Io),
+    if(math.pow($f0, 3) > $Im, math.pow($f0, 3), math.div(116 * $f0 - 16, $Io)),
+    if($Lab0 > $Io * $Im, math.pow(math.div($Lab0 + 16, 116), 3), math.div($Lab0, $Io)),
+    if(math.pow($f2, 3) > $Im, math.pow($f2, 3), math.div(116 * $f2 - 16, $Io)),
   ];
 
   // Compute XYZ by scaling xyz by reference white
@@ -415,7 +415,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
   @return [
     $Lab0,
     math.sqrt(math.pow($Lab1, 2) + math.pow($Lab2, 2)),
-    (math.atan2($Lab2, $Lab1) / 1deg) % 360,
+    math.div(math.atan2($Lab2, $Lab1), 1deg) % 360,
   ];
 }
 
@@ -428,7 +428,7 @@ $white: [0.96422, 1.00000, 0.82521]; // D50 reference white
 
   @return [
     $LCH0,
-    $LCH1 * math.cos($LCH2 * math.$pi / 180),
-    $LCH1 * math.sin($LCH2 * math.$pi / 180),
+    $LCH1 * math.cos(math.div($LCH2 * math.$pi, 180)),
+    $LCH1 * math.sin(math.div($LCH2 * math.$pi, 180)),
   ];
 }

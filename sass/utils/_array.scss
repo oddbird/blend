@@ -216,7 +216,7 @@
   $a,
   $b
 ) {
-  @return $a / $b;
+  @return math.div($a, $b);
 }
 
 @function _math(
@@ -323,7 +323,7 @@
   $error: throw.type($array, 'list', 'array.average()', 'array');
   @if ($error) { @return $error; }
 
-  @return sum($array) / list.length($array);
+  @return math.div(sum($array), list.length($array));
 }
 
 @function product(

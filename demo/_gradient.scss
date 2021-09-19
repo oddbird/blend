@@ -37,7 +37,7 @@ $range: list.nth($ranges, $index);
   @return linear-gradient(
     to right,
     array.map(
-      array.range(1, $range / 2, $separator: comma),
+      array.range(1, $range * 0.5, $separator: comma),
       meta.get-function('_stops'),
       $channels,
       $format
@@ -57,15 +57,15 @@ $range: list.nth($ranges, $index);
   $array: ();
 
   @if ($index != 3) {
-    $mid: blend.lch(list.set-nth($lch, $index, $range / 2));
+    $mid: blend.lch(list.set-nth($lch, $index, $range * 0.5));
     $lch: list.set-nth($lch, 3, color.hue($mid));
-    $array: array.range(1, ($range / 2), $separator: comma);
+    $array: array.range(1, ($range * 0.5), $separator: comma);
   } @else {
     $start: blend.lch(list.set-nth($lch, $index, 1));
     $start-hue: color.hue($start);
     $array: array.range(
       $start-hue,
-      ($start-hue + $range / 2),
+      ($start-hue + $range * 0.5),
       $separator: comma
     );
   }
@@ -73,7 +73,7 @@ $range: list.nth($ranges, $index);
   $stops: array.map(
     $array,
     meta.get-function('_stops'),
-    (list.nth($lch, 3) list.nth($lch, 2) list.nth($lch, 1)),
+    (list.nth($lch, 3) list.nth($lch, 2) * 1% list.nth($lch, 1)),
     'hsl'
   );
 

@@ -6,7 +6,7 @@
 
 // we'll create gradients on the _ channels
 @use 'gradient' with (
-  $lch: 50 50 _,
+  $lch: 50% 50 _,
 );
 
 // layout

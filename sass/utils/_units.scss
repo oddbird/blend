@@ -1,8 +1,10 @@
+@use "sass:math";
+
 @use 'sass:meta';
 @use 'array';
 
 @function strip($x) {
-  @return $x / ($x * 0 + 1);
+  @return math.div($x, $x * 0 + 1);
 }
 
 @function strip-all(
