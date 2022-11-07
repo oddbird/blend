@@ -1,5 +1,9 @@
 # Blend Changelog
 
+## UNRELEASED
+
+- 🏠 INTERNAL: Remove documentation from npm package
+
 ## v0.2.3 - 2021.09.18
 
 - Correction to the sRGB to XYZ to sRGB matrices, improve round-tripping
