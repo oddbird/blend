@@ -1,8 +1,9 @@
 # Blend Changelog
 
-## UNRELEASED
+## v0.2.4 - 2022.12.14
 
 - 🏠 INTERNAL: Remove documentation from npm package
+- 🏠 INTERNAL: Upgrade dependencies
 
 ## v0.2.3 - 2021.09.18
 

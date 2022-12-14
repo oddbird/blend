@@ -15,10 +15,10 @@ groups:
 
 herman:
   sass:
-    implementation: sass
-    includepaths: ['sass']
+    sassOptions:
+      loadPaths: ['sass']
     use: ['blend']
-    jsonfile: 'src/json.css'
+    jsonFile: 'src/json.css'
   extraDocs:
     - name: 'Changelog'
       path: CHANGELOG.md

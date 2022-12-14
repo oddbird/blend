@@ -1,6 +1,6 @@
 {
   "name": "@oddbird/blend",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "title": "Blend",
   "description": "New color formats, adjustments, and conversions in Sass",
   "publishConfig": {
@@ -37,10 +37,10 @@
     "commit": "yarn test; yarn docs; yarn sass"
   },
   "devDependencies": {
-    "mocha": "^8.0.1",
-    "sass": "^1.41.1",
-    "sass-true": "^5.0.0",
-    "sassdoc": "^2.7.2",
-    "sassdoc-theme-herman": "^3.2.0"
+    "mocha": "^10.2.0",
+    "sass": "^1.56.2",
+    "sass-true": "^7.0.0",
+    "sassdoc": "^2.7.4",
+    "sassdoc-theme-herman": "^5.0.0"
   }
 }
