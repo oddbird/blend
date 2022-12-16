@@ -40,7 +40,7 @@
     "mocha": "^8.0.1",
     "sass": "^1.41.1",
     "sass-true": "^5.0.0",
-    "sassdoc": "^2.7.2",
+    "sassdoc": "^2.7.3",
     "sassdoc-theme-herman": "^3.2.0"
   }
 }
